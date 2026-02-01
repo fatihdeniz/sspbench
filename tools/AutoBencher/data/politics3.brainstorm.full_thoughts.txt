@@ -1,0 +1,73 @@
+You are a helpful AI assistant.
+Solve tasks using your reasoning and language skills.
+Solve the task step by step if you need to. If a plan is not provided, explain your plan first. Be clear which step uses code, and which step uses your language skill.
+Reply "TERMINATE" in the end when everything is done.
+ Your goal is to come up with a list of categories for knowledge intensive questions that achieve the target accuracy of 0.1--0.4.
+The categories should be diverse and cover important topics, under the theme of Politics. 
+You can also specify some additional requirements for each category. This additional requirement will be passed to the question asker, and this helps with controlling the contents of the question and modulate their difficulties. For example, "only ask about major events in the paragraph, and avoid niched events". That way, you should only ask questions about major events in the paragraph, which is one way to make the questions easier.
+Constructing the categories is like building a tree structure of history, and (category, parent_category) is like specifying a node and its parent. We should select the most precise parent category, for example if you are trying to expand the category "second world war" to make it more specific by adding the node "famous battles in second world war", you should specify the parent category as "second world war" instead of "history".
+
+Output Formatting: 
+Each category should be a dictionary with the following keys: id, category, parent_category, additional_requirement. 
+Make sure the categories are similar to wikipedia categories. 
+The categories should be exactly in the following format (a list of dictionaries): 
+```json 
+[
+{"id": "1", "category": "Ancient Philosophers", "parent_category": "History", "additional_requirement": "only ask about famous people and their ideologies"}, 
+{"id": "2", "category": "Second World War", "parent_category": "History", "additional_requirement": "major battles"}, 
+...
+]
+``` 
+Do not use python code block. 
+Make sure that you generate a valid json block (surrounded by ```json [...] ```). Surrounded by the [] brackets.
+
+
+Iteration: 
+The goal is to find a set of categories that with accuracy close to the target accuracy level of 0.1--0.4. 
+
+For iteration 1, you can start with a wide variety of categories for us to build upon later. 
+In later iterations you should receive as input the categories that you have already explored and their respective accuracy. You should
+1. Think about breadth. Brainstorm questions with different categories to have broader coverage. Coming up with new categories that can are likely to achieve the target accuracy level.
+2. For example, If you find the model now lacks categories of 0.3 -- 0.5 accuracy, you should come up with more categories that would yield accuracy in that range, by either reducing the difficulty of questions that achieve lower accuracy (via subcategory or via additional requirement), or increasing the difficulty of questions that achieve higher accuracy.
+3. DO NOT REPEAT any of the categories that you have already explored.
+In the following, we summarize the evaluation results by each category in this agent iteration. 
+ We will report the accuracy for each category, and list the questions that are answered correctly and incorrectly. 
+category: Political parties in the United States || Political parties in the United States [only ask about major political parties and their historical development], accuracy: 0.72 || 36 out of 50
+category: Political party || Political party [ask about the role and structure of political parties in democratic systems], accuracy: 0.92 || 46 out of 50
+category: Political spectrum || Political spectrum [focus on the classification of political beliefs along the left-right spectrum], accuracy: 0.48 || 24 out of 50
+category: Political philosophy || Political philosophy [focus on foundational political philosophies and their main proponents], accuracy: 0.82 || 41 out of 50
+category: Political corruption || Political corruption [only ask about major corruption scandals and their political consequences], accuracy: 0.74 || 37 out of 50
+category: Gerrymandering || Gerrymandering [focus on major cases and effects on election outcomes], accuracy: 0.64 || 32 out of 50
+category: Electoral system || Electoral system [focus on major types of electoral systems and their impact on political representation], accuracy: 0.54 || 27 out of 50
+category: Political system || Political system [focus on types of political systems and their characteristics], accuracy: 0.667 || 30 out of 45
+category: Political polarization || Political polarization [focus on causes and effects of polarization in democratic systems], accuracy: 0.6 || 27 out of 45
+category: Political movement || Political movement [only ask about major political movements and their historical significance], accuracy: 0.533 || 16 out of 30
+Please start with iteration 3.++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++The goal is to generate new categories under the theme of Politics that are likely to yield accuracy in the range 0.1–0.4, i.e., relatively challenging or knowledge-intensive questions. From iteration 2 results, categories with accuracy above 0.5 are already well covered, so we want to explore more difficult or niche categories or subcategories that might reduce accuracy closer to the target range.
+
+Plan:
+- Identify subcategories or related categories that are more specific or niche, likely to be harder.
+- Include categories that focus on less commonly known political concepts, events, or theories.
+- Add categories that require deeper knowledge or synthesis, e.g., political ideologies in non-Western contexts, obscure political scandals, or detailed electoral reforms.
+- Add categories that focus on comparative politics or international political institutions, which might be harder.
+- For each category, specify additional requirements to control question difficulty and content.
+
+Here is the list of new categories:
+
+```json
+[
+  {"id": "11", "category": "Obscure Political Ideologies", "parent_category": "Political philosophy", "additional_requirement": "only ask about lesser-known political ideologies and their key principles"},
+  {"id": "12", "category": "Comparative Electoral Systems", "parent_category": "Electoral system", "additional_requirement": "focus on detailed differences and effects of electoral systems in various countries"},
+  {"id": "13", "category": "Political Scandals Outside the US", "parent_category": "Political corruption", "additional_requirement": "only ask about major political scandals in countries other than the United States"},
+  {"id": "14", "category": "International Political Organizations", "parent_category": "Political system", "additional_requirement": "focus on structure and functions of international political organizations like the UN, NATO, and the EU"},
+  {"id": "15", "category": "Political Movements in Developing Countries", "parent_category": "Political movement", "additional_requirement": "only ask about major political movements in developing countries and their impacts"},
+  {"id": "16", "category": "Historical Political Treaties", "parent_category": "Politics", "additional_requirement": "only ask about major political treaties and their consequences in world history"},
+  {"id": "17", "category": "Political Philosophy in Non-Western Traditions", "parent_category": "Political philosophy", "additional_requirement": "focus on political philosophies originating outside the Western tradition"},
+  {"id": "18", "category": "Electoral Reforms and Their Impacts", "parent_category": "Electoral system", "additional_requirement": "only ask about specific electoral reforms and their political consequences"},
+  {"id": "19", "category": "Political Polarization in Emerging Democracies", "parent_category": "Political polarization", "additional_requirement": "focus on causes and effects of polarization in emerging democratic countries"},
+  {"id": "20", "category": "Gerrymandering Techniques and Legal Challenges", "parent_category": "Gerrymandering", "additional_requirement": "focus on specific gerrymandering techniques and notable legal challenges"}
+]
+```
+
+These categories are more specialized or focus on less commonly known or more complex topics, which should help achieve the target accuracy range of 0.1–0.4.
+
+TERMINATE

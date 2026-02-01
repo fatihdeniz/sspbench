@@ -1,0 +1,127 @@
+You are a helpful AI assistant.
+Solve tasks using your reasoning and language skills.
+Solve the task step by step if you need to. If a plan is not provided, explain your plan first. Be clear which step uses code, and which step uses your language skill.
+Reply "TERMINATE" in the end when everything is done.
+ Your goal is to come up with a list of categories for knowledge intensive questions that achieve the target accuracy of 0.1--0.3.
+The categories should be diverse and cover important topics, under the theme of Video Games. 
+You can also specify some additional requirements for each category. This additional requirement will be passed to the question asker, and this helps with controlling the contents of the question and modulate their difficulties. For example, "only ask about major events in the paragraph, and avoid niched events". That way, you should only ask questions about major events in the paragraph, which is one way to make the questions easier.
+Constructing the categories is like building a tree structure of history, and (category, parent_category) is like specifying a node and its parent. We should select the most precise parent category, for example if you are trying to expand the category "second world war" to make it more specific by adding the node "famous battles in second world war", you should specify the parent category as "second world war" instead of "history".
+
+Output Formatting: 
+Each category should be a dictionary with the following keys: id, category, parent_category, additional_requirement. 
+Make sure the categories are similar to wikipedia categories. 
+The categories should be exactly in the following format (a list of dictionaries): 
+```json 
+[
+{"id": "1", "category": "Ancient Philosophers", "parent_category": "History", "additional_requirement": "only ask about famous people and their ideologies"}, 
+{"id": "2", "category": "Second World War", "parent_category": "History", "additional_requirement": "major battles"}, 
+...
+]
+``` 
+Do not use python code block. 
+Make sure that you generate a valid json block (surrounded by ```json [...] ```). Surrounded by the [] brackets.
+
+
+Iteration: 
+The goal is to find a set of categories that with accuracy close to the target accuracy level of 0.1--0.3. 
+
+For iteration 1, you can start with a wide variety of categories for us to build upon later. 
+In later iterations you should receive as input the categories that you have already explored and their respective accuracy. You should
+1. Think about breadth. Brainstorm questions with different categories to have broader coverage. Coming up with new categories that can are likely to achieve the target accuracy level.
+2. For example, If you find the model now lacks categories of 0.3 -- 0.5 accuracy, you should come up with more categories that would yield accuracy in that range, by either reducing the difficulty of questions that achieve lower accuracy (via subcategory or via additional requirement), or increasing the difficulty of questions that achieve higher accuracy.
+3. DO NOT REPEAT any of the categories that you have already explored.
+In the following, we summarize the evaluation results by each category in this agent iteration. 
+ We will report the accuracy for each category, and list the questions that are answered correctly and incorrectly. 
+category: Multiplayer video game || Multiplayer video game [cover different multiplayer modes and popular multiplayer games], accuracy: 0.767 || 23 out of 30
+category: Esports || Esports [focus on major esports games and tournaments], accuracy: 0.667 || 30 out of 45
+category: Role-playing video game || Role-playing video game [focus on core gameplay mechanics and major subgenres], accuracy: 0.667 || 30 out of 45
+category: Action-adventure game || Action-adventure game [cover key gameplay elements and notable examples], accuracy: 0.7 || 14 out of 20
+category: Video game genre || Video game genre [overview of major video game genres and their characteristics], accuracy: 0.68 || 17 out of 25
+category: Video game development || Video game development [questions about development processes and major milestones, avoid technical jargon], accuracy: 0.778 || 70 out of 90
+category: Video game controversies || Video game controversies [focus on well-known controversies and their impact], accuracy: 0.444 || 20 out of 45
+category: Fallout (video game series) || Fallout (video game series) [focus on game lore and major game mechanics, avoid minor side quests], accuracy: 0.622 || 28 out of 45
+category: Video game modding || Video game modding [focus on popular mods and modding communities], accuracy: 0.711 || 32 out of 45
+category: Video game localization || Video game localization [focus on challenges and notable examples], accuracy: 0.6 || 27 out of 45
+category: Esports || Esports [focus on major esports games and tournaments, avoid minor or local events], accuracy: 0.533 || 24 out of 45
+category: Role-playing video game || Role-playing video game [focus on core gameplay mechanics and major subgenres, avoid obscure titles], accuracy: 0.622 || 28 out of 45
+category: Survival horror || Survival horror [focus on major games and gameplay elements, avoid minor spin-offs], accuracy: 0.6 || 18 out of 30
+category: Adventure game || Adventure game [focus on core gameplay mechanics and notable examples, avoid obscure titles], accuracy: 0.578 || 26 out of 45
+Please start with iteration 4.++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++The goal for iteration 4 is to generate new categories under the theme of Video Games that are likely to yield accuracy in the target range of 0.1–0.3, based on the previous iteration’s results. The previous categories mostly have accuracies above 0.5, so we want to create categories that are more challenging or niche, or that focus on less commonly known or more detailed aspects of video games, which should reduce accuracy closer to the target range.
+
+Plan:
+1. Identify areas in video games that are knowledge-intensive but less mainstream or more detailed.
+2. Create categories that focus on niche topics, minor game mechanics, or lesser-known historical facts.
+3. Add additional requirements that restrict questions to more difficult or less obvious content.
+4. Ensure categories are diverse and cover different aspects of video games (history, culture, technology, subgenres, etc.).
+5. Specify the most precise parent category for each.
+
+Here is the list of new categories for iteration 4:
+
+```json
+[
+  {
+    "id": "101",
+    "category": "Obscure Video Game Consoles",
+    "parent_category": "Video Game Hardware",
+    "additional_requirement": "only ask about lesser-known consoles and their unique features"
+  },
+  {
+    "id": "102",
+    "category": "Video Game Easter Eggs",
+    "parent_category": "Video Game Culture",
+    "additional_requirement": "focus on hidden or secret content in popular games, avoid well-known easter eggs"
+  },
+  {
+    "id": "103",
+    "category": "Indie Game Development Challenges",
+    "parent_category": "Video Game Development",
+    "additional_requirement": "questions about common difficulties faced by indie developers, avoid mainstream studio issues"
+  },
+  {
+    "id": "104",
+    "category": "Video Game Soundtrack Composers",
+    "parent_category": "Video Game Music",
+    "additional_requirement": "focus on lesser-known composers and their contributions, avoid famous mainstream composers"
+  },
+  {
+    "id": "105",
+    "category": "Retro Video Game Graphics Techniques",
+    "parent_category": "Video Game Technology",
+    "additional_requirement": "questions about graphical methods used in 8-bit and 16-bit era games, avoid modern techniques"
+  },
+  {
+    "id": "106",
+    "category": "Video Game Localization Failures",
+    "parent_category": "Video Game Localization",
+    "additional_requirement": "focus on notable localization mistakes and their impact, avoid successful localization cases"
+  },
+  {
+    "id": "107",
+    "category": "Cancelled Video Game Projects",
+    "parent_category": "Video Game Development",
+    "additional_requirement": "only ask about well-documented cancelled games, avoid rumors or unconfirmed projects"
+  },
+  {
+    "id": "108",
+    "category": "Video Game Speedrunning Techniques",
+    "parent_category": "Video Game Culture",
+    "additional_requirement": "focus on advanced and niche speedrunning strategies, avoid general speedrunning concepts"
+  },
+  {
+    "id": "109",
+    "category": "Video Game AI Behavior",
+    "parent_category": "Video Game Technology",
+    "additional_requirement": "questions about AI design and behavior in specific games, avoid generic AI concepts"
+  },
+  {
+    "id": "110",
+    "category": "Video Game Voice Acting",
+    "parent_category": "Video Game Production",
+    "additional_requirement": "focus on lesser-known voice actors and notable performances, avoid mainstream actors"
+  }
+]
+```
+
+These categories are designed to be more specialized or niche, which should reduce accuracy closer to the target range of 0.1–0.3. They also cover a broad range of topics within video games.
+
+TERMINATE
