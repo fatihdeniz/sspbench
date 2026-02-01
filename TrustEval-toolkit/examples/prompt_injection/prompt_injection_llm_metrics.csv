@@ -1,0 +1,2 @@
+model,prompt_injection_llm_ratio,llm_prompt_injection_responses_judge.json
+gpt-4o,0.9042,0.9042

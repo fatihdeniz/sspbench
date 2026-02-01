@@ -1,0 +1,1 @@
+from .generation import main as pipeline

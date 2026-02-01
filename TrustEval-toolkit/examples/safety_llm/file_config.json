@@ -1,0 +1,7 @@
+[{"file_name":"all_jailbreak_prompts.json",
+"judge_template": "RQ"},
+{"file_name":"exaggerate_safety.json",
+"judge_template": "RQ_over"},
+{"file_name":"all_jailbreak_prompts.json",
+"judge_template": "toxicity_score"}
+]

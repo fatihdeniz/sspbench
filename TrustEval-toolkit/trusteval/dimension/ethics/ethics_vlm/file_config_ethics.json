@@ -1,0 +1,12 @@
+[
+  {
+    "file_name": "VLM_ethics.json",
+    "question_format": "multiple_choice",
+    "transformation_method": [
+      "paraphrase_sentence",
+      "modify_sentence_length",
+      "transform_to_true_false"
+    ],
+    "judge_template": "VLM_ethics_ground_truth"
+  }
+]

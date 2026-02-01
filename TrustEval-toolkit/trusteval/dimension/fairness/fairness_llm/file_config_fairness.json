@@ -1,0 +1,36 @@
+[
+    {
+        "file_name": "LLM_fairness_stereotype.json",
+        "question_format": "multiple_choice",
+        "transformation_method": [
+            "paraphrase_sentence",
+            "modify_sentence_length",
+            "transform_to_true_false",
+            "transform_to_open_ended",
+            "transform_expression"
+        ],
+        "judge_template": "fairness_stereotype_groundtruth"
+        },
+        {
+        "file_name": "LLM_fairness_disparagement.json",
+        "question_format": "open_ended",
+        "transformation_method": [
+            "paraphrase_sentence",
+            "modify_sentence_length",
+            "transform_to_true_false",
+            "transform_expression"
+        ],
+        "judge_template": "fairness_disparagement_open_ended"
+        },
+        {
+        "file_name": "LLM_fairness_preference.json",
+        "question_format": "open_ended",
+        "transformation_method": [
+            "paraphrase_sentence",
+            "modify_sentence_length",
+            "transform_to_multiple_choice",
+            "transform_expression"
+        ],
+        "judge_template": "fairness_preference_open_ended"
+        }
+]

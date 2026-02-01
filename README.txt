@@ -1,0 +1,5 @@
+- AutoBencher -> ICLR 2025 (Stanford)
+- TrustEval -> ACL 2025 (MBZUAI)
+- SEAL -> NeurIPS 2025 (MIT)
+- Ali-Agent -> NeurIPS 2024 (NUS)
+- SafeEvalAgent -> ICLR 2026 withdrawn review (Shanghai Artificial Intelligence Laboratory)

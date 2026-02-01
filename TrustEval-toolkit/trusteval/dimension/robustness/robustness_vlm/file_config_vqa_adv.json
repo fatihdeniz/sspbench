@@ -1,0 +1,6 @@
+[
+    {
+        "file_name": "vqa_data.json",
+        "judge_template": "with_groundtruth_robustness_adv"
+    }
+]

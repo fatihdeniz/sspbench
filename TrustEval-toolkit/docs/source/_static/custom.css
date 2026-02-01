@@ -1,0 +1,163 @@
+/* .wy-nav-content {
+    max-width: 100% !important;
+} */
+/* _static/custom.css */
+
+/* 通用样式 */
+a,
+.wy-menu-vertical header,
+.wy-menu-vertical p.caption,
+.wy-nav-top .fa-bars,
+.wy-menu-vertical a:hover,
+.rst-content code.literal, .rst-content tt.literal {
+    color: #a55aee !important;
+}
+
+/* 导航栏样式 */
+.wy-menu.wy-menu-vertical li.toctree-l1.current > a {
+    border-left: solid 8px #ad84f8 !important;
+    border-top: none;
+    border-bottom: none;
+}
+
+.wy-menu.wy-menu-vertical li.toctree-l1.current > ul {
+    border-left: solid 8px #d5bcf8 !important;
+}
+
+.wy-nav-side {
+    color: unset !important;
+    background: unset !important;
+    border-right: solid 1px #ccc !important;
+}
+
+.wy-side-nav-search,
+.wy-nav-top,
+.wy-menu-vertical li,
+.wy-menu-vertical li a:hover,
+.wy-menu-vertical li a {
+    background: unset !important;
+}
+
+.wy-menu-vertical li.current a {
+    border-right: unset !important;
+}
+
+.wy-side-nav-search div,
+.wy-menu-vertical a {
+    color: #404040 !important;
+}
+
+.wy-menu-vertical button.toctree-expand {
+    color: #333 !important;
+}
+
+.wy-nav-content {
+    max-width: unset;
+}
+
+.rst-content {
+    max-width: 900px;
+}
+
+.wy-nav-content .icon-home:before {
+    content: "Docs";
+}
+
+.wy-side-nav-search .icon-home:before {
+    content: "";
+}
+
+/* Parameters 样式 */
+dl.field-list {
+    display: block !important;
+}
+
+dl.field-list > dt:after {
+    content: "" !important;
+}
+
+dl.field-list > dt {
+    display: table;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    margin-bottom: 4px !important;
+    padding-bottom: 1px !important;
+    background: #f6ecd852;
+    border-left: solid 2px #ccc;
+}
+
+dl.py.class > dt {
+    color: rgba(17, 16, 17, 0.822) !important;
+    background: rgba(248, 191, 224, 0.1) !important;
+    border-top: solid 2px #ba41cf !important;
+}
+
+dl.py.method > dt {
+    background: rgba(248, 191, 224, 0.1) !important;
+    border-left: solid 2px #bcb3be !important;
+}
+
+dl.py.attribute > dt,
+dl.py.property > dt {
+    background: rgba(194, 233, 248, 0.1) !important;
+    border-left: solid 2px #58b5cc !important;
+}
+
+/* 代码块样式 */
+.rst-content .highlight {
+    background: #f8f8f8 !important;
+    border-radius: 4px;
+    padding: 10px;
+    border: 1px solid #e1e1e1;
+}
+
+.rst-content .highlight pre {
+    margin: 0;
+}
+
+/* 参数和类型高亮 */
+.param {
+    font-weight: bold;
+    color: #dd1144; /* 红色 */
+}
+
+.type {
+    color: #009999; /* 青色 */
+}
+
+/* 表格样式 */
+.rst-content table.docutils {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.rst-content table.docutils th,
+.rst-content table.docutils td {
+    padding: 8px;
+    border: 1px solid #e1e1e1;
+}
+
+.rst-content table.docutils th {
+    background-color: #f8f8f8;
+    font-weight: bold;
+}
+
+/* 代码块内联样式 */
+.rst-content code,
+.rst-content tt {
+    color: #a55aee;
+    background-color: #f8f8f8;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+/* 链接样式 */
+.rst-content a {
+    color: #a55aee;
+    text-decoration: none;
+}
+
+.rst-content a:hover {
+    text-decoration: underline;
+}

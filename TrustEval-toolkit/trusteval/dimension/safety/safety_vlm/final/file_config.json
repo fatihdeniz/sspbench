@@ -1,0 +1,47 @@
+[
+    {
+      "file_name": "FigStep.json",
+      "question_format": "open_ended",
+      "transformation_method": [
+        "paraphrase_sentence",
+        "modify_sentence_length"
+      ],
+      "judge_template": "RQ_VLM"
+    },
+    {
+        "file_name": "jailbreakInPieces.json",
+        "question_format": "open_ended",
+        "transformation_method": [
+          "paraphrase_sentence",
+          "modify_sentence_length"
+        ],
+        "judge_template": "RQ_VLM"
+      },
+      {
+        "file_name": "MMSafetyBench.json",
+        "question_format": "open_ended",
+        "transformation_method": [
+          "paraphrase_sentence",
+          "modify_sentence_length"
+        ],
+        "judge_template": "RQ_VLM"
+      },
+      {
+        "file_name": "VisualAdversarialExamples.json",
+        "question_format": "open_ended",
+        "transformation_method": [
+          "paraphrase_sentence",
+          "modify_sentence_length"
+        ],
+        "judge_template": "RQ_VLM"
+      },
+      {
+        "file_name": "VisualRoleplay.json",
+        "question_format": "open_ended",
+        "transformation_method": [
+          "paraphrase_sentence",
+          "modify_sentence_length"
+        ],
+        "judge_template": "RQ_VLM"
+      }
+]
