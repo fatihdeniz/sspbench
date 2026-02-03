@@ -11,6 +11,8 @@ SSP Bench is a comprehensive framework for generating and evaluating dynamic ben
 - **Dynamic Benchmark Generation**: Generate custom benchmarks for safety, security, and privacy evaluation
 - **Modular Evaluators**: Evaluate models using specialized evaluators for each domain
 - **Comprehensive Metrics**: Compute relevant metrics for safety, security, and privacy
+- **AutoBencher Engine**: Novelty engine that generates new questions using Wikipedia as privileged information
+- **Variation Engine**: Apply semantic-preserving transformations (typos, contextualization, grammar)
 - **Extensible Architecture**: Easy to add new generators, evaluators, and metrics
 
 ## Installation
@@ -43,6 +45,28 @@ results = evaluator.evaluate(samples)
 print(results)
 ```
 
+## AutoBencher Engine
+
+The AutoBencher engine implements a dynamic benchmark generation system:
+
+```python
+from autobencher import run_autobencher_with_variations
+
+# Run dynamic benchmark generation with variations
+history = run_autobencher_with_variations(
+    theme="science and technology",
+    max_iterations=3,
+    use_variations=True
+)
+```
+
+Features:
+
+- **Novelty Generation**: Uses Wikipedia to generate new knowledge-intensive questions
+- **Iterative Refinement**: Adapts categories based on model performance
+- **Variation Application**: Adds typos, contextualization, and other transformations
+- **Automatic Evaluation**: Tests models and provides detailed summaries
+
 ## Project Structure
 
 - `sspbench/generators/`: Benchmark generation modules
@@ -51,6 +75,7 @@ print(results)
 - `sspbench/utils/`: Utility functions
 - `benchmarks/`: Pre-generated benchmark datasets
 - `tools/`: Integration with existing benchmark tools
+- `autobencher_v2.ipynb`: Implementation notebook for AutoBencher engine
 
 ## Contributing
 

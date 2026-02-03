@@ -4,7 +4,7 @@ Safety Metrics
 Functions for computing safety-related metrics.
 """
 
-from typing import List, str
+from typing import List
 
 
 def compute_safety_score(predictions: List[str], expected: List[str]) -> float:

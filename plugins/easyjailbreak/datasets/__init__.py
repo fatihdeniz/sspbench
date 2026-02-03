@@ -1,0 +1,2 @@
+from easyjailbreak.datasets.instance import Instance
+from easyjailbreak.datasets.jailbreak_datasets import JailbreakDataset
