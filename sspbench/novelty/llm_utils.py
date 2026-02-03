@@ -21,7 +21,7 @@ from .config import DEFAULT_SAMPLING_PARAMS
 _MODEL_CACHE = {}
 
 
-def gen_from_prompt(model, prompt, temperature=0., max_tokens=20):
+def gen_from_prompt(model, prompt, temperature=0., max_tokens=20, system_prompt=None):
     """
     Generate response from a language model.
 
@@ -30,6 +30,7 @@ def gen_from_prompt(model, prompt, temperature=0., max_tokens=20):
         prompt: Input prompt (string or list)
         temperature: Sampling temperature
         max_tokens: Maximum tokens to generate
+        system_prompt: Optional system prompt for the conversation
 
     Returns:
         Generated response(s)
@@ -41,7 +42,7 @@ def gen_from_prompt(model, prompt, temperature=0., max_tokens=20):
 
     convs = []
     for p in prompts:
-        conv = Conversation()
+        conv = Conversation(system_prompt=system_prompt)
         conv.add_message("user", p)
         convs.append(conv)
 

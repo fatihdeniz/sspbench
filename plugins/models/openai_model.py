@@ -79,12 +79,13 @@ class OpenaiLLM(LLMBase):
         wait=wait_exponential(multiplier=3, min=3, max=30),
     )
     def _generate_single(self, messages):
+        print("Generating with messages:", messages)
         completion = self.client.chat.completions.create(
             model=self.model_name,
             messages=messages,
             **self.working_params
         )
-        # print(f"{self.model_name}:", completion.choices[0].message.content.strip())
+        print(f"{self.model_name}:", completion.choices[0].message.content.strip())
         return completion.choices[0].message.content.strip()
     
     
