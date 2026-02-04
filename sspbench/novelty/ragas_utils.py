@@ -243,6 +243,7 @@ def evaluate_qa_faithfulness(
         llm=ragas_llm,
     )
 
+    # Handle EvaluationResult object
     return {
         "faithfulness": float(result["faithfulness"][0]),
         "answer_relevancy": float(result["answer_relevancy"][0]),
