@@ -2,26 +2,26 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "emphasis on major events and influential figures"
+    "additional_requirement": "include significant global events and timelines"
   },
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "include physical features and geopolitical facts"
+    "additional_requirement": "cover physical features, countries, and capitals"
   },
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "cover recent advancements and foundational theories"
+    "additional_requirement": "emphasize breakthroughs and key scientific principles"
   },
   {
     "id": "4",
-    "category": "Arts and Literature",
-    "additional_requirement": "focus on notable works and cultural impact"
+    "category": "Literature and Arts",
+    "additional_requirement": "focus on notable works, authors, and artistic movements"
   },
   {
     "id": "5",
-    "category": "Languages and Linguistics",
-    "additional_requirement": "explore language families, grammar, and etymology"
+    "category": "Politics and Government",
+    "additional_requirement": "include political systems, ideologies, and major political figures"
   }
 ]

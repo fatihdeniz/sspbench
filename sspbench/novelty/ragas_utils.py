@@ -171,18 +171,18 @@ def generate_qa_with_ragas(
     num_questions: int = 3,
 ) -> List[dict]:
     from ragas.testset import TestsetGenerator
+    from ragas.testset.synthesizers import SingleHopSpecificQuerySynthesizer
 
     if embedding_model is None:
         if not hasattr(agent_info, "embedding_model"):
-            raise ValueError(
-                "RAGAS 0.4.3 requires an embedding model. "
-                "Pass `embedding_model=...` explicitly or attach "
-                "`embedding_model` to agent_info."
-            )
+            raise ValueError("Pass `embedding_model=...` explicitly.")
         embedding_model = agent_info.embedding_model
 
     ragas_llm = CustomRagasLLM(agent_info, temperature=0.7)
     ragas_embeddings = CustomRagasEmbeddings(embedding_model)
+
+    # Configure query distribution for ONLY short, specific questions
+    query_distribution = [(SingleHopSpecificQuerySynthesizer(llm=ragas_llm), 1.0)]
 
     generator = TestsetGenerator(
         llm=ragas_llm,
@@ -195,6 +195,7 @@ def generate_qa_with_ragas(
     testset = generator.generate_with_langchain_docs(
         documents=[doc],
         testset_size=num_questions,
+        query_distribution=query_distribution
     )
 
     qa_pairs = []
@@ -204,7 +205,6 @@ def generate_qa_with_ragas(
                 "id": str(idx),
                 "question": sample.eval_sample.user_input,
                 "answer": sample.eval_sample.reference,
-                "difficulty": "2",
             }
         )
 
@@ -220,13 +220,29 @@ def evaluate_qa_faithfulness(
     question: str,
     answer: str,
     context: str,
-    eval_model: Any,
+    eval_model: BaseRagasLLM,
+    embedding_model: BaseRagasEmbeddings = None,
 ) -> dict:
+    """
+    Evaluate faithfulness and answer relevancy using RAGAS.
+
+    Note: This function uses the deprecated evaluate() API.
+    Consider using the @experiment decorator for future implementations.
+
+    Args:
+        question: The question to evaluate
+        answer: The answer to evaluate
+        context: The context paragraph
+        eval_model: The LLM to use for evaluation
+        embedding_model: The embeddings model (optional)
+
+    Returns:
+        Dictionary with faithfulness and answer_relevancy scores
+    """
     from ragas.metrics import faithfulness, answer_relevancy
     from ragas import evaluate
     from datasets import Dataset
-
-    ragas_llm = CustomRagasLLM(eval_model, temperature=0.0)
+    from ragas.run_config import RunConfig
 
     data = {
         "question": [question],
@@ -237,14 +253,19 @@ def evaluate_qa_faithfulness(
 
     dataset = Dataset.from_dict(data)
 
+    # Use the deprecated evaluate() function with proper parameters
     result = evaluate(
-        dataset,
+        dataset=dataset,
         metrics=[faithfulness, answer_relevancy],
-        llm=ragas_llm,
+        llm=eval_model,
+        embeddings=embedding_model,
+        run_config=RunConfig(),
+        raise_exceptions=False,
+        show_progress=False,
     )
 
-    # Handle EvaluationResult object
+    # Handle EvaluationResult object - access scores as lists
     return {
-        "faithfulness": float(result["faithfulness"][0]),
-        "answer_relevancy": float(result["answer_relevancy"][0]),
+        "faithfulness": float(result["faithfulness"][0]) if result["faithfulness"] else 0.0,
+        "answer_relevancy": float(result["answer_relevancy"][0]) if result["answer_relevancy"] else 0.0,
     }

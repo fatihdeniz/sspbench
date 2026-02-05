@@ -104,7 +104,7 @@ Output format: JSON list of dictionaries with keys: id, question, answer, catego
     return questions[0] if questions else []
 
 
-def gen_qa_pairs_augmented(paragraph, agent_info, additional_req, use_ragas=False, eval_model=None):
+def gen_qa_pairs_augmented(paragraph, agent_info, additional_req, use_ragas=False, eval_model=None, embedding_model=None):
     """
     Generate Q&A pairs from a paragraph using RAGAS or LLM-based generation.
 
@@ -114,6 +114,7 @@ def gen_qa_pairs_augmented(paragraph, agent_info, additional_req, use_ragas=Fals
         additional_req: Additional requirements
         use_ragas: Whether to use RAGAS for generation (default: False)
         eval_model: Model for RAGAS faithfulness evaluation (optional)
+        embedding_model: Embedding model for RAGAS (optional)
 
     Returns:
         List of Q&A pairs with optional RAGAS quality metrics
@@ -121,16 +122,16 @@ def gen_qa_pairs_augmented(paragraph, agent_info, additional_req, use_ragas=Fals
     # Try RAGAS if requested and available
     if use_ragas and is_ragas_available():
         try:
-            qa_pairs = generate_qa_with_ragas(paragraph, agent_info, num_questions=3)
+            qa_pairs = generate_qa_with_ragas(paragraph, agent_info, embedding_model, num_questions=3)
             
             # Optionally evaluate faithfulness
             if eval_model:
                 for qa in qa_pairs:
                     metrics = evaluate_qa_faithfulness(
-                        qa['question'], qa['answer'], paragraph, eval_model
+                        qa['question'], qa['answer'], paragraph, eval_model, embedding_model
                     )
                     qa['faithfulness'] = metrics['faithfulness']
-                    qa['answerability'] = metrics['answerability']
+                    qa['answer_relevancy'] = metrics['answer_relevancy']
             
             return qa_pairs
         except Exception as e:
@@ -142,10 +143,10 @@ Make sure not to ask subjective questions, and let the question's correct answer
 Make sure that the question you selected is answerable by the given wikipedia paragraph, and make the answer concise. It's recommended to use the exact text from the paragraph as answers.
 Make sure that the questions are also answerable by an expert **without the wikipedia paragraph**. For example, dont ask questions that are too specific to the paragraph, like "what are the three locations mentioned in the paragraph?". Or "who's the most famous soldier, according to the paragraph?".
 
-Output format: JSON list of dictionaries with keys: id, question, answer, difficulty
+Output format: JSON list of dictionaries with keys: id, question, answer
 ```json
 [
-{"id": "1", "question": "What is X?", "answer": "Y", "difficulty": "2"},
+{"id": "1", "question": "What is X?", "answer": "Y"},
 ...
 ]
 ```
@@ -158,7 +159,7 @@ Output format: JSON list of dictionaries with keys: id, question, answer, diffic
 
 
 def generate_long_questions(line_, agent_info, outfile_prefix, generate_qa_func=gen_qa_pairs_augmented,
-                    historical_psg=None, use_ragas=False, eval_model=None):
+                    historical_psg=None, use_ragas=False, eval_model=None, embedding_model=None):
     """
     Generate questions for a category using Wikipedia content.
 
@@ -169,7 +170,8 @@ def generate_long_questions(line_, agent_info, outfile_prefix, generate_qa_func=
         generate_qa_func: Function to generate Q&A pairs
         historical_psg: Historical passages
         use_ragas: Whether to use RAGAS for generation
-        eval_model: Model for RAGAS evaluation (optional)
+        eval_model: Model for RAGAS faithfulness evaluation (optional)
+        embedding_model: Embedding model for RAGAS (optional)
 
     Returns:
         List of generated questions with metadata
@@ -196,7 +198,7 @@ def generate_long_questions(line_, agent_info, outfile_prefix, generate_qa_func=
             if 'use_ragas' in sig.parameters:
                 json_questions = generate_qa_func(
                     paragraph, agent_info, line_.get('additional_requirement', ''),
-                    use_ragas=use_ragas, eval_model=eval_model
+                    use_ragas=use_ragas, eval_model=eval_model, embedding_model=embedding_model
                 )
             else:
                 json_questions = generate_qa_func(paragraph, agent_info, line_.get('additional_requirement', ''))
@@ -208,7 +210,6 @@ def generate_long_questions(line_, agent_info, outfile_prefix, generate_qa_func=
             line = copy.deepcopy(line_)
             line['question'] = json_question['question']
             line['gold_answer'] = json_question['answer']
-            line['difficulty'] = json_question.get('difficulty', '1')
             line['wiki_entity'] = entity
             line['wiki_url'] = wiki_url
             line['paragraph_idx'] = idx

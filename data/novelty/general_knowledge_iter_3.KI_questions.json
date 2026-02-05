@@ -2,10 +2,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "When did modern humans evolve?",
     "gold_answer": "around 300,000 years ago",
-    "difficulty": "1",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 0
@@ -13,10 +12,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "Where did modern humans initially live?",
     "gold_answer": "Africa",
-    "difficulty": "1",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 0
@@ -24,10 +22,19 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "What lifestyle did early modern humans have?",
+    "gold_answer": "hunter-gatherers",
+    "wiki_entity": "World History",
+    "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
+    "paragraph_idx": 0
+  },
+  {
+    "id": "1",
+    "category": "World History",
+    "additional_requirement": "cover major events and influential figures",
     "question": "During which period did humans migrate out of Africa?",
     "gold_answer": "the Last Ice Age",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 0
@@ -35,10 +42,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "By the end of the Ice Age, which continent had humans not spread to?",
-    "gold_answer": "Antarctica",
-    "difficulty": "2",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "By when had humans spread to every continent except Antarctica?",
+    "gold_answer": "by the end of the Ice Age 12,000 years ago",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 0
@@ -46,10 +52,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "What major event in West Asia brought the first systematic husbandry of plants and animals?",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "What major event brought the first systematic husbandry of plants and animals?",
     "gold_answer": "the Neolithic Revolution",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 0
@@ -57,10 +62,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "What lifestyle transition occurred as a result of the Neolithic Revolution?",
-    "gold_answer": "from nomadic lives to sedentary existences as farmers",
-    "difficulty": "2",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "Where did the Neolithic Revolution begin?",
+    "gold_answer": "West Asia",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 0
@@ -68,10 +72,19 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "What lifestyle change occurred during the Neolithic Revolution?",
+    "gold_answer": "transition from nomadic lives to sedentary existences as farmers",
+    "wiki_entity": "World History",
+    "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
+    "paragraph_idx": 0
+  },
+  {
+    "id": "1",
+    "category": "World History",
+    "additional_requirement": "cover major events and influential figures",
     "question": "What did the growing complexity of human societies necessitate?",
     "gold_answer": "systems of accounting and writing",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 0
@@ -79,10 +92,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "When did the ancient period begin?",
     "gold_answer": "4th millennium BCE",
-    "difficulty": "1",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 1
@@ -90,10 +102,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "Which early civilizations emerged in the ancient period?",
     "gold_answer": "Mesopotamia, Egypt, Peru, the Indus Valley, and China",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 1
@@ -101,10 +112,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "During which age did Buddhism, Confucianism, and Greek philosophy emerge?",
     "gold_answer": "Axial Age",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 1
@@ -112,10 +122,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "Which religion originated during the late Bronze Age?",
     "gold_answer": "Hinduism",
-    "difficulty": "1",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 1
@@ -123,10 +132,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "From about 500 to 1500 CE, which religion rose to prominence?",
-    "gold_answer": "Islam",
-    "difficulty": "1",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "From which religion did Christianity originate?",
+    "gold_answer": "Judaism",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 1
@@ -134,10 +142,19 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "Which Chinese dynasties flourished during the post-classical period?",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "What period followed the ancient period from about 500 to 1500 CE?",
+    "gold_answer": "post-classical period",
+    "wiki_entity": "World History",
+    "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
+    "paragraph_idx": 1
+  },
+  {
+    "id": "1",
+    "category": "World History",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "Which empire flourished in China during the post-classical period?",
     "gold_answer": "Tang and Song dynasties",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 1
@@ -145,10 +162,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "Name three major empires that shaped the political landscape from 500 to 1500 CE.",
-    "gold_answer": "Byzantine Empire, Islamic caliphates, Mongol Empire",
-    "difficulty": "2",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "Name one major empire that shaped the political landscape during the post-classical period.",
+    "gold_answer": "Byzantine Empire",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 1
@@ -156,10 +172,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "What two inventions from the post-classical period greatly affected later history?",
-    "gold_answer": "Gunpowder and the printing press",
-    "difficulty": "2",
+    "gold_answer": "gunpowder and the printing press",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 1
@@ -167,10 +182,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "Which religion began as an offshoot of Judaism?",
-    "gold_answer": "Christianity",
-    "difficulty": "1",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "Which religion rose during the post-classical period?",
+    "gold_answer": "Islam",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 1
@@ -178,10 +192,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "What time period does the early modern period span?",
     "gold_answer": "approximately 1500 to 1800 CE",
-    "difficulty": "1",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 2
@@ -189,10 +202,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "Which European intellectual movements drove changes during the early modern period?",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "Which European movements drove intellectual and cultural changes during the early modern period?",
     "gold_answer": "Renaissance, Reformation, Scientific Revolution, and Enlightenment",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 2
@@ -200,10 +212,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "What major event began around 1800 CE due to accumulated knowledge and technology?",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "What major event began around 1800 CE due to the accumulation of knowledge and technology?",
     "gold_answer": "the Industrial Revolution",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 2
@@ -211,10 +222,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "What process linked different civilizations through increased trade and colonization in the 19th century?",
     "gold_answer": "globalization",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 2
@@ -222,10 +232,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "What was the result of the Industrial Revolution in terms of European influence?",
-    "gold_answer": "cementing European dominance throughout the 19th century",
-    "difficulty": "2",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "What was the result of the rapid growth in productive power during the Industrial Revolution?",
+    "gold_answer": "increased international trade and colonization",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 2
@@ -233,10 +242,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "Name two major global conflicts that occurred in the last 250 years.",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "What major historical events occurred over the last 250 years that accelerated many spheres of human activity?",
     "gold_answer": "two devastating world wars",
-    "difficulty": "1",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 2
@@ -244,21 +252,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "What significant changes accelerated over the last 250 years?",
-    "gold_answer": "human population, agriculture, industry, commerce, scientific knowledge, technology, communications, military capabilities, and environmental degradation",
-    "difficulty": "3",
-    "wiki_entity": "World History",
-    "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
-    "paragraph_idx": 2
-  },
-  {
-    "id": "1",
-    "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "Which academic disciplines contribute to the study of human history?",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "What academic disciplines contribute to the study of human history?",
     "gold_answer": "history, archaeology, anthropology, linguistics, and genetics",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 3
@@ -266,10 +262,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "How do researchers organize human history for study?",
     "gold_answer": "by a variety of periodizations",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 3
@@ -277,10 +272,39 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "Which discipline studies human cultures and societies?",
+    "gold_answer": "anthropology",
+    "wiki_entity": "World History",
+    "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
+    "paragraph_idx": 3
+  },
+  {
+    "id": "1",
+    "category": "World History",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "Which academic field studies ancient human artifacts?",
+    "gold_answer": "archaeology",
+    "wiki_entity": "World History",
+    "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
+    "paragraph_idx": 3
+  },
+  {
+    "id": "1",
+    "category": "World History",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "What field uses genetic information to study human history?",
+    "gold_answer": "genetics",
+    "wiki_entity": "World History",
+    "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
+    "paragraph_idx": 3
+  },
+  {
+    "id": "1",
+    "category": "World History",
+    "additional_requirement": "cover major events and influential figures",
     "question": "Where did humans evolve from great apes?",
     "gold_answer": "Africa",
-    "difficulty": "1",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 4
@@ -288,10 +312,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "What is the term for the lineage from which humans evolved?",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "What is the lineage called from which humans evolved?",
     "gold_answer": "hominins",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 4
@@ -299,10 +322,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "When did hominins arise?",
     "gold_answer": "7\u20135 million years ago",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 4
@@ -310,10 +332,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "What unique ability did hominins develop compared to other primates?",
     "gold_answer": "bipedalism",
-    "difficulty": "1",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 4
@@ -321,10 +342,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "When did hominins begin to use rudimentary stone tools?",
     "gold_answer": "c. 3.3 million years ago",
-    "difficulty": "3",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 4
@@ -332,10 +352,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "What era began with the use of rudimentary stone tools by hominins?",
     "gold_answer": "Paleolithic era",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 4
@@ -343,10 +362,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "What climatic changes coincided with early hominin evolution?",
     "gold_answer": "Africa became drier, colder, and less forested",
-    "difficulty": "3",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 4
@@ -354,10 +372,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "What environmental cycle beginning 3.2 million years ago may have driven human evolution?",
     "gold_answer": "cycle of alternating glacial and interglacial periods",
-    "difficulty": "3",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 4
@@ -365,10 +382,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "From which genus did Homo evolve?",
     "gold_answer": "Australopithecus",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 5
@@ -376,10 +392,19 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "What is the earliest named species of the genus Homo?",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "What is the earliest record of Homo?",
+    "gold_answer": "a 2.8 million-year-old jawbone from Ethiopia",
+    "wiki_entity": "World History",
+    "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
+    "paragraph_idx": 5
+  },
+  {
+    "id": "1",
+    "category": "World History",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "Which is the earliest named species of Homo?",
     "gold_answer": "Homo habilis",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 5
@@ -387,10 +412,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "Approximately how old is the earliest record of Homo?",
-    "gold_answer": "2.8 million years",
-    "difficulty": "3",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "By how much did brain size increase from Australopithecus to Homo habilis?",
+    "gold_answer": "50%",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 5
@@ -398,21 +422,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "What was the significant difference between Homo habilis and Australopithecus?",
-    "gold_answer": "A 50% increase in brain size",
-    "difficulty": "3",
-    "wiki_entity": "World History",
-    "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
-    "paragraph_idx": 5
-  },
-  {
-    "id": "1",
-    "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "Which hominin species was the first to leave Africa?",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "Which Homo species was the first to leave Africa?",
     "gold_answer": "Homo erectus",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 5
@@ -420,10 +432,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "When did Homo erectus evolve?",
-    "gold_answer": "About 2 million years ago",
-    "difficulty": "3",
+    "gold_answer": "about 2 million years ago",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 5
@@ -431,10 +442,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "When did hominins begin to use fire for heat and cooking?",
-    "gold_answer": "By 400,000 years ago",
-    "difficulty": "3",
+    "gold_answer": "perhaps as early as 1.5 million years ago, but certainly by 400,000 years ago",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 5
@@ -442,10 +452,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "When did Homo begin to diversify into several new species?",
     "gold_answer": "About 600,000 years ago",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 6
@@ -453,10 +462,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "Which species did Homo heidelbergensis evolve into in Europe?",
     "gold_answer": "Neanderthals",
-    "difficulty": "3",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 6
@@ -464,10 +472,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "Where did the Denisovans live?",
     "gold_answer": "Siberia",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 6
@@ -475,10 +482,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "What was a characteristic of human evolution according to the paragraph?",
-    "gold_answer": "Interbreeding between related species",
-    "difficulty": "2",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "Did human evolution involve interbreeding between related species?",
+    "gold_answer": "Yes",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 6
@@ -486,10 +492,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "Which hominin species interbred with one another?",
     "gold_answer": "Neanderthals, Denisovans, Homo sapiens, and other unidentified hominins",
-    "difficulty": "3",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 6
@@ -497,10 +502,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "When did Homo sapiens evolve in Africa?",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "When did Homo sapiens evolve?",
     "gold_answer": "around 300,000 years ago",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 7
@@ -508,10 +512,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "From which species did Homo sapiens evolve?",
     "gold_answer": "H. heidelbergensis",
-    "difficulty": "3",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 7
@@ -519,10 +522,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "By what time did humans become anatomically modern?",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "By when did humans become anatomically modern?",
     "gold_answer": "by 125,000 years ago",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 7
@@ -530,10 +532,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "What cultural practices did humans engage in by 100,000 years ago?",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "What cultural practices did humans exhibit by 100,000 years ago?",
     "gold_answer": "buried their dead, wore jewelry, and adorned the body with red ochre",
-    "difficulty": "3",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 7
@@ -541,10 +542,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "What major development improved human communication?",
     "gold_answer": "the development of syntactic language",
-    "difficulty": "3",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 7
@@ -552,10 +552,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "How did Paleolithic humans primarily sustain themselves?",
-    "gold_answer": "hunter-gatherers",
-    "difficulty": "1",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "How did Paleolithic humans primarily live?",
+    "gold_answer": "As hunter-gatherers and were generally nomadic",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 8
@@ -563,10 +562,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "What type of lifestyle did Paleolithic humans generally have?",
-    "gold_answer": "nomadic",
-    "difficulty": "1",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "What forms of early artistic expression are found from Paleolithic humans?",
+    "gold_answer": "Cave paintings and sculptures made from ivory, stone, and bone",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 8
@@ -574,10 +572,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "What forms of early artistic expression are associated with Paleolithic humans?",
-    "gold_answer": "cave paintings and sculptures made from ivory, stone, and bone",
-    "difficulty": "2",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "What do the cave paintings from the Paleolithic period suggest about their spirituality?",
+    "gold_answer": "Animism or shamanism",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 8
@@ -585,21 +582,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "What spiritual beliefs are suggested by Paleolithic cave paintings?",
-    "gold_answer": "animism or shamanism",
-    "difficulty": "3",
-    "wiki_entity": "World History",
-    "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
-    "paragraph_idx": 8
-  },
-  {
-    "id": "1",
-    "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "What are the earliest known musical instruments besides the human voice?",
-    "gold_answer": "bone flutes",
-    "difficulty": "2",
+    "gold_answer": "Bone flutes",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 8
@@ -607,10 +592,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "Where were the earliest known bone flutes discovered?",
     "gold_answer": "Swabian Jura in Germany",
-    "difficulty": "3",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 8
@@ -618,10 +602,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "Approximately how old are the earliest known bone flutes?",
-    "gold_answer": "around 40,000 years old",
-    "difficulty": "3",
+    "gold_answer": "Around 40,000 years old",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 8
@@ -629,10 +612,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "When did humans first migrate out of Africa?",
     "gold_answer": "194,000\u2013177,000 years ago",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 9
@@ -640,10 +622,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "From which migration wave are all modern non-Africans descended?",
     "gold_answer": "A single group that left Africa 70,000\u201350,000 years ago",
-    "difficulty": "3",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 9
@@ -651,10 +632,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
     "question": "When did humans arrive in Australia?",
     "gold_answer": "65,000 years ago",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 9
@@ -662,10 +642,29 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "During which period did human migrations out of Africa occur?",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "When did humans arrive in Europe?",
+    "gold_answer": "45,000 years ago",
+    "wiki_entity": "World History",
+    "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
+    "paragraph_idx": 9
+  },
+  {
+    "id": "1",
+    "category": "World History",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "When did humans arrive in the Americas?",
+    "gold_answer": "21,000 years ago",
+    "wiki_entity": "World History",
+    "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
+    "paragraph_idx": 9
+  },
+  {
+    "id": "1",
+    "category": "World History",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "During which climatic period did these human migrations occur?",
     "gold_answer": "The most recent Ice Age",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 9
@@ -673,10 +672,19 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "By when had humans colonized nearly all ice-free parts of the globe?",
+    "gold_answer": "By the end of the Ice Age, some 12,000 years ago",
+    "wiki_entity": "World History",
+    "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
+    "paragraph_idx": 9
+  },
+  {
+    "id": "1",
+    "category": "World History",
+    "additional_requirement": "cover major events and influential figures",
     "question": "What major extinction events coincided with human expansion?",
     "gold_answer": "The Quaternary extinction event and the Neanderthal extinction",
-    "difficulty": "3",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 9
@@ -684,21 +692,9 @@
   {
     "id": "1",
     "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "What are the probable causes of the Quaternary and Neanderthal extinctions?",
+    "additional_requirement": "cover major events and influential figures",
+    "question": "What were probable causes of the Quaternary and Neanderthal extinctions?",
     "gold_answer": "Climate change, human activity, or a combination of the two",
-    "difficulty": "3",
-    "wiki_entity": "World History",
-    "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
-    "paragraph_idx": 9
-  },
-  {
-    "id": "1",
-    "category": "World History",
-    "additional_requirement": "include significant events and influential figures",
-    "question": "By when had humans colonized nearly all ice-free parts of the globe?",
-    "gold_answer": "By the end of the Ice Age some 12,000 years ago",
-    "difficulty": "2",
     "wiki_entity": "World History",
     "wiki_url": "https://en.wikipedia.org/wiki/Human_history",
     "paragraph_idx": 9
@@ -706,10 +702,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "What is the literal meaning of the word 'geography'?",
-    "gold_answer": "'Earth writing'",
-    "difficulty": "1",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "What is the literal meaning of the word geography?",
+    "gold_answer": "Earth writing",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 0
@@ -717,10 +712,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "What does geography study?",
     "gold_answer": "The lands, features, inhabitants, and phenomena of Earth",
-    "difficulty": "1",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 0
@@ -728,10 +722,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "Is geography limited only to studying Earth?",
-    "gold_answer": "No, many concepts can be applied to other celestial bodies",
-    "difficulty": "2",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "Is geography limited to studying only the location of objects?",
+    "gold_answer": "No",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 0
@@ -739,10 +732,19 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "Can geographical concepts be applied to celestial bodies other than Earth?",
+    "gold_answer": "Yes",
+    "wiki_entity": "Geography",
+    "wiki_url": "https://en.wikipedia.org/wiki/Geography",
+    "paragraph_idx": 0
+  },
+  {
+    "id": "2",
+    "category": "Geography",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "How has geography been described in relation to natural and social sciences?",
     "gold_answer": "A bridge between natural science and social science disciplines",
-    "difficulty": "2",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 0
@@ -750,10 +752,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "When does the earliest example of an attempted world map date back to?",
     "gold_answer": "9th century BC",
-    "difficulty": "2",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 1
@@ -761,10 +762,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "Who is credited with coining the term 'geographia'?",
     "gold_answer": "Eratosthenes of Cyrene",
-    "difficulty": "3",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 1
@@ -772,10 +772,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "Which Greek scholar first recorded the use of the word \u03b3\u03b5\u03c9\u03b3\u03c1\u03b1\u03c6\u03af\u03b1 as a book title?",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "Who was the first recorded user of the word \u03b3\u03b5\u03c9\u03b3\u03c1\u03b1\u03c6\u03af\u03b1 as a book title?",
     "gold_answer": "Claudius Ptolemy",
-    "difficulty": "3",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 1
@@ -783,10 +782,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "Which culture influenced geography during the Middle Ages?",
     "gold_answer": "Islamic scholars",
-    "difficulty": "2",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 1
@@ -794,10 +792,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "Who was a notable Islamic scholar that produced detailed maps of the world?",
     "gold_answer": "Muhammad al-Idrisi",
-    "difficulty": "3",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 1
@@ -805,10 +802,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "What historical period was influential in the development of geography through European exploration?",
     "gold_answer": "The Age of Discovery",
-    "difficulty": "2",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 1
@@ -816,10 +812,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "What are some modern developments in the field of geography?",
     "gold_answer": "geomatics and geographic information science",
-    "difficulty": "3",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 1
@@ -827,10 +822,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "What are the main branches of geography?",
     "gold_answer": "Physical geography, human geography, and technical geography",
-    "difficulty": "1",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 2
@@ -838,10 +832,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "What does physical geography focus on?",
     "gold_answer": "The natural environment",
-    "difficulty": "1",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 2
@@ -849,10 +842,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "What does human geography focus on?",
     "gold_answer": "How humans interact with the Earth",
-    "difficulty": "1",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 2
@@ -860,10 +852,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "What is the focus of technical geography?",
     "gold_answer": "The development of tools for understanding geography",
-    "difficulty": "2",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 2
@@ -871,10 +862,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "Name two common techniques used in geography.",
-    "gold_answer": "Cartography and remote sensing",
-    "difficulty": "2",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "What are common techniques used in geography?",
+    "gold_answer": "Cartography, remote sensing, interviews, and surveying",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 2
@@ -882,10 +872,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "What are the core concepts consistent between all approaches in geography?",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "What are the core concepts consistent between all approaches to geography?",
     "gold_answer": "Space, place, time, and scale",
-    "difficulty": "2",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 2
@@ -893,10 +882,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "What is geography the systematic study of?",
     "gold_answer": "the Earth",
-    "difficulty": "1",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 3
@@ -904,10 +892,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "What is the study of the Moon's geography called?",
-    "gold_answer": "selenography",
-    "difficulty": "2",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "What is the term for the geography of Mars?",
+    "gold_answer": "areography",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 3
@@ -915,10 +902,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "What spatial components are generally needed for something to fall into the domain of geography?",
     "gold_answer": "coordinates, place names, or addresses",
-    "difficulty": "2",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 3
@@ -926,10 +912,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "What two fields is geography commonly associated with?",
     "gold_answer": "cartography and place names",
-    "difficulty": "2",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 3
@@ -937,10 +922,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "What do geographers study besides the Earth's spatial distribution of phenomena?",
     "gold_answer": "temporal distribution of phenomena, processes, and features as well as the interaction of humans and their environment",
-    "difficulty": "3",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 3
@@ -948,10 +932,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "Why is geography considered highly interdisciplinary?",
     "gold_answer": "Because space and place affect a variety of topics, such as economics, health, climate, plants, and animals",
-    "difficulty": "3",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 3
@@ -959,10 +942,19 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "What does the interdisciplinary nature of geography depend on?",
+    "gold_answer": "an attentiveness to the relationship between physical and human phenomena and their spatial patterns",
+    "wiki_entity": "Geography",
+    "wiki_url": "https://en.wikipedia.org/wiki/Geography",
+    "paragraph_idx": 3
+  },
+  {
+    "id": "2",
+    "category": "Geography",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "What are the five themes of geography established in 1984?",
     "gold_answer": "Location, place, relationships within places, movement, and regions",
-    "difficulty": "2",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 4
@@ -970,10 +962,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "Which organizations published the guidelines establishing the five themes of geography?",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "Which organizations published the guidelines that established the five themes of geography?",
     "gold_answer": "National Council for Geographic Education and the Association of American Geographers",
-    "difficulty": "3",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 4
@@ -981,10 +972,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "Name three key concepts from the 1st edition of 'Key Concepts in Geography'.",
     "gold_answer": "Space, Place, Time",
-    "difficulty": "2",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 4
@@ -992,10 +982,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "What additional key concepts were added in the 2nd edition of 'Key Concepts in Geography'?",
     "gold_answer": "Environmental systems, Social Systems, Nature, Globalization, Development, and Risk",
-    "difficulty": "3",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 4
@@ -1003,10 +992,19 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "What is often summarized as Human-Environment Interaction in the five themes of geography?",
+    "gold_answer": "Relationships within places",
+    "wiki_entity": "Geography",
+    "wiki_url": "https://en.wikipedia.org/wiki/Geography",
+    "paragraph_idx": 4
+  },
+  {
+    "id": "2",
+    "category": "Geography",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "What do all phenomena have besides a history?",
     "gold_answer": "a geography",
-    "difficulty": "1",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 5
@@ -1014,10 +1012,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "In addition to existing in time, where else do phenomena exist?",
-    "gold_answer": "in space",
-    "difficulty": "1",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "In what two dimensions do all phenomena exist?",
+    "gold_answer": "time and space",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 5
@@ -1025,10 +1022,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "What aspect of phenomena is related to their existence in space?",
     "gold_answer": "geography",
-    "difficulty": "1",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 5
@@ -1036,10 +1032,19 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "What must something be able to do to exist in the realm of geography?",
-    "gold_answer": "be described spatially",
-    "difficulty": "1",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "What aspect of phenomena is related to their existence in time?",
+    "gold_answer": "history",
+    "wiki_entity": "Geography",
+    "wiki_url": "https://en.wikipedia.org/wiki/Geography",
+    "paragraph_idx": 5
+  },
+  {
+    "id": "2",
+    "category": "Geography",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "What must something be able to be described by to exist in the realm of geography?",
+    "gold_answer": "spatially",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 6
@@ -1047,10 +1052,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "What is considered the most fundamental concept at the foundation of geography?",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "What is the most fundamental concept at the foundation of geography?",
     "gold_answer": "space",
-    "difficulty": "1",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 6
@@ -1058,10 +1062,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "What does absolute space refer to in geography?",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "What does absolute space represent in geography?",
     "gold_answer": "the exact site, or spatial coordinates, of objects, persons, places, or phenomena",
-    "difficulty": "2",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 6
@@ -1069,10 +1072,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "How do geographers today view the world in terms of space?",
     "gold_answer": "as a dynamic space where all processes interact and take place",
-    "difficulty": "2",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 6
@@ -1080,10 +1082,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "What is the difference between absolute space and the modern geographic view of space?",
     "gold_answer": "Absolute space views the world as a static image, while the modern view sees it as dynamic",
-    "difficulty": "3",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 6
@@ -1091,10 +1092,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "What does the term 'place' include in physical geography?",
-    "gold_answer": "all of the physical phenomena that occur in space, including the lithosphere, atmosphere, hydrosphere, and biosphere",
-    "difficulty": "3",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "What does the term 'place' synthesize in human geography?",
+    "gold_answer": "the coordinates on the Earth's surface, the activity and use that occurs, has occurred, and will occur at the coordinates, and the meaning ascribed to the space by human individuals and groups",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 7
@@ -1102,10 +1102,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "In human geography, what three aspects synthesize the concept of place?",
-    "gold_answer": "the coordinates on the Earth's surface, the activity and use that occurs, and the meaning ascribed to the space by human individuals and groups",
-    "difficulty": "3",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "What physical phenomena are included in the concept of place in physical geography?",
+    "gold_answer": "the lithosphere, atmosphere, hydrosphere, and biosphere",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 7
@@ -1113,10 +1112,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "How are places related to each other according to geography?",
-    "gold_answer": "Places have complex spatial relationships with each other and are situated in relation to all other locations",
-    "difficulty": "2",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "How are places related to each other in geography?",
+    "gold_answer": "Places have complex spatial relationships with each other",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 7
@@ -1124,10 +1122,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "According to Yi-Fu Tuan, what is central to the discipline of geography?",
-    "gold_answer": "place and the complex meaning behind the term",
-    "difficulty": "2",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "According to Yi-Fu Tuan, what is geography the study of?",
+    "gold_answer": "Earth as a home for humanity",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 7
@@ -1135,10 +1132,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "What spheres are included in the physical phenomena of a place?",
-    "gold_answer": "lithosphere, atmosphere, hydrosphere, and biosphere",
-    "difficulty": "2",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "What does the term 'place' in geography include?",
+    "gold_answer": "all spatial phenomena occurring at a location, the diverse uses and meanings humans ascribe to that location, and how that location impacts and is impacted by all other locations on Earth",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 7
@@ -1146,10 +1142,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "In which academic discipline is time usually thought to be?",
     "gold_answer": "history",
-    "difficulty": "1",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 8
@@ -1157,10 +1152,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
-    "question": "Which discipline considers time as a significant concern besides history?",
+    "additional_requirement": "include physical features and geopolitical facts",
+    "question": "Which discipline considers time to be of significant concern besides history?",
     "gold_answer": "geography",
-    "difficulty": "2",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 8
@@ -1168,10 +1162,9 @@
   {
     "id": "2",
     "category": "Geography",
-    "additional_requirement": "cover physical features, countries, and capitals",
+    "additional_requirement": "include physical features and geopolitical facts",
     "question": "In physics, what concept combines space and time?",
     "gold_answer": "spacetime",
-    "difficulty": "2",
     "wiki_entity": "Geography",
     "wiki_url": "https://en.wikipedia.org/wiki/Geography",
     "paragraph_idx": 8
@@ -1179,10 +1172,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "What does the acronym STEM stand for?",
     "gold_answer": "Science, technology, engineering, and mathematics",
-    "difficulty": "1",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 0
@@ -1190,10 +1182,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "Why are the disciplines in STEM grouped together?",
     "gold_answer": "Because they share a common emphasis on critical thinking, problem-solving, and analytical skills",
-    "difficulty": "2",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 0
@@ -1201,10 +1192,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "In what context is the term STEM typically used?",
     "gold_answer": "Education policy or curriculum choices in schools",
-    "difficulty": "2",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 0
@@ -1212,10 +1202,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "What are some implications of STEM education mentioned?",
     "gold_answer": "Workforce development, national security concerns, and immigration policy",
-    "difficulty": "3",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 0
@@ -1223,10 +1212,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
-    "question": "How can a shortage of STEM-educated citizens affect national security?",
-    "gold_answer": "It can reduce effectiveness in this area",
-    "difficulty": "3",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "Why is STEM important for national security?",
+    "gold_answer": "A shortage of STEM-educated citizens can reduce effectiveness in this area",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 0
@@ -1234,10 +1222,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
-    "question": "Which disciplines are sometimes included in STEM according to the National Science Foundation?",
-    "gold_answer": "social sciences such as psychology, sociology, economics, and political science",
-    "difficulty": "3",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "Is there a universal agreement on which disciplines are included in STEM?",
+    "gold_answer": "No",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 1
@@ -1245,10 +1232,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
-    "question": "How are social sciences categorized in the United Kingdom?",
-    "gold_answer": "Grouped with humanities and arts to form HASS or SHAPE",
-    "difficulty": "2",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "Which social sciences are sometimes included in the science category of STEM in the United States?",
+    "gold_answer": "Psychology, sociology, economics, and political science",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 1
@@ -1256,21 +1242,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
-    "question": "What does the acronym SHAPE stand for?",
-    "gold_answer": "social sciences, humanities and the arts for people and the economy",
-    "difficulty": "3",
-    "wiki_entity": "Science and Technology",
-    "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
-    "paragraph_idx": 1
-  },
-  {
-    "id": "3",
-    "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
-    "question": "Which U.S. organizations include social sciences in STEM?",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "Which organizations in the United States typically include social sciences in STEM?",
     "gold_answer": "National Science Foundation, Department of Labor's O*Net, Department of Homeland Security",
-    "difficulty": "3",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 1
@@ -1278,10 +1252,19 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
-    "question": "What is the counterpart acronym to STEM that includes humanities, arts, and social sciences?",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "How are social sciences categorized in the United Kingdom in relation to STEM?",
+    "gold_answer": "Categorized separately and grouped with humanities and arts",
+    "wiki_entity": "Science and Technology",
+    "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
+    "paragraph_idx": 1
+  },
+  {
+    "id": "3",
+    "category": "Science and Technology",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "What acronym is used in the United Kingdom to group social sciences with humanities and arts?",
     "gold_answer": "HASS",
-    "difficulty": "2",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 1
@@ -1289,10 +1272,49 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "What is the rebranded acronym for HASS introduced in 2020?",
+    "gold_answer": "SHAPE",
+    "wiki_entity": "Science and Technology",
+    "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
+    "paragraph_idx": 1
+  },
+  {
+    "id": "3",
+    "category": "Science and Technology",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "What does the acronym SHAPE stand for?",
+    "gold_answer": "Social sciences, humanities and the arts for people and the economy",
+    "wiki_entity": "Science and Technology",
+    "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
+    "paragraph_idx": 1
+  },
+  {
+    "id": "3",
+    "category": "Science and Technology",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "What is an alternative counterpart acronym to STEM mentioned in some sources?",
+    "gold_answer": "HEAL",
+    "wiki_entity": "Science and Technology",
+    "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
+    "paragraph_idx": 1
+  },
+  {
+    "id": "3",
+    "category": "Science and Technology",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "What disciplines does the acronym HEAL represent?",
+    "gold_answer": "Health, education, administration, and literacy",
+    "wiki_entity": "Science and Technology",
+    "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
+    "paragraph_idx": 1
+  },
+  {
+    "id": "3",
+    "category": "Science and Technology",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "Who developed a STEM mentoring program in the Capital District of New York State?",
     "gold_answer": "Beverly P. Schwartz",
-    "difficulty": "2",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 2
@@ -1300,10 +1322,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "What does the acronym STEM stand for?",
     "gold_answer": "Science, Technology, Engineering, and Math",
-    "difficulty": "1",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 2
@@ -1311,10 +1332,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "Who founded the Center for the Advancement of Hispanics in Science and Engineering Education?",
     "gold_answer": "Charles E. Vela",
-    "difficulty": "2",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 2
@@ -1322,21 +1342,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
-    "question": "What was the name of the summer program started by Charles E. Vela for talented under-represented students?",
-    "gold_answer": "STEM Institute",
-    "difficulty": "2",
-    "wiki_entity": "Science and Technology",
-    "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
-    "paragraph_idx": 2
-  },
-  {
-    "id": "3",
-    "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
-    "question": "What was the acronym used by the NSF before STEM?",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "What was the original acronym used by the NSF before STEM?",
     "gold_answer": "SMET",
-    "difficulty": "3",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 2
@@ -1344,10 +1352,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "What was one of the first NSF projects to use the acronym STEM?",
     "gold_answer": "STEMTEC",
-    "difficulty": "3",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 2
@@ -1355,10 +1362,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "Where was the STEMTEC project founded?",
     "gold_answer": "University of Massachusetts Amherst",
-    "difficulty": "3",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 2
@@ -1366,10 +1372,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "Who urged the adoption of the STEM acronym in 2001?",
     "gold_answer": "Dr. Peter Faletra",
-    "difficulty": "2",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 3
@@ -1377,10 +1382,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "Which organization adopted the STEM acronym in 2001?",
     "gold_answer": "National Science Foundation (NSF)",
-    "difficulty": "2",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 3
@@ -1388,10 +1392,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "Who was the Director of Workforce Development for Teachers and Scientists at the Office of Science in 2001?",
     "gold_answer": "Dr. Peter Faletra",
-    "difficulty": "3",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 3
@@ -1399,10 +1402,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "Which office was an early adopter of the STEM acronym?",
     "gold_answer": "The Office of Science",
-    "difficulty": "2",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 3
@@ -1410,10 +1412,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "Who was one of the science administrators involved in adopting the STEM acronym?",
     "gold_answer": "Rita Colwell",
-    "difficulty": "3",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 3
@@ -1421,10 +1422,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "Which country surpassed the United States in the number of PhDs awarded by the mid-2000s?",
     "gold_answer": "China",
-    "difficulty": "2",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 4
@@ -1432,10 +1432,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "How many PhDs is China expected to produce in 2025?",
-    "gold_answer": "77,000 PhDs",
-    "difficulty": "2",
+    "gold_answer": "77,000",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 4
@@ -1443,10 +1442,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "How many PhDs did the United States produce compared to China in 2025?",
-    "gold_answer": "40,000 in the US",
-    "difficulty": "2",
+    "gold_answer": "40,000",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 4
@@ -1454,10 +1452,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "What is the purpose of the National STEM School Education Strategy?",
-    "gold_answer": "To ensure that all young Australians are equipped with the necessary STEM skills and knowledge",
-    "difficulty": "2",
+    "gold_answer": "To ensure that all young Australians are equipped with the necessary STEM skills and knowledge to succeed.",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 5
@@ -1465,10 +1462,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "Which organization released the National STEM School Education Strategy report in 2015?",
-    "gold_answer": "The Australian Curriculum, Assessment, and Reporting Authority",
-    "difficulty": "2",
+    "gold_answer": "The Australian Curriculum, Assessment, and Reporting Authority.",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 5
@@ -1476,10 +1472,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
-    "question": "Why is a renewed national focus on STEM in school education considered critical?",
-    "gold_answer": "To equip young Australians with necessary STEM skills and knowledge to succeed",
-    "difficulty": "2",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "Why is there a renewed national focus on STEM in school education according to the 2015 report?",
+    "gold_answer": "To equip young Australians with necessary STEM skills and knowledge.",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 5
@@ -1487,10 +1482,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "What is the Victorian Model Solar Vehicle Challenge?",
     "gold_answer": "An event meant to help develop STEM in Australian schools",
-    "difficulty": "2",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 6
@@ -1498,10 +1492,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "Which organization runs the Maths Challenge in Australia?",
     "gold_answer": "Australian Mathematics Trust",
-    "difficulty": "3",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 6
@@ -1509,10 +1502,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "Name a program aimed at encouraging girls in STEM in Australia.",
     "gold_answer": "Go Girl Go Global",
-    "difficulty": "2",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 6
@@ -1520,10 +1512,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "What is the Australian Informatics Olympiad?",
     "gold_answer": "A program meant to help develop STEM in Australian schools",
-    "difficulty": "3",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 6
@@ -1531,10 +1522,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "What percentage of Canadian graduates studied in STEM programs?",
     "gold_answer": "21.2%",
-    "difficulty": "2",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 7
@@ -1542,10 +1532,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "Which peer country has the highest proportion of STEM graduates?",
     "gold_answer": "Finland",
-    "difficulty": "2",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 7
@@ -1553,21 +1542,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
-    "question": "What fields are included in STEM programs according to the paragraph?",
-    "gold_answer": "science, mathematics, computer science, and engineering",
-    "difficulty": "2",
-    "wiki_entity": "Science and Technology",
-    "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
-    "paragraph_idx": 7
-  },
-  {
-    "id": "3",
-    "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "How does Canada's percentage of STEM graduates compare to the United States?",
     "gold_answer": "Higher than the United States",
-    "difficulty": "2",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 7
@@ -1575,10 +1552,19 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
-    "question": "Name three countries that have a higher percentage of STEM graduates than Canada.",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "What fields are included in STEM programs according to the paragraph?",
+    "gold_answer": "Science, mathematics, computer science, and engineering",
+    "wiki_entity": "Science and Technology",
+    "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
+    "paragraph_idx": 7
+  },
+  {
+    "id": "3",
+    "category": "Science and Technology",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "Among the peer countries mentioned, which countries have a higher percentage of STEM graduates than Canada?",
     "gold_answer": "France, Germany, and Austria",
-    "difficulty": "3",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 7
@@ -1586,10 +1572,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
-    "question": "What type of program is SHAD?",
-    "gold_answer": "an annual Canadian summer enrichment program",
-    "difficulty": "1",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "What is SHAD?",
+    "gold_answer": "an annual Canadian summer enrichment program for high-achieving high school students",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 8
@@ -1597,10 +1582,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "When is the SHAD program held?",
     "gold_answer": "in July",
-    "difficulty": "1",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 8
@@ -1608,10 +1592,19 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "What fields does the SHAD program focus on?",
+    "gold_answer": "STEAM fields",
+    "wiki_entity": "Science and Technology",
+    "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
+    "paragraph_idx": 8
+  },
+  {
+    "id": "3",
+    "category": "Science and Technology",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "Who is the SHAD program designed for?",
     "gold_answer": "high-achieving high school students",
-    "difficulty": "1",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 8
@@ -1619,21 +1612,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
-    "question": "What academic fields does SHAD focus on?",
-    "gold_answer": "STEAM fields",
-    "difficulty": "2",
-    "wiki_entity": "Science and Technology",
-    "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
-    "paragraph_idx": 8
-  },
-  {
-    "id": "3",
-    "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
     "question": "When did Scouts Canada begin their STEM program?",
     "gold_answer": "2015",
-    "difficulty": "1",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 9
@@ -1641,10 +1622,9 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
-    "question": "What is the focus of Scouts Canada's program mentioned in the paragraph?",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "What is the focus of Scouts Canada's recent program initiatives?",
     "gold_answer": "STEM fields",
-    "difficulty": "1",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 9
@@ -1652,716 +1632,811 @@
   {
     "id": "3",
     "category": "Science and Technology",
-    "additional_requirement": "emphasize discoveries, inventions, and scientific principles",
-    "question": "Which organization took measures similar to their American counterpart to promote STEM fields to youth?",
-    "gold_answer": "Scouts Canada",
-    "difficulty": "1",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "Which organization's STEM program is similar to Scouts Canada's?",
+    "gold_answer": "American counterpart",
+    "wiki_entity": "Science and Technology",
+    "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
+    "paragraph_idx": 9
+  },
+  {
+    "id": "3",
+    "category": "Science and Technology",
+    "additional_requirement": "emphasize recent advancements and foundational principles",
+    "question": "What is the purpose of Scouts Canada's STEM program?",
+    "gold_answer": "to promote STEM fields to youth",
     "wiki_entity": "Science and Technology",
     "wiki_url": "https://en.wikipedia.org/wiki/Science,_technology,_engineering,_and_mathematics",
     "paragraph_idx": 9
   },
   {
     "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "What is the University of Michigan College of Literature, Science, and the Arts?",
-    "gold_answer": "The liberal arts and sciences school of the University of Michigan",
-    "difficulty": "1",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What does cultural economics study?",
+    "gold_answer": "The economics of creation, distribution, and the consumption of works of art, literature and similar creative and/or cultural products.",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
     "paragraph_idx": 0
   },
   {
     "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "When was the University of Michigan College of Literature, Science, and the Arts established?",
-    "gold_answer": "1841",
-    "difficulty": "1",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Which arts were originally included in the concept of the 'arts' in cultural economics?",
+    "gold_answer": "Visual arts and performing arts.",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
     "paragraph_idx": 0
   },
   {
     "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "What was the original designation of the College of Literature, Science, and the Arts at the University of Michigan?",
-    "gold_answer": "Literary Department",
-    "difficulty": "1",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 1
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "Who was the first dean of the College of Literature, Science, and the Arts?",
-    "gold_answer": "Henry Simmons Frieze",
-    "difficulty": "2",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 1
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "Between which years did the faculty elect a president to communicate with the regents about department needs?",
-    "gold_answer": "1841 to 1874",
-    "difficulty": "2",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 1
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "What role did the faculty elect from 1841 to 1874 in the College of Literature, Science, and the Arts?",
-    "gold_answer": "A president",
-    "difficulty": "2",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 1
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "Who gave the largest gift in LSA history in March 2013?",
-    "gold_answer": "Helen Zell",
-    "difficulty": "1",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 2
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "How much money did Helen Zell donate to LSA in 2013?",
-    "gold_answer": "$50 million",
-    "difficulty": "1",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 2
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "What was the purpose of Helen Zell's donation to LSA?",
-    "gold_answer": "to support scholarships and stipends for Master's students in creative writing",
-    "difficulty": "2",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 2
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "In which academic program did Helen Zell's donation provide support?",
-    "gold_answer": "Master's students in creative writing",
-    "difficulty": "1",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 2
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "What is the Residential College?",
-    "gold_answer": "a division of the College of Literature, Science, and the Arts",
-    "difficulty": "1",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 3
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "Who is the current director of the Residential College?",
-    "gold_answer": "Catherine Badgley",
-    "difficulty": "1",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 3
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "When was the Residential College founded?",
-    "gold_answer": "1967",
-    "difficulty": "1",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 4
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "What was the purpose of founding the Residential College?",
-    "gold_answer": "to create a smaller liberal arts program with the resources of a larger university",
-    "difficulty": "2",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 4
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "Who were some members of the planning committee that developed the Residential College?",
-    "gold_answer": "Theodore Newcomb, Carl Cohen, and Bradford Perkins",
-    "difficulty": "3",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 4
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "Where are RC students required to live for at least one year?",
-    "gold_answer": "East Quadrangle",
-    "difficulty": "1",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 5
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "What type of courses do many RC courses consist of?",
-    "gold_answer": "seminar courses with fewer than fifteen students",
-    "difficulty": "2",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 5
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "How many additional concentrations can RC students choose from beyond the usual LSA concentrations?",
-    "gold_answer": "five",
-    "difficulty": "2",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 5
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "Name one of the additional concentrations available to RC students.",
-    "gold_answer": "Creative Writing and Literature",
-    "difficulty": "1",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 5
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "Are LSA academic requirements applicable to RC students?",
-    "gold_answer": "Yes",
-    "difficulty": "1",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 5
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "What is a major requirement for RC participation?",
-    "gold_answer": "intensive language training",
-    "difficulty": "1",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 6
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "How many eight-credit courses does the intensive language training consist of?",
-    "gold_answer": "two",
-    "difficulty": "2",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 6
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "What is the credit value of the readings course in the intensive language training?",
-    "gold_answer": "four-credit",
-    "difficulty": "2",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 6
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "Which language at the RC has no reading courses in its intensive program?",
-    "gold_answer": "Japanese",
-    "difficulty": "2",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 6
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "What languages are offered at the RC besides Japanese?",
-    "gold_answer": "Spanish, French, German, and Russian",
-    "difficulty": "2",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 6
-  },
-  {
-    "id": "4",
-    "category": "Literature and Arts",
-    "additional_requirement": "highlight major works, authors, and artistic movements",
-    "question": "What does the semi-immersion curriculum consist of in terms of courses?",
-    "gold_answer": "two ten-credit courses",
-    "difficulty": "3",
-    "wiki_entity": "College of Literature, Science, and the Arts",
-    "wiki_url": "https://en.wikipedia.org/wiki/College_of_Literature,_Science,_and_the_Arts",
-    "paragraph_idx": 6
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "What three disciplines are combined in the PPE degree?",
-    "gold_answer": "Philosophy, politics and economics",
-    "difficulty": "1",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Since when has the usage of cultural economics widened to include cultural industries like cinema and television?",
+    "gold_answer": "Since the beginning of the 1980s.",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
     "paragraph_idx": 0
   },
   {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Which university first offered degrees in Philosophy, Politics and Economics?",
-    "gold_answer": "University of Oxford",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What are examples of cultural industries studied in cultural economics?",
+    "gold_answer": "Cinema, television programs, book and periodical publishing, and music publishing.",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
     "paragraph_idx": 0
   },
   {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "In which decade was the PPE degree first introduced at the University of Oxford?",
-    "gold_answer": "1920s",
-    "difficulty": "3",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What is the JEL classification code for cultural economics?",
+    "gold_answer": "JEL: Z11.",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
     "paragraph_idx": 0
   },
   {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "What types of notable graduates has the PPE course produced?",
-    "gold_answer": "World leaders, journalists, and Nobel Peace Prize winners",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 0
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Which university established its own PPE degree based on the Oxford model in the 1980s?",
-    "gold_answer": "University of York",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What does cultural economics primarily concern itself with?",
+    "gold_answer": "the arts in a broad sense",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
     "paragraph_idx": 1
   },
   {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Which universities followed the University of York in offering PPE degrees?",
-    "gold_answer": "King's College London, the University of Warwick, the University of Manchester",
-    "difficulty": "3",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What determines the value of cultural goods?",
+    "gold_answer": "symbolic content",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
     "paragraph_idx": 1
   },
   {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "What new degree did Warwick University and King's College add as an alternative to PPE?",
-    "gold_answer": "PPL (Politics, Philosophy and Law)",
-    "difficulty": "3",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 1
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "According to the BBC, what does the Oxford PPE dominate in the UK?",
-    "gold_answer": "public life",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 1
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Which Ivy League university began offering a degree in Social Studies combining history, political science, economics, sociology, and anthropology in 1960?",
-    "gold_answer": "Harvard University",
-    "difficulty": "3",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 2
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "What interdisciplinary degree program is offered by over 50 colleges and universities in the United States?",
-    "gold_answer": "Philosophy, Politics, and Economics (PPE)",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 2
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Which university joined the Chapman University's Smith Institute in 2020 as one of the first research centers dedicated to interdisciplinary research in PPE?",
-    "gold_answer": "Virginia Tech",
-    "difficulty": "3",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 2
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Name a Canadian university that offers a Philosophy, Politics and Economics program.",
-    "gold_answer": "Mount Allison University",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 2
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Which disciplines are combined in Harvard University's Social Studies degree?",
-    "gold_answer": "history, political science, economics, sociology, and anthropology",
-    "difficulty": "3",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 2
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Name two Asian universities that offer PPE or similar programs.",
-    "gold_answer": "Peking University, Tsinghua University",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 2
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "What does PPLE stand for?",
-    "gold_answer": "Politics, Philosophy, Law and Economics",
-    "difficulty": "1",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 3
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "In which type of countries has PPLE notably been on the rise?",
-    "gold_answer": "civil law countries",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 3
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "What broader version of PPE has been on the rise recently?",
-    "gold_answer": "Politics, Philosophy, Law and Economics (PPLE)",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 3
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "When was the Philosophy, Politics and Economics degree course established at the University of Oxford?",
-    "gold_answer": "1920s",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 4
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "What was the original name of the Philosophy, Politics and Economics course at Oxford?",
-    "gold_answer": "modern greats",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 4
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "In which year did the first PPE students start their course at Oxford?",
-    "gold_answer": "1921",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 4
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "What was the initial requirement for studying subjects in the PPE course?",
-    "gold_answer": "to study all three subjects for all three years",
-    "difficulty": "3",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 4
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Since when have PPE students been allowed to drop one subject after the first year?",
-    "gold_answer": "1970",
-    "difficulty": "3",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 4
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Which philosopher's work laid the basis of PPE?",
-    "gold_answer": "John Stuart Mill",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 5
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Which economic theories were required in PPE?",
-    "gold_answer": "basic neo-classical and Keynesian economic theory",
-    "difficulty": "3",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 5
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Which philosophers were considered sufficient to study in PPE philosophy?",
-    "gold_answer": "Descartes, Locke, Berkeley and Hume",
-    "difficulty": "3",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 5
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Were Hegel and Marx recognized as major thinkers in the context of PPE?",
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Are designer goods like clothes usually considered cultural goods?",
     "gold_answer": "No",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 1
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Name an area where economic thinking has been increasingly applied in recent decades.",
+    "gold_answer": "pollution",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 1
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What is not enough to qualify a good as a cultural good?",
+    "gold_answer": "having creative content",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 1
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What quality distinguishes works of art and culture from other economic goods?",
+    "gold_answer": "Their uniqueness",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 2
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Which famous painting is mentioned as an example of a unique work of art?",
+    "gold_answer": "The Mona Lisa",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 2
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Who is the classical economist that held it was impossible to value unique works of art?",
+    "gold_answer": "Adam Smith",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 2
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "According to the paragraph, what is the economic characteristic of cultural goods noted by Alfred Marshall?",
+    "gold_answer": "They do not have the usual decreasing marginal utility",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 2
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What is the name of Rodin's well-known sculpture mentioned in the paragraph?",
+    "gold_answer": "The Thinker",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 2
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Who are some key authors in cultural economics?",
+    "gold_answer": "Baumol and Bowen, Gary Becker, Alan T. Peacock",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 3
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What is the title of Baumol and Bowen's key work in cultural economics?",
+    "gold_answer": "Performing Arts, The Economic Dilemma",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 3
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Which author is known for work on addictive goods in cultural economics?",
+    "gold_answer": "Gary Becker",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 3
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What topic is Alan T. Peacock associated with in cultural economics?",
+    "gold_answer": "public choice",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 3
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What are some sections into which the summary of cultural economics is divided?",
+    "gold_answer": "economic study of the performing arts, market of individual pieces of art, art market in cultural industries, economics of cultural heritage, labour market in the art sector",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 3
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Who introduced the term cost disease?",
+    "gold_answer": "William Baumol and Bowen",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 4
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What does the term cost disease explain?",
+    "gold_answer": "the increasing dependency of live performances on state subsidies",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 4
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What is the consumable good in the phenomenon of cost disease?",
+    "gold_answer": "labour itself",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 4
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Which classical play is used to illustrate the cost disease phenomenon?",
+    "gold_answer": "Moli\u00e8re's play Tartuffe",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 4
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "How many actors were needed to perform Tartuffe in 1664?",
+    "gold_answer": "twelve actors",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 4
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "How long did it take to perform Tartuffe in 1664 and 2007?",
+    "gold_answer": "two hours",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 4
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "How has the productivity of accountants changed from 1664 to 2007?",
+    "gold_answer": "A single accountant with a $10 calculator can add the sums in 20 minutes",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 4
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Why must artists' pay rise along with the population's pay?",
+    "gold_answer": "Because artists must make a considerable investment in human capital and their pay needs to rise along with that of the population in general",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 4
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Does the productivity of actors rise with general productivity?",
+    "gold_answer": "No, the actors' productivity does not rise",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 4
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What are the two segments of the market in the visual arts?",
+    "gold_answer": "Works of art that are familiar and have a history, and contemporary works",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 5
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What type of market structure characterizes both segments of the visual arts market?",
+    "gold_answer": "Oligopolistic",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 5
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What does oligopolistic mean in the context of the visual arts market?",
+    "gold_answer": "There are limited numbers of sellers and buyers",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 5
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What are two central questions regarding the working of the visual arts markets?",
+    "gold_answer": "How are prices determined, and what is the return on artworks compared to the return on financial assets",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 5
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What generally has a lower value than finished works of art?",
+    "gold_answer": "Components of a work of art, like raw stone, tubes of paint or unpainted canvas",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 6
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What does not explain the big price differences between works of art?",
+    "gold_answer": "The amount of labour needed to produce an item",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 6
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What are the three elements that influence the perception of the value of art?",
+    "gold_answer": "Social value, artistic value, and the price history of the item",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 6
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What is meant by the social value of a work of art?",
+    "gold_answer": "The social status the buyer has by owning it",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 6
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What term is used to describe the artist's social status or influence?",
+    "gold_answer": "Artistic capital",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 6
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "How is artistic value determined?",
+    "gold_answer": "Compared to contemporary works, or as importance to later generations",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 6
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Why might a buyer consider the price history of an artwork?",
+    "gold_answer": "For their expectation of a future price at which they might sell the item again",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 6
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What market structure is mentioned in relation to art prices?",
+    "gold_answer": "Oligopolistic market structure",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 6
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What are the three kinds of economic agents that determine the value of art?",
+    "gold_answer": "Gallery owners or museum directors, art historians and art professors, buyers who buy works of art as an investment",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 7
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Which economic agents use social value to determine the value of art?",
+    "gold_answer": "Gallery owners or museum directors",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 7
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Who uses artistic value to determine the value of art?",
+    "gold_answer": "Art historians and art professors",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 7
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Which economic agents consider price history and expectations for future price increases when determining the value of art?",
+    "gold_answer": "Buyers who buy works of art as an investment",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 7
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What type of assets may offer diversification opportunities according to the paragraph?",
+    "gold_answer": "tangible assets such as art works",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 8
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What has made it possible to establish price databases for art works?",
+    "gold_answer": "Many works are sold at auctions",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 8
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Since when do some price databases for art works have records?",
+    "gold_answer": "1652",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 8
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What was Baumol's estimated average yearly rate of return for works of art over a 20-year period?",
+    "gold_answer": "0.55 percent",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 8
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What was the estimated average yearly rate of return for financial assets according to Baumol's 1986 estimate?",
+    "gold_answer": "2.5 percent",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 8
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "Why might art investments provide intangible gains?",
+    "gold_answer": "pleasure of having a work of art",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 8
+  },
+  {
+    "id": "4",
+    "category": "Arts and Literature",
+    "additional_requirement": "highlight classical works and notable artists/authors",
+    "question": "What financial institutions had considerable return rates on investments in art works in the 1990s?",
+    "gold_answer": "major financial institutions, banks and insurance companies",
+    "wiki_entity": "Economics of the arts and literature",
+    "wiki_url": "https://en.wikipedia.org/wiki/Economics_of_the_arts_and_literature",
+    "paragraph_idx": 8
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "To what types of entities can the concept of governance be applied?",
+    "gold_answer": "Social, political or economic entities",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 1
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "Name some examples of social groups to which governance can be applied.",
+    "gold_answer": "A tribe or a family",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 1
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "Can governance pertain to specific sectors of activities? If yes, name one.",
+    "gold_answer": "Yes, land",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 1
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What determines the degree of formality in governance?",
+    "gold_answer": "The internal rules of a given entity and its external interactions with similar entities",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 1
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "Does governance only apply to formal organizations?",
+    "gold_answer": "No, it applies to formal or informal organizations",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 1
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What is the most formal type of a governing body?",
+    "gold_answer": "government",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 2
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "How does a democracy operate in terms of governance?",
+    "gold_answer": "citizens vote on who should govern",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 2
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What types of organizations can have governing bodies besides governments?",
+    "gold_answer": "corporations, companies or non-profit organizations",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 2
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What are some examples of socio-political groups that can have governing bodies?",
+    "gold_answer": "hierarchical political structures, tribes, religious subgroups, or families",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 2
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What external actors can influence state governance without having decision-making power?",
+    "gold_answer": "lobbies, think-tanks, political parties, non-government organizations, community and media",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 2
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What external factors shape governance?",
+    "gold_answer": "globalization, social movements or technological progress",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 2
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What term do many social scientists prefer to use when discussing the process of governing?",
+    "gold_answer": "governance",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 4
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What does the term 'governance' cover according to many social scientists?",
+    "gold_answer": "the whole range of institutions and involved relationships",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 4
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "Name one institution that offers governance as an academic subject.",
+    "gold_answer": "Balsillie School of International Affairs",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 4
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "Which school in Paris offers governance as an academic subject?",
+    "gold_answer": "Sciences Po Paris",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 4
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What is the focus of governance as an academic subject?",
+    "gold_answer": "the process of governing",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 4
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What does governance refer to?",
+    "gold_answer": "The manner in which power is exercised in the management of a country's economic and social resources for development",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
     "paragraph_idx": 5
   },
   {
     "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Who wrote the pamphlet 'The Poverty of PPE'?",
-    "gold_answer": "Trevor Pateman",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What is managed in governance for development?",
+    "gold_answer": "A country's economic and social resources",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 5
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What is the purpose of exercising power in governance?",
+    "gold_answer": "Development",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 5
+  },
+  {
+    "id": "5",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What does government refer to?",
+    "gold_answer": "The traditions and institutions by which authority in a country is exercised",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
     "paragraph_idx": 6
   },
   {
     "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "What did Trevor Pateman argue the PPE course lacked training in?",
-    "gold_answer": "scholarship",
-    "difficulty": "3",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What is the role of institutions in government?",
+    "gold_answer": "To exercise authority in a country",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
     "paragraph_idx": 6
   },
   {
     "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Which subjects did the pamphlet 'The Poverty of PPE' advocate to incorporate into the PPE course?",
-    "gold_answer": "sociology, anthropology and art",
-    "difficulty": "3",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What is exercised by traditions and institutions in a country?",
+    "gold_answer": "Authority",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
     "paragraph_idx": 6
   },
   {
     "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "What was the aim of incorporating new subjects into the PPE course according to the pamphlet?",
-    "gold_answer": "assist(ing) the radicalisation and mobilisation of political opinion outside the university",
-    "difficulty": "4",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What is a key component of political systems in a country?",
+    "gold_answer": "Government",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
     "paragraph_idx": 6
   },
   {
     "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Which leftist writers were added to the politics reading lists in response to the critique?",
-    "gold_answer": "Frantz Fanon and R\u00e9gis Debray",
-    "difficulty": "3",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 6
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "What permanent effects did Bhaskar claim the critique had on the PPE course at Oxford?",
-    "gold_answer": "You could now do sociology, you could do Hegel, you could do Marx, continental philosophy",
-    "difficulty": "4",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 6
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Who has pointed to the course as a reason for the decline of the study of classics?",
-    "gold_answer": "Christopher Stray",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What does the process of government selection involve?",
+    "gold_answer": "Governments are selected, monitored and replaced",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
     "paragraph_idx": 7
   },
   {
     "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "What field's study declined due to classicists being edged out in political life?",
-    "gold_answer": "classics",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What capacity is important for a government according to the paragraph?",
+    "gold_answer": "The capacity of the government to effectively formulate and implement sound policies",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
     "paragraph_idx": 7
   },
   {
     "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Who began to be edged out by those who studied the modern greats in political life?",
-    "gold_answer": "classicists",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What is respected between citizens and the state in good governance?",
+    "gold_answer": "The respect of citizens and the state",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
     "paragraph_idx": 7
   },
   {
     "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Who described the course as fundamental to the development of political thought in the UK?",
-    "gold_answer": "Dario Castiglione and Iain Hampsher-Monk",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 8
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "What connection did the course establish in the study of politics?",
-    "gold_answer": "A connection between politics and philosophy",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 8
-  },
-  {
-    "id": "5",
-    "category": "Political Systems and Economics",
-    "additional_requirement": "focus on governance structures, economic theories, and global institutions",
-    "question": "Before the course was established, how was politics taught at Oxford and Cambridge?",
-    "gold_answer": "As a branch of modern history",
-    "difficulty": "2",
-    "wiki_entity": "Philosophy, politics and economics",
-    "wiki_url": "https://en.wikipedia.org/wiki/Philosophy,_politics_and_economics",
-    "paragraph_idx": 8
+    "category": "Political Systems and Governance",
+    "additional_requirement": "focus on different government types and political theories",
+    "question": "What do institutions govern according to the paragraph?",
+    "gold_answer": "Economic and social interactions among citizens and the state",
+    "wiki_entity": "Governance",
+    "wiki_url": "https://en.wikipedia.org/wiki/Governance",
+    "paragraph_idx": 7
   }
 ]

@@ -15,7 +15,7 @@ from .llm_utils import create_model_from_config
 
 
 def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowledge",
-                    max_iterations=3, acc_target="0.1--0.4", engine="novelty", use_ragas=False):
+                    max_iterations=3, acc_target="0.1--0.4", engine="novelty", use_ragas=False, embedding_model=None):
     """
     Run the novelty engine for dynamic benchmark generation.
 
@@ -28,6 +28,7 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
         acc_target: Accuracy target for category refinement
         engine: Engine name for file organization
         use_ragas: Whether to use RAGAS for question generation (default: False)
+        embedding_model: Embedding model for RAGAS (optional, defaults to SentenceTransformer)
 
     Returns:
         History of results across iterations
@@ -45,6 +46,10 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
         from .ragas_utils import is_ragas_available
         if is_ragas_available():
             print("🔬 RAGAS integration enabled for question generation")
+            if embedding_model is None:
+                from .ragas_utils import SentenceTransformerEmbeddings
+                embedding_model = SentenceTransformerEmbeddings("all-MiniLM-L6-v2")
+                print("Using default SentenceTransformer embedding model")
         else:
             print("⚠️  RAGAS requested but not available. Install with: pip install ragas langchain-core")
             print("    Falling back to standard LLM generation")
@@ -74,7 +79,8 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
                 line_, agent_info, prefix, 
                 historical_psg=historical_psg,
                 use_ragas=use_ragas,
-                eval_model=eval_model if use_ragas else None
+                eval_model=eval_model if use_ragas else None,
+                embedding_model=embedding_model if use_ragas else None
             )
 
         # Generate questions using existing pipeline

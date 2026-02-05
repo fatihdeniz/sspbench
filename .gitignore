@@ -247,5 +247,5 @@ tmp-variables.json
 logs
 results
 /models/
-AutoBencher/data
+data
 >>>>>>> Initial commit
