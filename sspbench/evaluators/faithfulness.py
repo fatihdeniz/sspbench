@@ -119,38 +119,34 @@ class RagasFaithfulnessEvaluator(BaseEvaluator):
         for sample in samples:
             question = sample.get("question", "")
             answer = sample.get("answer", "")
-            contexts = sample.get("contexts", [])
+            context_text = sample.get("context", "")
             ground_truth = sample.get("ground_truth", None)
-
-            # Accept both `contexts` (list) and `context` (single string)
-            context_text = ""
-            if isinstance(contexts, list) and contexts:
-                context_text = contexts[0]
-            elif isinstance(contexts, str):
-                context_text = contexts
-            else:
-                context_text = sample.get("context", "")
             
-            try:
-                metrics = evaluate_qa_faithfulness(
-                    question=question,
-                    answer=answer,
-                    context=context_text,
-                    eval_model=self.model,
-                    embedding_model=self.embedding_model
-                )
-                faithfulness_score = metrics.get("faithfulness", 0.0)
-                relevancy_score = metrics.get("answer_relevancy", 0.0)
-            except Exception as e:
-                print(f"Error in RAGAS faithfulness evaluation: {e}")
-                faithfulness_score = 0.0
-                relevancy_score = 0.0
+            if not context_text.strip():
+                print(f"Skipping RAGAS evaluation for sample {sample.get('id', '')}: missing context")
+                faithfulness_score = None
+                relevancy_score = None
+            else:
+                try:
+                    metrics = evaluate_qa_faithfulness(
+                        question=question,
+                        answer=answer,
+                        context=context_text,
+                        eval_model=self.model,
+                        embedding_model=self.embedding_model
+                    )
+                    faithfulness_score = metrics.get("faithfulness", 0.0)
+                    relevancy_score = metrics.get("answer_relevancy", 0.0)
+                except Exception as e:
+                    print(f"Error in RAGAS faithfulness evaluation: {e}")
+                    faithfulness_score = 0.0
+                    relevancy_score = 0.0
             
             results.append({
                 "sample_id": sample.get("id", ""),
                 "question": question,
                 "answer": answer,
-                "contexts": contexts,
+                "context": context_text,
                 "ground_truth": ground_truth,
                 "faithfulness": faithfulness_score,
                 "answer_relevancy": relevancy_score

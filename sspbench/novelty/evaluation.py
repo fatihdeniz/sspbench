@@ -355,7 +355,7 @@ reason: identical numbers ## true
                         'id': item['id'],
                         'question': item['question'],
                         'answer': item['test_taker_answer'],
-                        'contexts': [gold_item['context']],
+                        'context': gold_item['context'],
                         'ground_truth': item['gold_answer']  # Add ground truth for better evaluation
                     })
             
