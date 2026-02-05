@@ -13,9 +13,9 @@ class BaseEvaluator(ABC):
     Abstract base class for benchmark evaluators.
     """
 
-    def __init__(self, model: Any = None, config: Dict[str, Any] = None):
+    def __init__(self, model: Any = None, **kwargs):
         self.model = model
-        self.config = config or {}
+        self.config = kwargs
 
     @abstractmethod
     def evaluate(self, samples: List[Dict[str, Any]]) -> Dict[str, Any]:

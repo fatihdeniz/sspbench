@@ -59,11 +59,10 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
 
         outfile_prefix = os.path.join(data_dir, f"{theme.replace(' ', '_')}_iter_{iteration}")
 
-        # Create directory if it doesn't exist
         os.makedirs(data_dir, exist_ok=True)
         os.makedirs(os.path.dirname(outfile_prefix), exist_ok=True)
 
-        # Summarize previous iterations
+        # Step 1: summarize previous iterations
         if history_dict:
             summarized_content = get_summary_of_results(
                 [item for sublist in history_dict for item in sublist],
@@ -72,7 +71,7 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
             history = [summarized_content]
         else:
             history = ["Initial iteration"]
-        print(f"Iteration {iteration}, SUMMARY: {history[0][:100]}...")
+        print(f"Iteration {iteration}, SUMMARY: {history[0][:200]}...")
 
         def qa_generator_with_ragas(line_, agent_info, prefix, historical_psg=None):
             return generate_long_questions(
@@ -83,7 +82,7 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
                 embedding_model=embedding_model if use_ragas else None
             )
 
-        # Generate questions using existing pipeline
+        # Step 2: generate questions using existing pipeline
         historical_psg = generate_full_qa(
             theme, agent_model, history, iteration,
             outfile_prefix=outfile_prefix,
@@ -93,7 +92,7 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
             acc_target=acc_target
         )
 
-        # Load generated questions
+        # Step 3: load generated questions
         with open(f"{outfile_prefix}.KI_questions.json", "r") as f:
             json_category = json.load(f)
         if len(json_category) == 1:  # remove outer list if needed
@@ -107,7 +106,9 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
         # Evaluate the test model
         json_dict = solve_and_compare_questions(
             test_model, eval_model, json_category, gold_answer_json,
-            outfile_prefix, 'gold_answer'
+            outfile_prefix, 'gold_answer',
+            eval_model=eval_model if use_ragas else None,
+            embedding_model=embedding_model if use_ragas else None
         )
 
         history_dict.append(json_dict)

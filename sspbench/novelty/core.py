@@ -122,7 +122,11 @@ def gen_qa_pairs_augmented(paragraph, agent_info, additional_req, use_ragas=Fals
     # Try RAGAS if requested and available
     if use_ragas and is_ragas_available():
         try:
-            qa_pairs = generate_qa_with_ragas(paragraph, agent_info, embedding_model, num_questions=3)
+            qa_pairs = generate_qa_with_ragas(paragraph, agent_info, embedding_model, num_questions=10)
+            
+            # Add context to each QA pair
+            for qa in qa_pairs:
+                qa['context'] = paragraph
             
             # Optionally evaluate faithfulness
             if eval_model:
@@ -138,7 +142,7 @@ def gen_qa_pairs_augmented(paragraph, agent_info, additional_req, use_ragas=Fals
             print(f"RAGAS generation failed, falling back to LLM: {e}")
     
     # Fallback to original LLM-based generation
-    context = """Conditioned on the wikipedia paragraph, you will generate a few question and answer pairs.
+    context = """Conditioned on the wikipedia paragraph, you will generate 10 question and answer pairs.
 Make sure not to ask subjective questions, and let the question's correct answer be a concise short phrase.
 Make sure that the question you selected is answerable by the given wikipedia paragraph, and make the answer concise. It's recommended to use the exact text from the paragraph as answers.
 Make sure that the questions are also answerable by an expert **without the wikipedia paragraph**. For example, dont ask questions that are too specific to the paragraph, like "what are the three locations mentioned in the paragraph?". Or "who's the most famous soldier, according to the paragraph?".
@@ -155,7 +159,13 @@ Output format: JSON list of dictionaries with keys: id, question, answer
 
     response = gen_from_prompt(agent_info, context, temperature=0.0, max_tokens=2000)
     extracted_json = extract_json_v2(response, None)
-    return extracted_json[0] if extracted_json else []
+    qa_pairs = extracted_json[0] if extracted_json else []
+    
+    # Add context to each QA pair for fallback generation too
+    for qa in qa_pairs:
+        qa['context'] = paragraph
+    
+    return qa_pairs
 
 
 def generate_long_questions(line_, agent_info, outfile_prefix, generate_qa_func=gen_qa_pairs_augmented,
@@ -187,42 +197,46 @@ def generate_long_questions(line_, agent_info, outfile_prefix, generate_qa_func=
 
     # Filter and limit observations
     obs = [p for p in obs if len(p.split(" ")) > 2 and len(p.split(".")) > 1]
-    obs = obs[:10]  # Limit to first 10 paragraphs
+    obs = obs[:5] 
 
+    combined_paragraph = "\n\n".join(obs)
+    
     full_lst = []
-    for idx, paragraph in enumerate(obs):
-        try:
-            # Check if generate_qa_func signature supports RAGAS parameters
-            import inspect
-            sig = inspect.signature(generate_qa_func)
-            if 'use_ragas' in sig.parameters:
-                json_questions = generate_qa_func(
-                    paragraph, agent_info, line_.get('additional_requirement', ''),
-                    use_ragas=use_ragas, eval_model=eval_model, embedding_model=embedding_model
-                )
-            else:
-                json_questions = generate_qa_func(paragraph, agent_info, line_.get('additional_requirement', ''))
-        except Exception as e:
-            print(f"Error generating questions: {e}")
-            continue
+    try:
+        import inspect
+        sig = inspect.signature(generate_qa_func)
+        if 'use_ragas' in sig.parameters:
+            json_questions = generate_qa_func(
+                combined_paragraph, agent_info, line_.get('additional_requirement', ''),
+                use_ragas=use_ragas, eval_model=eval_model, embedding_model=embedding_model
+            )
+        else:
+            json_questions = generate_qa_func(combined_paragraph, agent_info, line_.get('additional_requirement', ''))
+    except Exception as e:
+        print(f"Error generating questions: {e}")
+        return []
 
-        for json_question in json_questions:
-            line = copy.deepcopy(line_)
-            line['question'] = json_question['question']
-            line['gold_answer'] = json_question['answer']
-            line['wiki_entity'] = entity
-            line['wiki_url'] = wiki_url
-            line['paragraph_idx'] = idx
-            
-            # Add RAGAS metrics if available
-            if 'faithfulness' in json_question:
-                line['faithfulness'] = json_question['faithfulness']
-            if 'answerability' in json_question:
-                line['answerability'] = json_question['answerability']
-            if 'ragas_type' in json_question:
-                line['ragas_type'] = json_question['ragas_type']
-            
-            full_lst.append(line)
+    for json_question in json_questions:
+        line = copy.deepcopy(line_)
+        line['question'] = json_question['question']
+        line['gold_answer'] = json_question['answer']
+        line['wiki_entity'] = entity
+        line['wiki_url'] = wiki_url
+        line['paragraph_idx'] = 0  # Single combined context
+        
+        # Add context if available
+        if 'context' in json_question:
+            line['context'] = json_question['context']
+        
+        # Add RAGAS metrics if available
+        if 'faithfulness' in json_question:
+            line['faithfulness'] = json_question['faithfulness']
+        if 'answerability' in json_question:
+            line['answerability'] = json_question['answerability']
+        if 'ragas_type' in json_question:
+            line['ragas_type'] = json_question['ragas_type']
+        
+        full_lst.append(line)
 
     return full_lst
 
@@ -266,7 +280,7 @@ def generate_full_qa(theme, agent_info, history, iters, outfile_prefix='att1',
         json.dump(category_json, f, indent=2)
 
     full_questions = []
-    for line_ in category_json[:5]:  # Limit to 5 categories for demo
+    for line_ in category_json[:5]:  # Use up to 5 categories
         questions = generate_qa_func(line_, agent_info, outfile_prefix + f"_{line_['id']}",
                                     historical_psg=historical_psg)
         full_questions.extend(questions)

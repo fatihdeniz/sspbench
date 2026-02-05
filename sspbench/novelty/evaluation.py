@@ -11,6 +11,13 @@ from collections import defaultdict
 from tool_util import extract_json_v2
 from .llm_utils import gen_from_prompt
 
+try:
+    from ..evaluators import RagasFaithfulnessEvaluator
+    RAGAS_AVAILABLE = True
+except ImportError:
+    RAGAS_AVAILABLE = False
+    print("RAGAS evaluators not available, skipping faithfulness evaluation")
+
 
 def test_taker_inference(test_model_info, problem_json, outfile, bsz=1, temperature=0.01, max_length=50):
     """
@@ -200,7 +207,7 @@ def summarize_over_history_multi_model(history_json_dict, primary_model_name, go
     return summarize_over_history(single_model_history, gold_key=gold_key, verbose=verbose)
 
 
-def solve_and_compare_questions(test_taker_info, agent_info, question_json, gold_answer, outfile_prefix, gold_ans_key='gold_answer'):
+def solve_and_compare_questions(test_taker_info, agent_info, question_json, gold_answer, outfile_prefix, gold_ans_key='gold_answer', eval_model=None, embedding_model=None):
     """
     Solve questions with a test model and compare against gold answers.
 
@@ -211,6 +218,8 @@ def solve_and_compare_questions(test_taker_info, agent_info, question_json, gold
         gold_answer: Gold answers
         outfile_prefix: Prefix for output files
         gold_ans_key: Key for gold answers
+        eval_model: Model for RAGAS evaluation (optional)
+        embedding_model: Embedding model for RAGAS (optional)
 
     Returns:
         Results dictionary
@@ -218,11 +227,13 @@ def solve_and_compare_questions(test_taker_info, agent_info, question_json, gold
     test_taker_output = _generate_lm_answers(question_json, test_taker_info, outfile_prefix=outfile_prefix)
     summary_prev_iteration, history_json = fast_compare_answers(gold_answer, test_taker_output,
                                                                 agent_info, outfile_prefix=outfile_prefix,
-                                                                gold_ans_key=gold_ans_key)
+                                                                gold_ans_key=gold_ans_key,
+                                                                eval_model=eval_model,
+                                                                embedding_model=embedding_model)
     return history_json
 
 
-def fast_compare_answers(gold_output, test_taker_output, agent_model_info, outfile_prefix='att1', gold_ans_key='gold_answer'):
+def fast_compare_answers(gold_output, test_taker_output, agent_model_info, outfile_prefix='att1', gold_ans_key='gold_answer', eval_model=None, embedding_model=None):
     """
     Compare predicted answers against gold answers.
 
@@ -232,6 +243,8 @@ def fast_compare_answers(gold_output, test_taker_output, agent_model_info, outfi
         agent_model_info: Model for comparison
         outfile_prefix: Prefix for output files
         gold_ans_key: Key for gold answers
+        eval_model: Model for RAGAS evaluation (optional)
+        embedding_model: Embedding model for RAGAS (optional)
 
     Returns:
         Tuple of (summary_string, results_dict)
@@ -280,7 +293,21 @@ reason: identical numbers ## true
         response = gen_from_prompt(model=agent_model_info, prompt=context, temperature=0.0, max_tokens=3000)
 
         line['reasons'] = response.strip()
-        line['is_correct'] = response.strip().split('##')[-1].strip()
+        
+        # More robust parsing of correctness judgment
+        response_lower = response.lower().strip()
+        if '## true' in response_lower or response_lower.endswith('true'):
+            line['is_correct'] = 'true'
+        elif '## false' in response_lower or response_lower.endswith('false'):
+            line['is_correct'] = 'false'
+        elif 'true' in response_lower.split('##')[-1].strip():
+            line['is_correct'] = 'true'
+        elif 'false' in response_lower.split('##')[-1].strip():
+            line['is_correct'] = 'false'
+        else:
+            # Default to false if parsing fails
+            print(f"Warning: Could not parse correctness from response: {response}")
+            line['is_correct'] = 'false'
         test_taker_line = test_taker_output[idx]
         line['question'] = test_taker_line['question']
 
@@ -300,9 +327,57 @@ reason: identical numbers ## true
 
     json_dict = final_lst
     accuracy = correct_count2 / len(json_dict)
-    print("accuracy: ", accuracy)
+    print("Accuracy: ", accuracy)
     assert len(json_dict) == len(test_taker_output)
     out_handle.close()
+
+    # Add RAGAS evaluation if available
+    if RAGAS_AVAILABLE and eval_model is not None and embedding_model is not None:
+        print("Running RAGAS evaluation for faithfulness and answer relevance...")
+        try:
+            ragas_evaluator = RagasFaithfulnessEvaluator(
+                eval_model=eval_model,
+                embedding_model=embedding_model
+            )
+            
+            # Prepare samples for RAGAS evaluation
+            ragas_samples = []
+            for item in json_dict:
+                # Find the corresponding gold answer entry to get context
+                gold_item = None
+                for gold in gold_output:
+                    if gold.get('question') == item.get('question'):
+                        gold_item = gold
+                        break
+                
+                if gold_item and 'context' in gold_item:
+                    ragas_samples.append({
+                        'id': item['id'],
+                        'question': item['question'],
+                        'answer': item['test_taker_answer'],
+                        'contexts': [gold_item['context']],
+                        'ground_truth': item['gold_answer']  # Add ground truth for better evaluation
+                    })
+            
+            if ragas_samples:
+                print(f"Evaluating {len(ragas_samples)} samples with RAGAS...")
+                ragas_results = ragas_evaluator.evaluate(ragas_samples)
+                
+                # Add RAGAS scores to the results
+                for i, item in enumerate(json_dict):
+                    if i < len(ragas_results['results']):
+                        ragas_item = ragas_results['results'][i]
+                        item['faithfulness'] = ragas_item.get('faithfulness', None)
+                        item['answer_relevancy'] = ragas_item.get('answer_relevancy', None)
+                
+                print("✓ RAGAS evaluation completed and scores added to results")
+            else:
+                print("⚠️  No samples prepared for RAGAS evaluation")
+                
+        except Exception as e:
+            print(f"⚠️  RAGAS evaluation failed: {e}")
+    else:
+        print("⚠️  RAGAS evaluation skipped (models not available)")
 
     with open(f"{outfile_prefix}.compare_answers.json", 'w') as out_handle:
         json.dump(json_dict, out_handle, indent=2)

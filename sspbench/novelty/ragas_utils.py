@@ -49,9 +49,11 @@ class Generation:
 
 
 class LLMResult:
-    def __init__(self, text: str, n: int = 1):
-        gen = Generation(text)
-        self.generations = [[gen] for _ in range(n)]
+    def __init__(self, texts):
+        if isinstance(texts, list):
+            self.generations = [[Generation(text)] for text in texts]
+        else:
+            self.generations = [[Generation(texts)]]
 
 
 class CustomRagasLLM(BaseRagasLLM):
@@ -67,7 +69,7 @@ class CustomRagasLLM(BaseRagasLLM):
         self.run_config = RunConfig()
 
     async def generate(self, messages, n: int = 1, **kwargs):
-        """Async method to handle RAGAS calls with await."""
+        """Sync method to handle RAGAS calls."""
         from .llm_utils import gen_from_prompt
         
         system_prompt = "You are a helpful assistant."
@@ -100,33 +102,86 @@ class CustomRagasLLM(BaseRagasLLM):
         if not user_content:
             user_content = ""
         
-        text = gen_from_prompt(
-            self.model,
-            user_content,
-            temperature=self.temperature,
-            max_tokens=self.max_tokens,
-            system_prompt=system_prompt
-        )
-        if not isinstance(text, str):
-            text = str(text)
-        
-        return LLMResult(text, n)
+        if n == 1:
+            text = gen_from_prompt(
+                self.model,
+                user_content,
+                temperature=self.temperature,
+                max_tokens=self.max_tokens,
+                system_prompt=system_prompt
+            )
+            if not isinstance(text, str):
+                text = str(text)
+            return LLMResult([text])
+        else:
+            # Generate multiple completions with prompt variations and temperature for diversity
+            texts = []
+            base_temp = self.temperature
+            
+            # Different prompt variations to encourage diversity
+            prompt_variations = [
+                user_content,  # original
+                f"Please answer this question: {user_content}",  # more formal
+                f"Respond to: {user_content}"  # different framing
+            ]
+            
+            for i in range(n):
+                # Use prompt variation and temperature variation
+                varied_prompt = prompt_variations[i % len(prompt_variations)]
+                temp_variation = [0.1, 0.7, 1.5][i % 3] if n >= 3 else base_temp
+                
+                text = gen_from_prompt(
+                    self.model,
+                    varied_prompt,
+                    temperature=temp_variation,
+                    max_tokens=self.max_tokens,
+                    system_prompt=system_prompt
+                )
+                if not isinstance(text, str):
+                    text = str(text)
+                texts.append(text)
+            return LLMResult(texts)
 
     def generate_text(self, prompt: str, n: int = 1, **kwargs) -> LLMResult:
         from .llm_utils import gen_from_prompt
         
         if isinstance(prompt, tuple) and len(prompt) >= 2:
             prompt = prompt[1]
+        
+        if n == 1:
+            text = gen_from_prompt(
+                self.model,
+                prompt,
+                temperature=self.temperature,
+                max_tokens=self.max_tokens,
+            )
+            if not isinstance(text, str):
+                text = str(text)
+            return LLMResult([text])
+        else:
+            texts = []
+            base_temp = self.temperature
             
-        text = gen_from_prompt(
-            self.model,
-            prompt,
-            temperature=self.temperature,
-            max_tokens=self.max_tokens,
-        )
-        if not isinstance(text, str):
-            text = str(text)
-        return LLMResult(text, n)
+            prompt_variations = [
+                prompt,  # original
+                f"Please answer this question: {prompt}",  # more formal
+                f"Respond to: {prompt}"  # different framing
+            ]
+            
+            for i in range(n):
+                varied_prompt = prompt_variations[i % len(prompt_variations)]
+                temp_variation = [0.1, 0.7, 1.5][i % 3] if n >= 3 else base_temp
+                
+                text = gen_from_prompt(
+                    self.model,
+                    varied_prompt,
+                    temperature=temp_variation,
+                    max_tokens=self.max_tokens,
+                )
+                if not isinstance(text, str):
+                    text = str(text)
+                texts.append(text)
+            return LLMResult(texts)
 
     async def agenerate_text(self, prompt: str, n: int = 1, **kwargs) -> LLMResult:
         return self.generate_text(prompt, n, **kwargs)
@@ -171,7 +226,10 @@ def generate_qa_with_ragas(
     num_questions: int = 3,
 ) -> List[dict]:
     from ragas.testset import TestsetGenerator
+    from ragas.testset.graph import KnowledgeGraph, Node, NodeType
     from ragas.testset.synthesizers import SingleHopSpecificQuerySynthesizer
+    from ragas.testset.transforms import HeadlinesExtractor, HeadlineSplitter, KeyphrasesExtractor, apply_transforms
+    from ragas.testset.persona import Persona
 
     if embedding_model is None:
         if not hasattr(agent_info, "embedding_model"):
@@ -184,22 +242,63 @@ def generate_qa_with_ragas(
     # Configure query distribution for ONLY short, specific questions
     query_distribution = [(SingleHopSpecificQuerySynthesizer(llm=ragas_llm), 1.0)]
 
-    generator = TestsetGenerator(
-        llm=ragas_llm,
-        embedding_model=ragas_embeddings,
-    )
-
+    
+    kg = KnowledgeGraph()
     from langchain_core.documents import Document
-    doc = Document(page_content=paragraph)
+    doc = Document(page_content=paragraph, metadata={"source": "novelty_engine"})
+
+    kg.nodes.append(
+        Node(
+            type=NodeType.DOCUMENT,
+            properties={"page_content": doc.page_content, "document_metadata": doc.metadata}
+        )
+    )
+    
+    personas = [
+        Persona(
+            name="Knowledge_Seeker",
+            role_description=(
+                "Asks single-hop factual trivia questions with short answers. "
+                "Focuses on concrete facts such as names, dates, places, or quantities."
+            ),
+        ),
+        Persona(
+            name="Expert_Inquirer",
+            role_description=(
+                "Asks difficult but single-hop factual questions similar to TriviaQA "
+                "or quiz-bowl factoids. Requires precise, unambiguous answers."
+            ),
+        ),
+        Persona(
+            name="Casual_User",
+            role_description=(
+                "Asks straightforward factual questions in natural language. "
+                "Answers must be short and exact. No explanations or reasoning."
+            ),
+        ),
+    ]
+    
+    keyphrase_extractor = KeyphrasesExtractor(llm=ragas_llm)
+    transforms = [keyphrase_extractor]
+    apply_transforms(kg, transforms=transforms)
+
+    generator = TestsetGenerator(
+            llm=ragas_llm,
+            embedding_model=ragas_embeddings,
+            knowledge_graph=kg,
+            persona_list=personas
+        )
+
     
     testset = generator.generate_with_langchain_docs(
         documents=[doc],
         testset_size=num_questions,
-        query_distribution=query_distribution
+        query_distribution=query_distribution,
     )
 
     qa_pairs = []
     for idx, sample in enumerate(testset.samples, 1):
+        print(f"Generated Sample {idx}:", sample.eval_sample.user_input)
         qa_pairs.append(
             {
                 "id": str(idx),
@@ -244,6 +343,9 @@ def evaluate_qa_faithfulness(
     from datasets import Dataset
     from ragas.run_config import RunConfig
 
+    ragas_llm = CustomRagasLLM(eval_model, temperature=0.0)
+    ragas_embeddings = CustomRagasEmbeddings(embedding_model) if embedding_model else None
+
     data = {
         "question": [question],
         "answer": [answer],
@@ -257,8 +359,8 @@ def evaluate_qa_faithfulness(
     result = evaluate(
         dataset=dataset,
         metrics=[faithfulness, answer_relevancy],
-        llm=eval_model,
-        embeddings=embedding_model,
+        llm=ragas_llm,
+        embeddings=ragas_embeddings,
         run_config=RunConfig(),
         raise_exceptions=False,
         show_progress=False,

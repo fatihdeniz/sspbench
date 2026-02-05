@@ -21,7 +21,7 @@ from .config import DEFAULT_SAMPLING_PARAMS
 _MODEL_CACHE = {}
 
 
-def gen_from_prompt(model, prompt, temperature=0., max_tokens=20, system_prompt=None):
+def gen_from_prompt(model, prompt, temperature=0., max_tokens=20, top_p=1.0, system_prompt=None):
     """
     Generate response from a language model.
 
@@ -35,7 +35,7 @@ def gen_from_prompt(model, prompt, temperature=0., max_tokens=20, system_prompt=
     Returns:
         Generated response(s)
     """
-    sampling_params = SamplingParams(temperature=temperature, max_tokens=max_tokens)
+    sampling_params = SamplingParams(temperature=temperature, max_tokens=max_tokens, top_p=top_p)
 
     is_single = isinstance(prompt, str)
     prompts = [prompt] if is_single else prompt
