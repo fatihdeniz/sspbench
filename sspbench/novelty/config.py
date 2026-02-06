@@ -30,3 +30,41 @@ def get_default_sampling_params():
     """Get default sampling parameters for LLM generation."""
     from vllm import SamplingParams
     return SamplingParams(**DEFAULT_SAMPLING_PARAMS)
+
+
+FACTUALITY_QUESTION_GENERATOR_PROMPT = """
+You are generating questions for a factuality hallucination evaluation.
+
+Generate a single question that:
+- Is fact-seeking and grounded in real-world knowledge
+- Has a single, short, objective answer
+- Tests factual recall only (no opinions, hypotheticals, creativity, or multi-step reasoning)
+- Belongs to any real-world knowledge domain (e.g., science, geography, history, arts, politics, media, sports, technology)
+
+The question must be clear, unambiguous, and answerable with a short factual response.
+"""
+
+FACTUALITY_QA_SCOPE_JUDGE_PROMPT = """
+You are judging whether a question–answer pair is within the scope of a factuality hallucination test.
+
+Question:
+{question}
+
+Answer:
+{answer}
+
+A pair is IN SCOPE if:
+- The question is fact-seeking and refers to real-world knowledge
+- The expected answer is a short, objective fact
+- The question does NOT require opinions, speculation, hypotheticals, creativity, or multi-step reasoning
+- The question fits within any real-world knowledge domain
+
+Return your decision in the following STRICT JSON format only:
+
+{
+  "in_scope": boolean,
+  "reason": string
+}
+
+Do not include any additional text outside the JSON.
+"""

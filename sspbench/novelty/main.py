@@ -12,6 +12,8 @@ from .core import generate_full_qa, _refine_categories_targetacc_augmented, gene
 from .evaluation import solve_and_compare_questions, get_summary_of_results, get_acc_lst
 from .variations import apply_variations_to_dataset
 from .llm_utils import create_model_from_config
+from .config import FACTUALITY_QA_SCOPE_JUDGE_PROMPT
+from ..evaluators import ScopeEvaluator
 
 
 def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowledge",
@@ -41,7 +43,6 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
     history_dict = []
     historical_psg = []
     
-    # Log RAGAS usage
     if use_ragas:
         from .ragas_utils import is_ragas_available
         if is_ragas_available():
@@ -53,6 +54,8 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
         else:
             print("⚠️  RAGAS requested but not available. Install with: pip install ragas langchain-core")
             print("    Falling back to standard LLM generation")
+
+    scope_evaluator = ScopeEvaluator(eval_model, prompt_template=FACTUALITY_QA_SCOPE_JUDGE_PROMPT) if eval_model else None
 
     for iteration in range(1, max_iterations + 1):
         print(f"\n=== Iteration {iteration} ===")
@@ -98,12 +101,37 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
         if len(json_category) == 1:  # remove outer list if needed
             json_category = json_category[0]
 
+        # Step 4: Annotate scope using the evaluation model if available
+        if scope_evaluator:
+            try:
+                scope_results = scope_evaluator.evaluate(json_category)["results"]
+                filtered_questions = []
+                for question_dict, scope_info in zip(json_category, scope_results):
+                    in_scope = scope_info.get("in_scope")
+                    question_dict["in_scope"] = in_scope
+                    question_dict["in_scope_reason"] = scope_info.get("in_scope_reason", "")
+                    question_dict["scope_raw_response"] = scope_info.get("raw_response", "")
+                    if in_scope:
+                        filtered_questions.append(question_dict)
+
+                removed = len(json_category) - len(filtered_questions)
+                if removed:
+                    print(f"Filtered out {removed} out-of-scope question(s)")
+                json_category = filtered_questions
+            except Exception as scope_error:
+                print(f"⚠️  Scope evaluation failed: {scope_error}")
+
         # Apply variations to create more diverse questions (optional)
         # json_category = apply_variations_to_dataset(json_category, agent_model)
 
         gold_answer_json = copy.deepcopy(json_category)
 
-        # Evaluate the test model
+        if not gold_answer_json:
+            print("No in-scope questions generated; skipping iteration")
+            history_dict.append([])
+            continue
+
+        # Step 5: Evaluate the test model
         json_dict = solve_and_compare_questions(
             test_model, eval_model, json_category, gold_answer_json,
             outfile_prefix, 'gold_answer',
