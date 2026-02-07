@@ -59,7 +59,7 @@ def get_page_obs(page):
     return paragraphs
 
 
-def search_step(entity, output_more=False):
+def search_step(entity, output_more=False, _visited=None):
     """
     Search for a Wikipedia entity and extract content.
 
@@ -70,6 +70,16 @@ def search_step(entity, output_more=False):
     Returns:
         tuple: (observations, entity_name, wiki_url)
     """
+    if _visited is None:
+        _visited = set()
+
+    normalized_entity = entity.strip().lower()
+    if normalized_entity in _visited:
+        print(f"Stopping Wikipedia search recursion for '{entity}' (already attempted)")
+        return [], entity, ""
+
+    _visited.add(normalized_entity)
+
     headers = {
         "User-Agent": "autobencher-data-curation/1.0 (research)"
     }
@@ -84,7 +94,7 @@ def search_step(entity, output_more=False):
         result_titles = [clean_str(div.get_text().strip()) for div in result_divs]
         print(f"Could not find {entity}. Searching for similar entities, {result_titles[0]}, ...")
         # Recursively search for the first similar entity
-        obs, entity, wiki_url = search_step(result_titles[0], output_more=output_more)
+        obs, entity, wiki_url = search_step(result_titles[0], output_more=output_more, _visited=_visited)
     else:
         print('Found entity', entity)
         canonical = soup.find("link", rel="canonical")
@@ -93,7 +103,7 @@ def search_step(entity, output_more=False):
         page = [p.get_text().strip() for p in soup.find_all("p") + soup.find_all("ul")]
         if any("may refer to:" in p for p in page):
             # Disambiguation page - try with brackets
-            obs, entity, wiki_url = search_step("[" + entity + "]", output_more=output_more)
+            obs, entity, wiki_url = search_step("[" + entity + "]", output_more=output_more, _visited=_visited)
         else:
             page_ = ""
             for p in page:

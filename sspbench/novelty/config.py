@@ -61,10 +61,10 @@ A pair is IN SCOPE if:
 
 Return your decision in the following STRICT JSON format only:
 
-{
+{{
   "in_scope": boolean,
   "reason": string
-}
+}}
 
 Do not include any additional text outside the JSON.
 """

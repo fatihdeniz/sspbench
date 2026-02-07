@@ -101,6 +101,8 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
         if len(json_category) == 1:  # remove outer list if needed
             json_category = json_category[0]
 
+        original_question_count = len(json_category)
+
         # Step 4: Annotate scope using the evaluation model if available
         if scope_evaluator:
             try:
@@ -118,6 +120,12 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
                 if removed:
                     print(f"Filtered out {removed} out-of-scope question(s)")
                 json_category = filtered_questions
+
+                print("Scope summary:", {
+                    "total_before_scope": original_question_count,
+                    "in_scope": len(filtered_questions),
+                    "filtered_out": removed,
+                })
             except Exception as scope_error:
                 print(f"⚠️  Scope evaluation failed: {scope_error}")
 
