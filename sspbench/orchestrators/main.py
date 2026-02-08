@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, Iterable, Optional
+import json
+from typing import Any, Callable, Dict, Iterable, List, Optional
 
 from ..novelty.main import run_novelty_engine
 
@@ -36,4 +37,20 @@ class BenchmarkOrchestrator:
         runner = self._pipelines.get(target)
         if runner is None:
             raise ValueError(f"Unknown pipeline '{target}'. Available: {self.available_pipelines()}")
+        seed_index_path = kwargs.pop("seed_index_path", None)
+        if seed_index_path:
+            seed_topics = _load_seed_topics_manifest(seed_index_path)
+            results: Dict[str, Any] = {}
+            for seed_topic in seed_topics:
+                results[seed_topic] = runner(**kwargs, theme=seed_topic)
+            return results
         return runner(**kwargs)
+
+
+def _load_seed_topics_manifest(path: str) -> List[str]:
+    with open(path, "r", encoding="utf-8") as handle:
+        data = json.load(handle)
+    seed_topics = data.get("seed_topics") if isinstance(data, dict) else None
+    if not seed_topics:
+        raise ValueError(f"No seed_topics found in manifest: {path}")
+    return list(seed_topics)
