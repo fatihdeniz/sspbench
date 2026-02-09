@@ -219,7 +219,7 @@ class CustomRagasEmbeddings(BaseRagasEmbeddings):
 # Q&A generation
 # =========================
 def generate_qa_with_ragas(
-    paragraphs: List[str],
+    paragraph: str,
     agent_info: Any,
     embedding_model: Any = None,
     num_questions: int = 3,
@@ -239,7 +239,7 @@ def generate_qa_with_ragas(
     from ragas.testset.transforms.extractors import NERExtractor
     from ragas.testset.persona import Persona
 
-    if not paragraphs:
+    if not paragraph:
         return []
     
     # Embeddings resolution
@@ -255,47 +255,47 @@ def generate_qa_with_ragas(
     # Knowledge graph
     kg = KnowledgeGraph()
 
-    # doc = Document(
-    #     page_content=paragraph,
-    #     metadata={"source": "ragas_entity_generation"},
-    # )
+    doc = Document(
+        page_content=paragraph,
+        metadata={"source": "ragas_entity_generation"},
+    )
 
-    # kg.nodes.append(
-    #     Node(
-    #         type=NodeType.DOCUMENT,
-    #         properties={
-    #             "page_content": doc.page_content,
-    #             "document_metadata": doc.metadata,
-    #         },
-    #     )
-    # )
+    kg.nodes.append(
+        Node(
+            type=NodeType.DOCUMENT,
+            properties={
+                "page_content": doc.page_content,
+                "document_metadata": doc.metadata,
+            },
+        )
+    )
 
     ner_extractor = NERExtractor(llm=ragas_llm)
     
-    filtered = filter_paragraphs_with_entities(
-        paragraphs,
-        ner_extractor=ner_extractor,
-        min_entities=1,
-    )
-
-    if not filtered:
-        return []
-
-    documents = [
-            Document(
-                page_content=item["text"],
-                metadata={
-                    "source": "novelty_engine",
-                    "entities": item["entities"],
-                },
-            )
-            for item in filtered
-        ]
-
-    # apply_transforms(
-    #     kg,
-    #     transforms=[ner_extractor],
+    # filtered = filter_paragraphs_with_entities(
+    #     paragraphs,
+    #     ner_extractor=ner_extractor,
+    #     min_entities=1,
     # )
+
+    # if not filtered:
+    #     return []
+
+    # documents = [
+    #         Document(
+    #             page_content=item["text"],
+    #             metadata={
+    #                 "source": "novelty_engine",
+    #                 "entities": item["entities"],
+    #             },
+    #         )
+    #         for item in filtered
+    #     ]
+
+    apply_transforms(
+        kg,
+        transforms=[ner_extractor],
+    )
 
     # Personas (factoid-only)
     personas = [
@@ -330,7 +330,7 @@ def generate_qa_with_ragas(
     )
 
     testset = generator.generate_with_langchain_docs(
-        documents=documents,
+        documents=[doc],
         testset_size=num_questions,
         query_distribution=query_distribution,
     )
