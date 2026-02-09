@@ -8,14 +8,14 @@ import json
 import copy
 from collections import defaultdict
 
-from tool_util import extract_json_v2
 from .llm_utils import gen_from_prompt
-from .wiki_utils import search_step
+from .wiki_utils import search_step, search_related_pages
 from .config import DEFAULT_JSON_MESSAGE
 from .ragas_utils import generate_qa_with_ragas, is_ragas_available, evaluate_qa_faithfulness
+from .json_utils import extract_json_v2
 
 
-def _generate_categories_random(theme, agent_model, history, iteration, outfile_prefix='att1'):
+def _generate_categories_random(theme, agent_model, history, iteration, outfile_prefix='att1', num_categories=5):
     """
     Generate initial categories for a theme.
 
@@ -25,12 +25,13 @@ def _generate_categories_random(theme, agent_model, history, iteration, outfile_
         history: Previous iteration results
         iteration: Current iteration number
         outfile_prefix: Prefix for output files
+        num_categories: Number of categories to generate
 
     Returns:
         List of generated categories
     """
     context = f"""
-Generate 5 diverse categories for knowledge-intensive questions on the theme: {theme}.
+Generate {num_categories} diverse categories for knowledge-intensive questions on the theme: {theme}.
 Each category should be a Wikipedia-style category.
 
 Output format: JSON list of dictionaries with keys: id, category, additional_requirement
@@ -273,7 +274,7 @@ def generate_full_qa(theme, agent_info, history, iters, outfile_prefix='att1',
     # Generate/refine categories
     category_json = category_gen_func(theme, agent_info, history, iters,
                                      outfile_prefix=outfile_prefix + '.brainstorm',
-                                     acc_target=acc_target)
+                                     acc_target=acc_target, num_categories=max_categories)
 
     # Save categories
     with open(f"{outfile_prefix}.categories_augmented.json", "w") as f:
@@ -297,20 +298,121 @@ def generate_full_qa(theme, agent_info, history, iters, outfile_prefix='att1',
     return historical_psg
 
 
-# Import the complex category generation functions from tools
-try:
-    from tools.AutoBencher.autobencher_v2 import (
-        _refine_categories_targetacc_augmented,
-        _generate_categories_targetacc_augmented,
-        _refine_categories
-    )
-except ImportError:
-    # Fallback implementations
-    def _refine_categories_targetacc_augmented(theme, agent_info, history, iters, outfile_prefix='att1', acc_target="0.3--0.5"):
-        return _generate_categories_random(theme, agent_info, history, iters, outfile_prefix)
+# Category generation functions
+def _refine_categories_targetacc_augmented(theme, agent_info, history, iters, outfile_prefix='att1', acc_target="0.3--0.5", num_categories=5):
+    category_json = _generate_categories_targetacc_augmented(theme, agent_info, history, iters, outfile_prefix=outfile_prefix+'.brainstorm', acc_target=acc_target)
+    # given the json_lst, refine the categories to achieve the target accuracy.
+    full_cat_lst = []
+    for line in category_json:
+        cat_lst = search_related_pages(line['category'])
+        full_cat_lst.extend(cat_lst)
+    context = """ Your goal is to select from a list of categories for knowledge intensive questions so that the selected subset are likely to achieve the target accuracy of {ACC_TARGET}.
+The categories should be selected based on three criteria: (1) aligned with THEME, (2) likely to obtain the target accuracy of {ACC_TARGET}, you can judge this based on the accuracy statistics from previous iterations. and (3) salient and cover important topics.
+You can also specify some additional requirements for each category. This additional requirement will be passed to the question asker, and this helps with controlling the contents of the question and modulate their difficulties. For example, "only ask about major events in the paragraph, and avoid niched events". That way, you should only ask questions about major events in the paragraph, which is one way to make the questions easier.
 
-    def _generate_categories_targetacc_augmented(theme, agent_info, history, iters, outfile_prefix='att1', acc_target="0.3--0.5"):
-        return _generate_categories_random(theme, agent_info, history, iters, outfile_prefix)
+Output Formatting: 
+Each category should be a dictionary with the following keys: id, category, parent_category, additional_requirement. 
+Make sure the categories are similar to wikipedia categories. 
+The categories should be exactly in the following format (a list of dictionaries): 
+```json 
+[
+{"id": "1", "category": "Ancient Philosophers", "parent_category": "History", "additional_requirement": "only ask about famous people and their ideologies"}, 
+{"id": "2", "category": "Second World War", "parent_category": "History", "additional_requirement": "major battles"}, 
+...
+]
+```
+Do not use python code block. 
+Make sure that you generate a valid json block (surrounded by ```json [...] ```). Surrounded by the [] brackets.
 
-    def _refine_categories(theme, context, agent_info, history, iters, candidate_lst, outfile_prefix='att1'):
-        return _generate_categories_random(theme, agent_info, history, iters, outfile_prefix)
+
+Iteration: 
+The goal is to find a set of categories that with accuracy close to the target accuracy level of {ACC_TARGET}. 
+
+At every iteration, you are given a list of categories that you have already explored and their respective accuracy. Also, you are given a larger set of candidate categories for this iteration, and you should use the information from previous iterations to select the top {NUM_CATEGORIES} categories from the list, that are most likely to achieve the target accuracy level, while still being relevant and salient. 
+In later iterations you should receive as input the categories that you have already explored and their respective accuracy. You should
+DO NOT REPEAT any of the categories that you have already explored.
+"""
+    context = context.replace("{ACC_TARGET}", str(acc_target))
+    context = context.replace("{NUM_CATEGORIES}", str(num_categories))
+    return _refine_categories(theme, context, agent_info, history, iters, full_cat_lst, outfile_prefix=outfile_prefix + '.refine')
+
+def _generate_categories_targetacc_augmented(theme, agent_info, history, iters, outfile_prefix='att1', acc_target="0.3--0.5"):
+    if os.path.exists(f"{outfile_prefix}.categories.json"):
+        print("FOUND categories.json")
+        return json.load(open(f"{outfile_prefix}.categories.json", "r"))[0]
+    agent_model = agent_info
+    context = """ Your goal is to come up with a list of categories for knowledge intensive questions that achieve the target accuracy of {ACC_TARGET}.
+The categories should be diverse and cover important topics, under the theme of THEME. 
+You can also specify some additional requirements for each category. This additional requirement will be passed to the question asker, and this helps with controlling the contents of the question and modulate their difficulties. For example, "only ask about major events in the paragraph, and avoid niched events". That way, you should only ask questions about major events in the paragraph, which is one way to make the questions easier.
+Constructing the categories is like building a tree structure of history, and (category, parent_category) is like specifying a node and its parent. We should select the most precise parent category, for example if you are trying to expand the category "second world war" to make it more specific by adding the node "famous battles in second world war", you should specify the parent category as "second world war" instead of "history".
+
+Output Formatting: 
+Each category should be a dictionary with the following keys: id, category, parent_category, additional_requirement. 
+Make sure the categories are similar to wikipedia categories. 
+The categories should be exactly in the following format (a list of dictionaries): 
+```json 
+[
+{"id": "1", "category": "Ancient Philosophers", "parent_category": "History", "additional_requirement": "only ask about famous people and their ideologies"}, 
+{"id": "2", "category": "Second World War", "parent_category": "History", "additional_requirement": "major battles"}, 
+...
+]
+``` 
+Do not use python code block. 
+Make sure that you generate a valid json block (surrounded by ```json [...] ```). Surrounded by the [] brackets.
+
+
+Iteration: 
+The goal is to find a set of categories that with accuracy close to the target accuracy level of {ACC_TARGET}. 
+
+For iteration 1, you can start with a wide variety of categories for us to build upon later. 
+In later iterations you should receive as input the categories that you have already explored and their respective accuracy. You should
+1. Think about breadth. Brainstorm questions with different categories to have broader coverage. Coming up with new categories that can are likely to achieve the target accuracy level.
+2. For example, If you find the model now lacks categories of 0.3 -- 0.5 accuracy, you should come up with more categories that would yield accuracy in that range, by either reducing the difficulty of questions that achieve lower accuracy (via subcategory or via additional requirement), or increasing the difficulty of questions that achieve higher accuracy.
+3. DO NOT REPEAT any of the categories that you have already explored.
+"""
+    context = context.replace("{ACC_TARGET}", str(acc_target))
+    context = context.replace("THEME", theme)
+    if iters is None:
+        iters = len(history) + 1
+    if iters == 1:
+        context += "Please start with iteration 1."
+    else:
+        context += "\n".join(history) + "Please start with iteration {}.".format(iters)
+    context = DEFAULT_JSON_MESSAGE + context
+    response = gen_from_prompt(agent_model, context, temperature=0.0, max_tokens=2000)
+
+    with open(f"{outfile_prefix}.full_thoughts.txt", 'w', encoding='utf-8') as out_handle:
+        out_handle.write(context)
+        out_handle.write("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        out_handle.write(response)
+
+    extracted_json = extract_json_v2(response, f"{outfile_prefix}.categories.json")
+    if len(extracted_json) == 1:
+        extracted_json = extracted_json[0]
+    return extracted_json
+
+def _refine_categories(theme, context, agent_info, history, iters, candidate_lst, outfile_prefix='att1'):
+    if os.path.exists(f"{outfile_prefix}.categories.json"):
+        print("FOUND categories.json")
+        return json.load(open(f"{outfile_prefix}.categories.json", "r"))[0]
+    agent_model = agent_info
+    context = context.replace("THEME", theme)
+    if iters is None:
+        iters = len(history) + 1
+    if iters == 1:
+        context += "Please start with iteration 1." + "Here are the category candidates to select from (delimited by ||): " + " || ".join(candidate_lst) + "\n"
+    else:
+        context += "\n".join(history) + "Please start with iteration {}.".format(iters) + "Here are the category candidates to select from (delimited by ||): " + "||".join(candidate_lst) + "\n"
+    context = DEFAULT_JSON_MESSAGE + context
+    # extract the json file from the message
+    response = gen_from_prompt(agent_model, context, temperature=0.0, max_tokens=2000)
+
+    with open(f"{outfile_prefix}.full_thoughts.txt", 'w', encoding='utf-8') as out_handle:
+        out_handle.write(context)
+        out_handle.write("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        out_handle.write(response)
+
+    extracted_json = extract_json_v2(response, f"{outfile_prefix}.categories.json")
+    if len(extracted_json) == 1:
+        extracted_json = extracted_json[0]
+    return extracted_json

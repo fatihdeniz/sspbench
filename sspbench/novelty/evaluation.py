@@ -8,8 +8,8 @@ import os
 import tqdm
 from collections import defaultdict
 
-from tool_util import extract_json_v2
 from .llm_utils import gen_from_prompt
+from .json_utils import extract_json_v2
 
 try:
     from ..evaluators import RagasFaithfulnessEvaluator
