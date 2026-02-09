@@ -1,4 +1,4 @@
-from typing import List, Any
+from typing import List, Dict, Set, Any
 import numpy as np
 
 
@@ -216,98 +216,132 @@ class CustomRagasEmbeddings(BaseRagasEmbeddings):
 
 
 # =========================
-# Q&A generation (RAGAS 0.4.3)
+# Q&A generation
 # =========================
-
 def generate_qa_with_ragas(
-    paragraph: str,
+    paragraphs: List[str],
     agent_info: Any,
     embedding_model: Any = None,
     num_questions: int = 3,
 ) -> List[dict]:
+    """
+    Generate short, single-hop, entity-grounded factual QA pairs.
+
+    Output questions are factoid-style and answers are atomic entities
+    (name, date, location, organization, quantity, etc.).
+    """
+
+    from langchain_core.documents import Document
     from ragas.testset import TestsetGenerator
     from ragas.testset.graph import KnowledgeGraph, Node, NodeType
     from ragas.testset.synthesizers import SingleHopSpecificQuerySynthesizer
-    from ragas.testset.transforms import HeadlinesExtractor, HeadlineSplitter, KeyphrasesExtractor, apply_transforms
+    from ragas.testset.transforms import apply_transforms
     from ragas.testset.transforms.extractors import NERExtractor
     from ragas.testset.persona import Persona
 
+    if not paragraphs:
+        return []
+    
+    # Embeddings resolution
     if embedding_model is None:
         if not hasattr(agent_info, "embedding_model"):
-            raise ValueError("Pass `embedding_model=...` explicitly.")
+            raise ValueError("`embedding_model` must be provided explicitly or via agent_info.")
         embedding_model = agent_info.embedding_model
 
+    
     ragas_llm = CustomRagasLLM(agent_info, temperature=0.7)
     ragas_embeddings = CustomRagasEmbeddings(embedding_model)
 
-    # Configure query distribution for ONLY short, specific questions
-    query_distribution = [(SingleHopSpecificQuerySynthesizer(llm=ragas_llm), 1.0)]
-
-    
+    # Knowledge graph
     kg = KnowledgeGraph()
-    from langchain_core.documents import Document
-    doc = Document(page_content=paragraph, metadata={"source": "novelty_engine"})
 
-    kg.nodes.append(
-        Node(
-            type=NodeType.DOCUMENT,
-            properties={"page_content": doc.page_content, "document_metadata": doc.metadata}
-        )
-    )
+    # doc = Document(
+    #     page_content=paragraph,
+    #     metadata={"source": "ragas_entity_generation"},
+    # )
+
+    # kg.nodes.append(
+    #     Node(
+    #         type=NodeType.DOCUMENT,
+    #         properties={
+    #             "page_content": doc.page_content,
+    #             "document_metadata": doc.metadata,
+    #         },
+    #     )
+    # )
+
+    ner_extractor = NERExtractor(llm=ragas_llm)
     
+    filtered = filter_paragraphs_with_entities(
+        paragraphs,
+        ner_extractor=ner_extractor,
+        min_entities=1,
+    )
+
+    if not filtered:
+        return []
+
+    documents = [
+            Document(
+                page_content=item["text"],
+                metadata={
+                    "source": "novelty_engine",
+                    "entities": item["entities"],
+                },
+            )
+            for item in filtered
+        ]
+
+    # apply_transforms(
+    #     kg,
+    #     transforms=[ner_extractor],
+    # )
+
+    # Personas (factoid-only)
     personas = [
         Persona(
             name="Knowledge_Seeker",
             role_description=(
-                "Asks single-hop factual trivia questions with short answers. "
-                "Focuses on concrete facts such as names, dates, places, or quantities."
-                "Do not ask “why”, “explain”, “role”, “how”. "
-                "Produce only short factoid questions and answers."
+                "Asks single-hop factual trivia questions. "
+                "Answers must be short named entities or quantities. "
+                "Do not ask why/how/explain questions."
             ),
         ),
         Persona(
             name="Expert_Inquirer",
             role_description=(
-                "Asks difficult but single-hop factual questions similar to TriviaQA "
-                "or quiz-bowl factoids. Requires precise, unambiguous answers."
-                "Answer must be a single named entity (person name, year, organization, location, quantity, etc.) with no explanation. "
-                "Do not ask “why”, “explain”, “role”, “how”. "
-                "Produce only short factoid questions and answers."
-            ),
-        ),
-        Persona(
-            name="Casual_User",
-            role_description=(
-                "Asks straightforward factual questions in natural language. "
-                "Answer must be a single named entity (person name, year, organization, location, quantity, etc.) with no explanation. "
-                "Do not ask “why”, “explain”, “role”, “how”. "
-                "Produce only short factoid questions and answers."
+                "Asks difficult single-hop factual questions. "
+                "Answer must be a single precise entity or number."
             ),
         ),
     ]
-    
-    # keyphrase_extractor = KeyphrasesExtractor(llm=ragas_llm)
-    ner_extractor = NERExtractor(llm=ragas_llm)
-    transforms = [ner_extractor]
-    apply_transforms(kg, transforms=transforms)
 
+    # Query synthesizer
+    query_distribution = [
+        (SingleHopSpecificQuerySynthesizer(llm=ragas_llm), 1.0)
+    ]
+
+    # Generator
     generator = TestsetGenerator(
-            llm=ragas_llm,
-            embedding_model=ragas_embeddings,
-            knowledge_graph=kg,
-            persona_list=personas
-        )
+        llm=ragas_llm,
+        embedding_model=ragas_embeddings,
+        knowledge_graph=KnowledgeGraph(),
+        persona_list=personas,
+    )
 
-    
     testset = generator.generate_with_langchain_docs(
-        documents=[doc],
+        documents=documents,
         testset_size=num_questions,
         query_distribution=query_distribution,
     )
 
-    qa_pairs = []
-    for idx, sample in enumerate(testset.samples, 1):
-        print(f"Generated Sample {idx}:", sample.eval_sample.user_input)
+    if not testset.samples:
+        return []
+
+    # Output normalization
+    qa_pairs: List[dict] = []
+
+    for idx, sample in enumerate(testset.samples, start=1):
         qa_pairs.append(
             {
                 "id": str(idx),
@@ -317,6 +351,7 @@ def generate_qa_with_ragas(
         )
 
     return qa_pairs
+
 
 
 
@@ -380,3 +415,68 @@ def evaluate_qa_faithfulness(
         "faithfulness": float(result["faithfulness"][0]) if result["faithfulness"] else 0.0,
         "answer_relevancy": float(result["answer_relevancy"][0]) if result["answer_relevancy"] else 0.0,
     }
+
+
+ALLOWED_ENTITY_TYPES = {
+    "PERSON",
+    "ORG",
+    "GPE",
+    "LOC",
+    "DATE",
+    "TIME",
+    "QUANTITY",
+    "CARDINAL",
+}
+
+def filter_paragraphs_with_entities(
+    paragraphs: List[str],
+    ner_extractor,
+    *,
+    min_entities: int = 1,
+    allowed_entity_types: Set[str] = ALLOWED_ENTITY_TYPES,
+    min_tokens: int = 8,
+) -> List[Dict]:
+    """
+    Filter paragraphs using RAGAS NERExtractor.
+
+    Returns:
+        [
+            {
+                "text": paragraph,
+                "entities": {ENTITY_TYPE: [values]}
+            }
+        ]
+    """
+    filtered = []
+
+    for paragraph in paragraphs:
+        if not paragraph or len(paragraph.split()) < min_tokens:
+            continue
+        if paragraph.strip().endswith(":"):
+            continue
+        try:
+            entities = ner_extractor.extract(paragraph)
+        except Exception:
+            continue
+
+        if not entities:
+            continue
+
+        valid_entities = {
+            etype: vals
+            for etype, vals in entities.items()
+            if etype in allowed_entity_types and vals
+        }
+
+        entity_count = sum(len(v) for v in valid_entities.values())
+        if entity_count < min_entities:
+            continue
+
+        filtered.append(
+            {
+                "text": paragraph,
+                "entities": valid_entities,
+            }
+        )
+
+    return filtered

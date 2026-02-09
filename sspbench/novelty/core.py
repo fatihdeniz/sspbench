@@ -104,7 +104,7 @@ Output format: JSON list of dictionaries with keys: id, question, answer, catego
     return questions[0] if questions else []
 
 
-def gen_qa_pairs_augmented(paragraph, agent_info, additional_req, use_ragas=False, eval_model=None, embedding_model=None):
+def gen_qa_pairs_augmented(paragraph, agent_info, additional_req, paragraphs=None, use_ragas=False, eval_model=None, embedding_model=None):
     """
     Generate Q&A pairs from a paragraph using RAGAS or LLM-based generation.
 
@@ -122,7 +122,7 @@ def gen_qa_pairs_augmented(paragraph, agent_info, additional_req, use_ragas=Fals
     # Try RAGAS if requested and available
     if use_ragas and is_ragas_available():
         try:
-            qa_pairs = generate_qa_with_ragas(paragraph, agent_info, embedding_model, num_questions=3)
+            qa_pairs = generate_qa_with_ragas(paragraphs, agent_info, embedding_model, num_questions=3)
             
             # Add context to each QA pair
             for qa in qa_pairs:
@@ -207,7 +207,7 @@ def generate_long_questions(line_, agent_info, outfile_prefix, generate_qa_func=
         sig = inspect.signature(generate_qa_func)
         if 'use_ragas' in sig.parameters:
             json_questions = generate_qa_func(
-                combined_paragraph, agent_info, line_.get('additional_requirement', ''),
+                combined_paragraph, agent_info, line_.get('additional_requirement', ''), paragraphs=obs,
                 use_ragas=use_ragas, eval_model=eval_model, embedding_model=embedding_model
             )
         else:
@@ -222,7 +222,7 @@ def generate_long_questions(line_, agent_info, outfile_prefix, generate_qa_func=
         line['gold_answer'] = json_question['answer']
         line['wiki_entity'] = entity
         line['wiki_url'] = wiki_url
-        line['paragraph_idx'] = 0  # Single combined context
+        # line['paragraph_idx'] = 0  # Single combined context
         
         # Add context if available
         if 'context' in json_question:
