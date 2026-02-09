@@ -122,7 +122,7 @@ def gen_qa_pairs_augmented(paragraph, agent_info, additional_req, use_ragas=Fals
     # Try RAGAS if requested and available
     if use_ragas and is_ragas_available():
         try:
-            qa_pairs = generate_qa_with_ragas(paragraph, agent_info, embedding_model, num_questions=10)
+            qa_pairs = generate_qa_with_ragas(paragraph, agent_info, embedding_model, num_questions=3)
             
             # Add context to each QA pair
             for qa in qa_pairs:
@@ -142,7 +142,7 @@ def gen_qa_pairs_augmented(paragraph, agent_info, additional_req, use_ragas=Fals
             print(f"RAGAS generation failed, falling back to LLM: {e}")
     
     # Fallback to original LLM-based generation
-    context = """Conditioned on the wikipedia paragraph, you will generate 10 question and answer pairs.
+    context = """Conditioned on the wikipedia paragraph, you will generate 3 question and answer pairs.
 Make sure not to ask subjective questions, and let the question's correct answer be a concise short phrase.
 Make sure that the question you selected is answerable by the given wikipedia paragraph, and make the answer concise. It's recommended to use the exact text from the paragraph as answers.
 Make sure that the questions are also answerable by an expert **without the wikipedia paragraph**. For example, dont ask questions that are too specific to the paragraph, like "what are the three locations mentioned in the paragraph?". Or "who's the most famous soldier, according to the paragraph?".
@@ -197,7 +197,7 @@ def generate_long_questions(line_, agent_info, outfile_prefix, generate_qa_func=
 
     # Filter and limit observations
     obs = [p for p in obs if len(p.split(" ")) > 2 and len(p.split(".")) > 1]
-    obs = obs[:5] 
+    obs = obs[:5]
 
     combined_paragraph = "\n\n".join(obs)
     
@@ -243,7 +243,7 @@ def generate_long_questions(line_, agent_info, outfile_prefix, generate_qa_func=
 
 def generate_full_qa(theme, agent_info, history, iters, outfile_prefix='att1',
                     historical_psg=None, category_gen_func=None, generate_qa_func=None,
-                    acc_target="0.1--0.4"):
+                    acc_target="0.1--0.4", max_categories: int = 5):
     """
     Main function to generate questions for a theme.
 
@@ -280,7 +280,7 @@ def generate_full_qa(theme, agent_info, history, iters, outfile_prefix='att1',
         json.dump(category_json, f, indent=2)
 
     full_questions = []
-    for line_ in category_json[:5]:  # Use up to 5 categories
+    for line_ in category_json[:max_categories]:
         questions = generate_qa_func(line_, agent_info, outfile_prefix + f"_{line_['id']}",
                                     historical_psg=historical_psg)
         full_questions.extend(questions)

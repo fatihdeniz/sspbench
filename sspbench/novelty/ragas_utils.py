@@ -229,6 +229,7 @@ def generate_qa_with_ragas(
     from ragas.testset.graph import KnowledgeGraph, Node, NodeType
     from ragas.testset.synthesizers import SingleHopSpecificQuerySynthesizer
     from ragas.testset.transforms import HeadlinesExtractor, HeadlineSplitter, KeyphrasesExtractor, apply_transforms
+    from ragas.testset.transforms.extractors import NERExtractor
     from ragas.testset.persona import Persona
 
     if embedding_model is None:
@@ -260,6 +261,8 @@ def generate_qa_with_ragas(
             role_description=(
                 "Asks single-hop factual trivia questions with short answers. "
                 "Focuses on concrete facts such as names, dates, places, or quantities."
+                "Do not ask “why”, “explain”, “role”, “how”. "
+                "Produce only short factoid questions and answers."
             ),
         ),
         Persona(
@@ -267,19 +270,25 @@ def generate_qa_with_ragas(
             role_description=(
                 "Asks difficult but single-hop factual questions similar to TriviaQA "
                 "or quiz-bowl factoids. Requires precise, unambiguous answers."
+                "Answer must be a single named entity (person name, year, organization, location, quantity, etc.) with no explanation. "
+                "Do not ask “why”, “explain”, “role”, “how”. "
+                "Produce only short factoid questions and answers."
             ),
         ),
         Persona(
             name="Casual_User",
             role_description=(
                 "Asks straightforward factual questions in natural language. "
-                "Answers must be short and exact. No explanations or reasoning."
+                "Answer must be a single named entity (person name, year, organization, location, quantity, etc.) with no explanation. "
+                "Do not ask “why”, “explain”, “role”, “how”. "
+                "Produce only short factoid questions and answers."
             ),
         ),
     ]
     
-    keyphrase_extractor = KeyphrasesExtractor(llm=ragas_llm)
-    transforms = [keyphrase_extractor]
+    # keyphrase_extractor = KeyphrasesExtractor(llm=ragas_llm)
+    ner_extractor = NERExtractor(llm=ragas_llm)
+    transforms = [ner_extractor]
     apply_transforms(kg, transforms=transforms)
 
     generator = TestsetGenerator(
