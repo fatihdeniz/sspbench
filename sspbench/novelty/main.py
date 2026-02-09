@@ -93,7 +93,7 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
             category_gen_func=_refine_categories_targetacc_augmented,
             generate_qa_func=qa_generator_with_ragas,
             acc_target=acc_target,
-            max_categories=5
+            max_categories=10
         )
 
         # Step 3: load generated questions
