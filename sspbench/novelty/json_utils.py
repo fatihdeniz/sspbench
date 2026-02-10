@@ -55,5 +55,7 @@ def extract_json_v2(json_text, outfilename):
                 json.dump(json_dict, f, indent=2)
 
     else:
-        assert False, "fail to output json file."
+        # No JSON code block found, show the actual response for debugging
+        print(f"ERROR: No ```json block found in response. Response content:\n{response[:500]}")
+        raise ValueError(f"Failed to extract JSON from response. Response doesn't contain '```json' marker. First 200 chars: {response[:200]}")
     return json_dict

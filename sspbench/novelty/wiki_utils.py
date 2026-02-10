@@ -75,7 +75,7 @@ def search_step(entity, output_more=False, _visited=None):
 
     normalized_entity = entity.strip().lower()
     if normalized_entity in _visited:
-        print(f"Stopping Wikipedia search recursion for '{entity}' (already attempted)")
+        print(f"⚠️  Stopping Wikipedia search recursion for '{entity}' (already attempted)")
         return [], entity, ""
 
     _visited.add(normalized_entity)

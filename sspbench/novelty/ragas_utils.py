@@ -148,40 +148,24 @@ class CustomRagasLLM(BaseRagasLLM):
         if isinstance(prompt, tuple) and len(prompt) >= 2:
             prompt = prompt[1]
         
-        if n == 1:
+        # CRITICAL FIX: Must return exactly n generations, not always 1
+        texts = []
+        for i in range(n):
+            # Use temperature variation to get diverse outputs
+            temp = self.temperature + (i * 0.2) if n > 1 else self.temperature
+            temp = min(temp, 2.0)  # Cap at 2.0
+            
             text = gen_from_prompt(
                 self.model,
                 prompt,
-                temperature=self.temperature,
+                temperature=temp,
                 max_tokens=self.max_tokens,
             )
             if not isinstance(text, str):
                 text = str(text)
-            return LLMResult([text])
-        else:
-            texts = []
-            base_temp = self.temperature
-            
-            prompt_variations = [
-                prompt,  # original
-                f"Please answer this question: {prompt}",  # more formal
-                f"Respond to: {prompt}"  # different framing
-            ]
-            
-            for i in range(n):
-                varied_prompt = prompt_variations[i % len(prompt_variations)]
-                temp_variation = [0.1, 0.7, 1.5][i % 3] if n >= 3 else base_temp
-                
-                text = gen_from_prompt(
-                    self.model,
-                    varied_prompt,
-                    temperature=temp_variation,
-                    max_tokens=self.max_tokens,
-                )
-                if not isinstance(text, str):
-                    text = str(text)
-                texts.append(text)
-            return LLMResult(texts)
+            texts.append(text)
+        
+        return LLMResult(texts)
 
     async def agenerate_text(self, prompt: str, n: int = 1, **kwargs) -> LLMResult:
         return self.generate_text(prompt, n, **kwargs)
@@ -233,11 +217,18 @@ def generate_qa_with_ragas(
 
     from langchain_core.documents import Document
     from ragas.testset import TestsetGenerator
-    from ragas.testset.graph import KnowledgeGraph, Node, NodeType
+    from ragas.testset.graph import KnowledgeGraph
     from ragas.testset.synthesizers import SingleHopSpecificQuerySynthesizer
-    from ragas.testset.transforms import apply_transforms
-    from ragas.testset.transforms.extractors import NERExtractor
     from ragas.testset.persona import Persona
+    from ragas.testset.transforms import apply_transforms
+    from ragas.testset.transforms import (
+        HeadlinesExtractor,
+        HeadlineSplitter,
+        EmbeddingExtractor,
+        CosineSimilarityBuilder,
+        OverlapScoreBuilder,
+    )
+    from ragas.testset.transforms.extractors import NERExtractor
 
     if not paragraph:
         return []
@@ -248,54 +239,32 @@ def generate_qa_with_ragas(
             raise ValueError("`embedding_model` must be provided explicitly or via agent_info.")
         embedding_model = agent_info.embedding_model
 
-    
+    # Create single LLM and Embedding model instances to reuse
     ragas_llm = CustomRagasLLM(agent_info, temperature=0.7)
     ragas_embeddings = CustomRagasEmbeddings(embedding_model)
 
-    # Knowledge graph
-    kg = KnowledgeGraph()
-
+    # Create document
     doc = Document(
         page_content=paragraph,
         metadata={"source": "ragas_entity_generation"},
     )
 
-    kg.nodes.append(
-        Node(
-            type=NodeType.DOCUMENT,
-            properties={
-                "page_content": doc.page_content,
-                "document_metadata": doc.metadata,
-            },
-        )
-    )
-
-    ner_extractor = NERExtractor(llm=ragas_llm)
+    # # Create KnowledgeGraph from documents
+    # kg = KnowledgeGraph.from_langchain_documents([doc])
     
-    # filtered = filter_paragraphs_with_entities(
-    #     paragraphs,
-    #     ner_extractor=ner_extractor,
-    #     min_entities=1,
-    # )
-
-    # if not filtered:
-    #     return []
-
-    # documents = [
-    #         Document(
-    #             page_content=item["text"],
-    #             metadata={
-    #                 "source": "novelty_engine",
-    #                 "entities": item["entities"],
-    #             },
-    #         )
-    #         for item in filtered
-    #     ]
-
-    apply_transforms(
-        kg,
-        transforms=[ner_extractor],
-    )
+    # # Define and apply transforms manually to the KG
+    # transforms = [
+    #     HeadlinesExtractor(llm=ragas_llm),
+    #     HeadlineSplitter(),
+    #     NERExtractor(llm=ragas_llm),
+    #     EmbeddingExtractor(embedding_model=ragas_embeddings),
+    #     CosineSimilarityBuilder(),
+    #     OverlapScoreBuilder(),
+    # ]
+    
+    # print(f"   Applying transforms to KnowledgeGraph...")
+    # apply_transforms(kg, transforms=transforms)
+    # print(f"   KnowledgeGraph has {len(kg.nodes)} nodes after transforms")
 
     # Personas (factoid-only)
     personas = [
@@ -321,11 +290,10 @@ def generate_qa_with_ragas(
         (SingleHopSpecificQuerySynthesizer(llm=ragas_llm), 1.0)
     ]
 
-    # Generator
+    # Generator with pre-transformed KnowledgeGraph (no transforms passed here)
     generator = TestsetGenerator(
         llm=ragas_llm,
         embedding_model=ragas_embeddings,
-        knowledge_graph=KnowledgeGraph(),
         persona_list=personas,
     )
 
@@ -333,9 +301,19 @@ def generate_qa_with_ragas(
         documents=[doc],
         testset_size=num_questions,
         query_distribution=query_distribution,
+        transforms=[
+            HeadlinesExtractor(llm=ragas_llm),
+            HeadlineSplitter(),
+            NERExtractor(llm=ragas_llm),
+            EmbeddingExtractor(embedding_model=ragas_embeddings),
+            CosineSimilarityBuilder(),
+            OverlapScoreBuilder(),
+        ],
     )
+    print(f"   RAGAS returned testset with {len(testset.samples) if testset.samples else 0} samples")
 
     if not testset.samples:
+        print(f"⚠️  RAGAS generated 0 samples for this paragraph")
         return []
 
     # Output normalization

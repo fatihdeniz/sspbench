@@ -125,6 +125,8 @@ def gen_qa_pairs_augmented(paragraph, agent_info, additional_req, use_ragas=Fals
         try:
             qa_pairs = generate_qa_with_ragas(paragraph, agent_info, embedding_model, num_questions=3)
             
+            print(f"✓ RAGAS generated {len(qa_pairs)} questions")
+            
             # Add context to each QA pair
             for qa in qa_pairs:
                 qa['context'] = paragraph
@@ -140,7 +142,9 @@ def gen_qa_pairs_augmented(paragraph, agent_info, additional_req, use_ragas=Fals
             
             return qa_pairs
         except Exception as e:
-            print(f"RAGAS generation failed, falling back to LLM: {e}")
+            print(f"✗ RAGAS generation failed, falling back to LLM: {e}")
+            import traceback
+            traceback.print_exc()
     
     # Fallback to original LLM-based generation
     context = """Conditioned on the wikipedia paragraph, you will generate 3 question and answer pairs.
@@ -194,13 +198,19 @@ def generate_long_questions(line_, agent_info, outfile_prefix, generate_qa_func=
     obs, entity, wiki_url = search_step(line_['category'])
 
     if not obs:
+        print(f"⚠️  No Wikipedia content found for '{line_['category']}'")
         return []
 
     # Filter and limit observations
     obs = [p for p in obs if len(p.split(" ")) > 2 and len(p.split(".")) > 1]
     obs = obs[:5]
+    
+    if not obs:
+        print(f"⚠️  All Wikipedia content filtered out for '{line_['category']}'")
+        return []
 
     combined_paragraph = "\n\n".join(obs)
+    print(f"   Wikipedia content: {len(combined_paragraph)} chars from {len(obs)} paragraphs")
     
     full_lst = []
     try:
@@ -282,8 +292,10 @@ def generate_full_qa(theme, agent_info, history, iters, outfile_prefix='att1',
 
     full_questions = []
     for line_ in category_json[:max_categories]:
+        print(f"\n🔍 Generating questions for category {line_['id']}: {line_['category']}")
         questions = generate_qa_func(line_, agent_info, outfile_prefix + f"_{line_['id']}",
                                     historical_psg=historical_psg)
+        print(f"   Generated {len(questions)} questions for this category")
         full_questions.extend(questions)
 
     # Save questions
