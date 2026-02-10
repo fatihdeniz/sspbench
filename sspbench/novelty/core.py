@@ -44,7 +44,7 @@ Output format: JSON list of dictionaries with keys: id, category, additional_req
 """
     response = gen_from_prompt(agent_model, context, temperature=0.7, max_tokens=1000)
     categories = extract_json_v2(response, None)
-    return categories[0] if categories else []
+    return categories
 
 
 def _refine_categories_random(theme, agent_model, history, iteration, outfile_prefix='att1'):
@@ -339,7 +339,7 @@ DO NOT REPEAT any of the categories that you have already explored.
 def _generate_categories_targetacc_augmented(theme, agent_info, history, iters, outfile_prefix='att1', acc_target="0.3--0.5"):
     if os.path.exists(f"{outfile_prefix}.categories.json"):
         print("FOUND categories.json")
-        return json.load(open(f"{outfile_prefix}.categories.json", "r"))[0]
+        return json.load(open(f"{outfile_prefix}.categories.json", "r"))
     agent_model = agent_info
     context = """ Your goal is to come up with a list of categories for knowledge intensive questions that achieve the target accuracy of {ACC_TARGET}.
 The categories should be diverse and cover important topics, under the theme of THEME. 
@@ -387,14 +387,12 @@ In later iterations you should receive as input the categories that you have alr
         out_handle.write(response)
 
     extracted_json = extract_json_v2(response, f"{outfile_prefix}.categories.json")
-    if len(extracted_json) == 1:
-        extracted_json = extracted_json[0]
     return extracted_json
 
 def _refine_categories(theme, context, agent_info, history, iters, candidate_lst, outfile_prefix='att1'):
     if os.path.exists(f"{outfile_prefix}.categories.json"):
         print("FOUND categories.json")
-        return json.load(open(f"{outfile_prefix}.categories.json", "r"))[0]
+        return json.load(open(f"{outfile_prefix}.categories.json", "r"))
     agent_model = agent_info
     context = context.replace("THEME", theme)
     if iters is None:
@@ -413,6 +411,4 @@ def _refine_categories(theme, context, agent_info, history, iters, candidate_lst
         out_handle.write(response)
 
     extracted_json = extract_json_v2(response, f"{outfile_prefix}.categories.json")
-    if len(extracted_json) == 1:
-        extracted_json = extracted_json[0]
     return extracted_json
