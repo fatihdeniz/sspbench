@@ -31,6 +31,11 @@ def get_default_sampling_params():
     from vllm import SamplingParams
     return SamplingParams(**DEFAULT_SAMPLING_PARAMS)
 
+# Quality control parameters for RAGAS question generation
+QUALITY_THRESHOLD = 6  # Minimum quality score (out of 10) to accept a question
+MAX_REGENERATION_ROUNDS = 3  # Maximum number of regeneration attempts
+FEEDBACK_SUMMARY_LIMIT = 5  # Number of failure reasons to include in feedback
+
 
 FACTUALITY_QUESTION_GENERATOR_PROMPT = """
 You are generating questions for a factuality hallucination evaluation.

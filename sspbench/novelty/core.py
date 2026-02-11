@@ -123,7 +123,7 @@ def gen_qa_pairs_augmented(paragraph, agent_info, additional_req, use_ragas=Fals
     # Try RAGAS if requested and available
     if use_ragas and is_ragas_available():
         try:
-            qa_pairs = generate_qa_with_ragas(paragraph, agent_info, embedding_model, num_questions=3)
+            qa_pairs = generate_qa_with_ragas(paragraph, agent_info, embedding_model, num_questions=3, eval_model=eval_model)
             
             print(f"✓ RAGAS generated {len(qa_pairs)} questions")
             

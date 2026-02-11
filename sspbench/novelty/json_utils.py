@@ -45,6 +45,24 @@ def safe_eval(s):
     raise ValueError(f"Could not parse as JSON. First 200 chars: {s[:200]}")
 
 
+def parse_json_response(response, fallback=None):
+    if not response or not response.strip():
+        return fallback
+    try:
+        return safe_eval(response)
+    except Exception:
+        pass
+    
+    try:
+        extracted = extract_json_v2(response, None)
+        if extracted:
+            return extracted[0] if len(extracted) == 1 else extracted
+    except Exception:
+        pass
+    
+    return fallback
+
+
 def extract_json_v2(json_text, outfilename):
     response = json_text.replace("TERMINATE", "")
     
