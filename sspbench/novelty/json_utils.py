@@ -48,43 +48,55 @@ def safe_eval(s):
 def extract_json_v2(json_text, outfilename):
     response = json_text.replace("TERMINATE", "")
     
-    if "```json" not in response:
-        raise ValueError(f"No ```json block found. First 200 chars: {response[:200]}")
-    
-    # Extract JSON code blocks
-    extracted_json = extract_code(response)
-    
-    if not extracted_json:
-        raise ValueError("extract_code returned empty list")
-    
     combined_json = []
     errors = []
     
-    # Try to parse each extracted code block
-    for idx, (lang, code_block) in enumerate(extracted_json):
-        try:
-            parsed = safe_eval(code_block)
-            # Ensure parsed result is a list
-            if isinstance(parsed, list):
-                combined_json.extend(parsed)
-            else:
-                combined_json.append(parsed)
-        except Exception as e:
-            errors.append(f"Block {idx}: {str(e)[:150]}")
-            # Save problematic block for debugging
-            if outfilename:
-                error_file = outfilename.replace('.json', f'_error_block_{idx}.txt')
+    # Try to extract JSON code blocks
+    try:
+        if "```" in response:
+            extracted_json = extract_code(response)
+            
+            # Try to parse each extracted code block
+            for idx, (lang, code_block) in enumerate(extracted_json):
                 try:
-                    with open(error_file, 'w') as f:
-                        f.write(f"Error: {e}\n\n")
-                        f.write(f"Code block:\n{code_block}\n")
-                except:
-                    pass
+                    parsed = safe_eval(code_block)
+                    # Ensure parsed result is a list
+                    if isinstance(parsed, list):
+                        combined_json.extend(parsed)
+                    else:
+                        combined_json.append(parsed)
+                except Exception as e:
+                    errors.append(f"Block {idx}: {str(e)[:150]}")
+                    # Save problematic block for debugging
+                    if outfilename:
+                        error_file = outfilename.replace('.json', f'_error_block_{idx}.txt')
+                        try:
+                            with open(error_file, 'w') as f:
+                                f.write(f"Error: {e}\n\n")
+                                f.write(f"Code block:\n{code_block}\n")
+                        except:
+                            pass
+    except Exception as e:
+        errors.append(f"extract_code failed: {str(e)[:150]}")
+    
+    # Fallback: try to find JSON array pattern in text
+    if not combined_json:
+        import re
+        json_pattern = r'\[\s*\{.*?\}\s*\]'
+        matches = re.findall(json_pattern, response, re.DOTALL)
+        for match in matches:
+            try:
+                parsed = safe_eval(match)
+                if isinstance(parsed, list):
+                    combined_json.extend(parsed)
+                    break
+            except:
+                pass
     
     # If we couldn't parse any blocks, raise error with details
     if not combined_json:
-        error_summary = "\n".join(errors)
-        raise ValueError(f"Failed to parse any JSON blocks.\n{error_summary}")
+        error_summary = "\n".join(errors) if errors else "No JSON found"
+        raise ValueError(f"Failed to parse any JSON blocks.\n{error_summary}\nFirst 300 chars: {response[:300]}")
     
     json_dict = _flatten_to_dict_list(combined_json)
     
