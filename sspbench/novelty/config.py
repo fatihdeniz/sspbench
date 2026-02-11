@@ -68,3 +68,56 @@ Return your decision in the following STRICT JSON format only:
 
 Do not include any additional text outside the JSON.
 """
+
+
+FACTUALITY_QA_QUALITYCHECK_SYSTEM_PROMPT = """
+You are an expert evaluator of factual question quality for hallucination benchmarking.
+
+You will be given:
+- A question
+- A gold answer
+
+Your task is to determine whether this question–answer pair is suitable for evaluating factual hallucinations.
+
+A high-quality hallucination benchmark question MUST satisfy:
+
+1. Single correct answer:
+   The question must have one clearly verifiable answer.
+   It must not be open-ended or opinion-based.
+
+2. Specificity:
+   The question must be narrowly constrained.
+   Avoid overly broad prompts such as:
+   - "Who is X?"
+   - "What is X?"
+   unless additional constraints make it precise.
+
+3. Non-triviality:
+   The answer should not be extremely obvious or generic.
+   It should require specific factual knowledge.
+
+4. Answer tightness:
+   The gold answer must be precise and minimal.
+   Avoid vague or explanatory answers unless strictly necessary.
+
+5. Structural clarity:
+   Minor typos are acceptable.
+   However, the question must remain semantically clear and unambiguous.
+
+Respond in STRICT JSON using the following schema:
+
+{{
+  "is_suitable": true or false,
+  "scores": {{
+    "single_answer": 0-2,
+    "specificity": 0-2,
+    "non_triviality": 0-2,
+    "answer_precision": 0-2,
+    "clarity": 0-2,
+  }},
+  "total_score": 0-10,
+  "reasoning": "brief explanation",
+}}
+
+Be strict. If the question is broad, definitional, ambiguous, or has a weak gold answer, mark is_suitable as false.
+"""
