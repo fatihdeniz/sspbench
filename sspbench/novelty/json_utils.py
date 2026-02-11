@@ -46,17 +46,65 @@ def safe_eval(s):
 
 
 def parse_json_response(response, fallback=None):
+    """
+    Parse JSON from LLM response with multiple strategies.
+    
+    Handles:
+    - Plain JSON (with or without markdown)
+    - JSON in code blocks (```json ... ```)
+    - JSON5 syntax (trailing commas, single quotes)
+    - Malformed JSON (returns fallback)
+    
+    Args:
+        response: The raw LLM response text
+        fallback: Default value to return if parsing fails (default: None)
+        
+    Returns:
+        Parsed dict/list, or fallback if parsing fails
+    """
     if not response or not response.strip():
         return fallback
+    
+    response_clean = response.replace("TERMINATE", "").strip()
+    
+    # Strategy 1: Try direct JSON parsing (handles plain JSON)
     try:
-        return safe_eval(response)
+        return safe_eval(response_clean)
     except Exception:
         pass
     
+    # Strategy 2: Try extracting from code blocks
     try:
-        extracted = extract_json_v2(response, None)
-        if extracted:
-            return extracted[0] if len(extracted) == 1 else extracted
+        if "```" in response_clean:
+            extracted_json = extract_code(response_clean)
+            if extracted_json:
+                # Try first code block
+                _, code_block = extracted_json[0]
+                # Clean any remaining fence markers
+                code_block = code_block.strip()
+                if code_block.startswith("```"):
+                    # Remove fence markers if still present
+                    lines = code_block.split('\n')
+                    if lines[0].startswith("```"):
+                        lines = lines[1:]
+                    if lines and lines[-1].strip() == "```":
+                        lines = lines[:-1]
+                    code_block = '\n'.join(lines)
+                
+                parsed = safe_eval(code_block)
+                if isinstance(parsed, list) and len(parsed) == 1:
+                    return parsed[0]
+                return parsed
+    except Exception:
+        pass
+    
+    # Strategy 3: Regex fallback for JSON arrays
+    try:
+        import re
+        json_pattern = r'\[\s*\{.*?\}\s*\]'
+        matches = re.findall(json_pattern, response_clean, re.DOTALL)
+        if matches:
+            return safe_eval(matches[0])
     except Exception:
         pass
     
@@ -64,7 +112,7 @@ def parse_json_response(response, fallback=None):
 
 
 def extract_json_v2(json_text, outfilename):
-    response = json_text.replace("TERMINATE", "")
+    response = json_text.replace("TERMINATE", "").strip()
     
     combined_json = []
     errors = []
@@ -77,6 +125,17 @@ def extract_json_v2(json_text, outfilename):
             # Try to parse each extracted code block
             for idx, (lang, code_block) in enumerate(extracted_json):
                 try:
+                    # Clean any remaining fence markers
+                    code_block = code_block.strip()
+                    if code_block.startswith("```"):
+                        # Remove fence markers if still present
+                        lines = code_block.split('\n')
+                        if lines[0].startswith("```"):
+                            lines = lines[1:]
+                        if lines and lines[-1].strip() == "```":
+                            lines = lines[:-1]
+                        code_block = '\n'.join(lines)
+                    
                     parsed = safe_eval(code_block)
                     # Ensure parsed result is a list
                     if isinstance(parsed, list):

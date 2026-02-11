@@ -15,7 +15,7 @@ from llm_config import LLMConfig
 from conversation import Conversation
 from vllm import SamplingParams
 
-from .config import DEFAULT_SAMPLING_PARAMS
+from ..novelty.config import DEFAULT_SAMPLING_PARAMS
 
 # Global cache for loaded models to avoid reloading
 _MODEL_CACHE = {}

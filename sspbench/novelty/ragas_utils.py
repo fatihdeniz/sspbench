@@ -3,7 +3,7 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 from collections import Counter
 
-from .llm_utils import gen_from_prompt
+from ..utils.llm_utils import gen_from_prompt
 from .quality import evaluate_question_quality
 from .config import QUALITY_THRESHOLD, MAX_REGENERATION_ROUNDS, FEEDBACK_SUMMARY_LIMIT
 

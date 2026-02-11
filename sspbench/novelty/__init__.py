@@ -7,9 +7,9 @@ using Wikipedia-based knowledge and iterative refinement.
 
 from .config import *
 from .wiki_utils import *
-from .llm_utils import *
+from ..utils.llm_utils import *
 from .evaluation import *
-from .variations import *
+from ..generators.variations import *
 from .core import *
 from .main import *
 

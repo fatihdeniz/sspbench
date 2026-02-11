@@ -1,4 +1,4 @@
-from .llm_utils import gen_from_prompt
+from ..utils.llm_utils import gen_from_prompt
 from .config import FACTUALITY_QA_QUALITYCHECK_SYSTEM_PROMPT
 from .json_utils import parse_json_response
 

@@ -8,7 +8,7 @@ import os
 import tqdm
 from collections import defaultdict
 
-from .llm_utils import gen_from_prompt
+from ..utils.llm_utils import gen_from_prompt
 from .json_utils import extract_json_v2
 
 try:

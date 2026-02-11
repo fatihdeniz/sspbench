@@ -4,7 +4,7 @@ Functions for applying semantic-preserving variations to questions.
 """
 
 import copy
-from .llm_utils import gen_from_prompt
+from ..utils.llm_utils import gen_from_prompt
 
 
 def apply_variations_to_dataset(questions, model):

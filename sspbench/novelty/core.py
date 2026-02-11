@@ -8,7 +8,7 @@ import json
 import copy
 from collections import defaultdict
 
-from .llm_utils import gen_from_prompt
+from ..utils.llm_utils import gen_from_prompt
 from .wiki_utils import search_step, search_related_pages
 from .config import DEFAULT_JSON_MESSAGE
 from .ragas_utils import generate_qa_with_ragas, is_ragas_available, evaluate_qa_faithfulness

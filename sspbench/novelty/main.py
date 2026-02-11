@@ -10,8 +10,8 @@ from types import SimpleNamespace
 
 from .core import generate_full_qa, _refine_categories_targetacc_augmented, generate_long_questions
 from .evaluation import solve_and_compare_questions, get_summary_of_results, get_acc_lst
-from .variations import apply_variations_to_dataset
-from .llm_utils import create_model_from_config
+from ..generators.variations import apply_variations_to_dataset
+from ..utils.llm_utils import create_model_from_config
 from .config import FACTUALITY_QA_SCOPE_JUDGE_PROMPT
 from ..evaluators import ScopeEvaluator
 
