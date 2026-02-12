@@ -242,10 +242,16 @@ def generate_long_questions(line_, agent_info, outfile_prefix, generate_qa_func=
         # Add RAGAS metrics if available
         if 'faithfulness' in json_question:
             line['faithfulness'] = json_question['faithfulness']
+        if 'answer_relevancy' in json_question:
+            line['answer_relevancy'] = json_question['answer_relevancy']
         if 'answerability' in json_question:
             line['answerability'] = json_question['answerability']
         if 'ragas_type' in json_question:
             line['ragas_type'] = json_question['ragas_type']
+        
+        # Add quality check metadata if available
+        if 'quality' in json_question:
+            line['quality'] = json_question['quality']
         
         full_lst.append(line)
 
@@ -390,8 +396,7 @@ In later iterations you should receive as input the categories that you have alr
         context += "Please start with iteration 1."
     else:
         context += "\n".join(history) + "Please start with iteration {}.".format(iters)
-    context = DEFAULT_JSON_MESSAGE + context
-    response = gen_from_prompt(agent_model, context, temperature=0.0, max_tokens=2000)
+    response = gen_from_prompt(agent_model, context, temperature=0.0, max_tokens=2000, system_prompt=DEFAULT_JSON_MESSAGE)
 
     with open(f"{outfile_prefix}.full_thoughts.txt", 'w', encoding='utf-8') as out_handle:
         out_handle.write(context)
@@ -413,9 +418,8 @@ def _refine_categories(theme, context, agent_info, history, iters, candidate_lst
         context += "Please start with iteration 1." + "Here are the category candidates to select from (delimited by ||): " + " || ".join(candidate_lst) + "\n"
     else:
         context += "\n".join(history) + "Please start with iteration {}.".format(iters) + "Here are the category candidates to select from (delimited by ||): " + "||".join(candidate_lst) + "\n"
-    context = DEFAULT_JSON_MESSAGE + context
     # extract the json file from the message
-    response = gen_from_prompt(agent_model, context, temperature=0.0, max_tokens=2000)
+    response = gen_from_prompt(agent_model, context, temperature=0.0, max_tokens=2000, system_prompt=DEFAULT_JSON_MESSAGE)
 
     with open(f"{outfile_prefix}.full_thoughts.txt", 'w', encoding='utf-8') as out_handle:
         out_handle.write(context)

@@ -13,7 +13,7 @@ def evaluate_question_quality(question: str, answer: str, eval_model) -> dict:
     Returns:
         Dictionary with is_suitable, scores, total_score, and reasoning
     """
-    prompt = FACTUALITY_QA_QUALITYCHECK_SYSTEM_PROMPT + f"""
+    prompt = f"""Please evaluate the following question-answer pair for hallucination benchmark suitability according to the criteria provided:
 
 Question:
 {question}
@@ -26,7 +26,8 @@ Gold Answer:
         eval_model,
         prompt,
         temperature=0.0,
-        max_tokens=1000
+        max_tokens=1000,
+        system_prompt=FACTUALITY_QA_QUALITYCHECK_SYSTEM_PROMPT
     )
 
     # Parse JSON response with fallback

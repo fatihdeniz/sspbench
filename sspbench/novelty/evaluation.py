@@ -273,10 +273,16 @@ reason: identical numbers ## true
 
         pred = line_pred['test_taker_response'].strip()
         gold = line_gold[gold_ans_key].strip()
-        q_str = f"Question {idx+1}: {line_gold['question']}\npred={pred} || gold={gold}\nreason:"
-        context = context_str + q_str
+        q_str = f"Compare this prediction against the gold answer:\n\nQuestion {idx+1}: {line_gold['question']}\npred={pred} || gold={gold}\nreason:"
 
-        response = gen_from_prompt(model=agent_model_info, prompt=context, temperature=0.0, max_tokens=3000)
+        # Separate instruction (system prompt) from data (user message)
+        response = gen_from_prompt(
+            model=agent_model_info, 
+            prompt=q_str,  # User message with actual data
+            temperature=0.0, 
+            max_tokens=3000,
+            system_prompt=context_str  # System prompt with instructions
+        )
 
         line['reasons'] = response.strip()
         
