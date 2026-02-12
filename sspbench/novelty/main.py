@@ -17,7 +17,7 @@ from ..evaluators import ScopeEvaluator
 
 
 def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowledge",
-                    max_iterations=3, acc_target="0.1--0.4", engine="novelty", use_ragas=False, embedding_model=None):
+                    max_iterations=3, acc_target="0.1--0.4", engine="novelty", use_ragas=False, embedding_model=None, output_dir=None):
     """
     Run the novelty engine for dynamic benchmark generation.
 
@@ -31,6 +31,7 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
         engine: Engine name for file organization
         use_ragas: Whether to use RAGAS for question generation (default: False)
         embedding_model: Embedding model for RAGAS (optional, defaults to SentenceTransformer)
+        output_dir: Custom output directory (optional, defaults to data/<engine>)
 
     Returns:
         History of results across iterations
@@ -38,7 +39,11 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
     # Get the project root directory (parent of sspbench package)
     package_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     project_root = os.path.dirname(package_dir)
-    data_dir = os.path.join(project_root, "data", engine)
+    
+    if output_dir:
+        data_dir = output_dir
+    else:
+        data_dir = os.path.join(project_root, "data", engine)
 
     history_dict = []
     historical_psg = []

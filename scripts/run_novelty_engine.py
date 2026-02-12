@@ -102,6 +102,8 @@ def parse_args():
                         help='CUDA device ID (default: 6)')
     
     # Output options
+    parser.add_argument('--output-dir',
+                        help='Custom output directory (default: data/<engine>)')
     parser.add_argument('--save-txt', action='store_true',
                         help='Save all questions to a text file')
     parser.add_argument('--analyze-results', action='store_true',
@@ -193,6 +195,7 @@ def run_engine(args, agent_model, test_model, eval_model, embedding_model):
     logger.info(f"Accuracy target: {args.acc_target}")
     logger.info(f"RAGAS enabled: {not args.no_ragas}")
     logger.info(f"Seed index: {args.seed_index_path}")
+    logger.info(f"Output directory: {args.output_dir if args.output_dir else f'data/{args.engine}'}")
     logger.info("="*80)
     
     # Create orchestrator
@@ -208,6 +211,7 @@ def run_engine(args, agent_model, test_model, eval_model, embedding_model):
             eval_model=eval_model,
             max_iterations=args.max_iterations,
             acc_target=args.acc_target,
+            output_dir=args.output_dir,
             engine=args.engine,
             use_ragas=not args.no_ragas,
             embedding_model=embedding_model,
@@ -251,7 +255,10 @@ def analyze_results(args, history):
 
 def save_questions(args):
     """Load and optionally save generated questions."""
-    data_dir = project_root / 'data' / args.engine
+    if args.output_dir:
+        data_dir = Path(args.output_dir)
+    else:
+        data_dir = project_root / 'data' / args.engine
     all_questions = []
     
     logger.info("\n" + "="*80)
@@ -338,10 +345,16 @@ def main():
         # Save questions
         all_questions = save_questions(args)
         
+        # Determine output location for final message
+        if args.output_dir:
+            output_location = args.output_dir
+        else:
+            output_location = project_root / 'data' / args.engine
+        
         logger.info("\n" + "="*80)
         logger.info("✓ SCRIPT COMPLETED SUCCESSFULLY")
         logger.info("="*80)
-        logger.info(f"Results saved in: {project_root / 'data' / args.engine}")
+        logger.info(f"Results saved in: {output_location}")
         
         return 0
         
