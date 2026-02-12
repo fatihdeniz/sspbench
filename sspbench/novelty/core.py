@@ -10,7 +10,7 @@ from collections import defaultdict
 
 from ..utils.llm_utils import gen_from_prompt
 from .wiki_utils import search_step, search_related_pages
-from .config import DEFAULT_JSON_MESSAGE
+from .config import DEFAULT_JSON_MESSAGE, MAX_JSON_RETRY_ATTEMPTS
 from .ragas_utils import generate_qa_with_ragas, is_ragas_available, evaluate_qa_faithfulness
 from .json_utils import extract_json_v2
 
@@ -404,15 +404,24 @@ In later iterations you should receive as input the categories that you have alr
     # Add explicit instruction to output JSON immediately
     context += "\n\nBased on the criteria above, output the categories in JSON format now (no explanations, just the JSON block):\n"
     
-    response = gen_from_prompt(agent_model, context, temperature=0.0, max_tokens=2000, system_prompt=DEFAULT_JSON_MESSAGE)
+    for attempt in range(MAX_JSON_RETRY_ATTEMPTS):
+        try:
+            response = gen_from_prompt(agent_model, context, temperature=0.0, max_tokens=2000, system_prompt=DEFAULT_JSON_MESSAGE)
 
-    with open(f"{outfile_prefix}.full_thoughts.txt", 'w', encoding='utf-8') as out_handle:
-        out_handle.write(context)
-        out_handle.write("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-        out_handle.write(response)
+            with open(f"{outfile_prefix}.full_thoughts.txt", 'w', encoding='utf-8') as out_handle:
+                out_handle.write(context)
+                out_handle.write("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+                out_handle.write(response)
 
-    extracted_json = extract_json_v2(response, f"{outfile_prefix}.categories.json")
-    return extracted_json
+            extracted_json = extract_json_v2(response, f"{outfile_prefix}.categories.json")
+            return extracted_json
+        except (ValueError, json.JSONDecodeError) as e:
+            print(f"⚠️  Attempt {attempt + 1}/{MAX_JSON_RETRY_ATTEMPTS}: JSON parsing failed - {str(e)[:100]}")
+            if attempt == MAX_JSON_RETRY_ATTEMPTS - 1:  # Last attempt
+                print(f"✗ Failed to parse JSON after {MAX_JSON_RETRY_ATTEMPTS} attempts, returning empty list")
+                return []
+            # Add stronger prompt for next attempt
+            context += "\n\nIMPORTANT: Output ONLY the JSON block, starting with ```json"
 
 def _refine_categories(theme, context, agent_info, history, iters, candidate_lst, outfile_prefix='att1'):
     if os.path.exists(f"{outfile_prefix}.categories.json"):
@@ -429,13 +438,21 @@ def _refine_categories(theme, context, agent_info, history, iters, candidate_lst
     
     context += "\nBased on the criteria above, output the selected categories in JSON format now (no explanations, just the JSON block):\n"
     
-    # extract the json file from the message
-    response = gen_from_prompt(agent_model, context, temperature=0.0, max_tokens=2000, system_prompt=DEFAULT_JSON_MESSAGE)
+    for attempt in range(MAX_JSON_RETRY_ATTEMPTS):
+        try:
+            response = gen_from_prompt(agent_model, context, temperature=0.0, max_tokens=2000, system_prompt=DEFAULT_JSON_MESSAGE)
 
-    with open(f"{outfile_prefix}.full_thoughts.txt", 'w', encoding='utf-8') as out_handle:
-        out_handle.write(context)
-        out_handle.write("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-        out_handle.write(response)
+            with open(f"{outfile_prefix}.full_thoughts.txt", 'w', encoding='utf-8') as out_handle:
+                out_handle.write(context)
+                out_handle.write("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+                out_handle.write(response)
 
-    extracted_json = extract_json_v2(response, f"{outfile_prefix}.categories.json")
-    return extracted_json
+            extracted_json = extract_json_v2(response, f"{outfile_prefix}.categories.json")
+            return extracted_json
+        except (ValueError, json.JSONDecodeError) as e:
+            print(f"⚠️  Attempt {attempt + 1}/{MAX_JSON_RETRY_ATTEMPTS}: JSON parsing failed - {str(e)[:100]}")
+            if attempt == MAX_JSON_RETRY_ATTEMPTS - 1:  # Last attempt
+                print(f"✗ Failed to parse JSON after {MAX_JSON_RETRY_ATTEMPTS} attempts, returning empty list")
+                return []
+            # Add stronger prompt for next attempt
+            context += "\n\nIMPORTANT: Output ONLY the JSON block, starting with ```json"
