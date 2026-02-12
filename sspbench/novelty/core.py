@@ -41,6 +41,8 @@ Output format: JSON list of dictionaries with keys: id, category, additional_req
 ...
 ]
 ```
+
+Output the JSON now:
 """
     response = gen_from_prompt(agent_model, context, temperature=0.7, max_tokens=1000)
     categories = extract_json_v2(response, None)
@@ -99,6 +101,8 @@ Output format: JSON list of dictionaries with keys: id, question, answer, catego
 ...
 ]
 ```
+
+Output the JSON now:
 """
     response = gen_from_prompt(agent_model, context, temperature=0.5, max_tokens=1500)
     questions = extract_json_v2(response, None)
@@ -160,7 +164,7 @@ Output format: JSON list of dictionaries with keys: id, question, answer
 ]
 ```
 """
-    context += f"\nParagraph: {paragraph}\nAdditional requirements: {additional_req}"
+    context += f"\nParagraph: {paragraph}\nAdditional requirements: {additional_req}\n\nOutput the JSON now:"
 
     response = gen_from_prompt(agent_info, context, temperature=0.0, max_tokens=2000)
     extracted_json = extract_json_v2(response, None)
@@ -396,6 +400,10 @@ In later iterations you should receive as input the categories that you have alr
         context += "Please start with iteration 1."
     else:
         context += "\n".join(history) + "Please start with iteration {}.".format(iters)
+    
+    # Add explicit instruction to output JSON immediately
+    context += "\n\nBased on the criteria above, output the categories in JSON format now (no explanations, just the JSON block):\n"
+    
     response = gen_from_prompt(agent_model, context, temperature=0.0, max_tokens=2000, system_prompt=DEFAULT_JSON_MESSAGE)
 
     with open(f"{outfile_prefix}.full_thoughts.txt", 'w', encoding='utf-8') as out_handle:
@@ -418,6 +426,9 @@ def _refine_categories(theme, context, agent_info, history, iters, candidate_lst
         context += "Please start with iteration 1." + "Here are the category candidates to select from (delimited by ||): " + " || ".join(candidate_lst) + "\n"
     else:
         context += "\n".join(history) + "Please start with iteration {}.".format(iters) + "Here are the category candidates to select from (delimited by ||): " + "||".join(candidate_lst) + "\n"
+    
+    context += "\nBased on the criteria above, output the selected categories in JSON format now (no explanations, just the JSON block):\n"
+    
     # extract the json file from the message
     response = gen_from_prompt(agent_model, context, temperature=0.0, max_tokens=2000, system_prompt=DEFAULT_JSON_MESSAGE)
 
