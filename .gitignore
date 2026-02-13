@@ -111,3 +111,5 @@ logs
 results
 /models/
 data
+docs
+notebooks
