@@ -83,6 +83,11 @@ def parse_args():
                         help='Theme for question generation (default: general knowledge)')
     parser.add_argument('--max-iterations', type=int, default=5,
                         help='Maximum number of iterations (default: 5)')
+    parser.add_argument('--start-iteration', type=int, default=1,
+                        help='Iteration to start from (default: 1). '
+                             'When > 1, loads compare_answers.json from prior '
+                             'iterations to restore history and continues from there. '
+                             'E.g. --start-iteration 6 --max-iterations 10 runs iters 6-10.')
     parser.add_argument('--acc-target', default='0.1--0.4',
                         help='Target accuracy range (default: 0.1--0.4)')
     parser.add_argument('--engine', default='novelty',
@@ -192,6 +197,7 @@ def run_engine(args, agent_model, test_model, eval_model, embedding_model):
     logger.info("="*80)
     logger.info(f"Theme: {args.theme}")
     logger.info(f"Max iterations: {args.max_iterations}")
+    logger.info(f"Start iteration: {args.start_iteration}")
     logger.info(f"Accuracy target: {args.acc_target}")
     logger.info(f"RAGAS enabled: {not args.no_ragas}")
     logger.info(f"Seed index: {args.seed_index_path}")
@@ -210,6 +216,7 @@ def run_engine(args, agent_model, test_model, eval_model, embedding_model):
             test_model=test_model,
             eval_model=eval_model,
             max_iterations=args.max_iterations,
+            start_iteration=args.start_iteration,
             acc_target=args.acc_target,
             output_dir=args.output_dir,
             engine=args.engine,
