@@ -17,7 +17,8 @@ from ..evaluators import ScopeEvaluator
 
 
 def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowledge",
-                    max_iterations=3, acc_target="0.1--0.4", engine="novelty", use_ragas=False, embedding_model=None, output_dir=None):
+                    max_iterations=3, acc_target="0.1--0.4", engine="novelty", use_ragas=False, embedding_model=None, output_dir=None,
+                    start_iteration=1):
     """
     Run the novelty engine for dynamic benchmark generation.
 
@@ -32,6 +33,9 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
         use_ragas: Whether to use RAGAS for question generation (default: False)
         embedding_model: Embedding model for RAGAS (optional, defaults to SentenceTransformer)
         output_dir: Custom output directory (optional, defaults to data/<engine>)
+        start_iteration: Iteration number to start from (default: 1).
+            When > 1, loads compare_answers.json from prior iterations
+            to reconstruct the history summary for category refinement.
 
     Returns:
         History of results across iterations
@@ -47,7 +51,24 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
 
     history_dict = []
     historical_psg = []
-    
+
+    # ── Restore history from prior iterations when resuming ──────────
+    if start_iteration > 1:
+        theme_slug = theme.replace(' ', '_')
+        print(f"Resuming from iteration {start_iteration} — loading history from iterations 1..{start_iteration - 1}")
+        for prev_iter in range(1, start_iteration):
+            prev_prefix = os.path.join(data_dir, f"{theme_slug}_iter_{prev_iter}")
+            ca_path = f"{prev_prefix}.compare_answers.json"
+            if os.path.isfile(ca_path):
+                with open(ca_path, "r") as fh:
+                    prev_results = json.load(fh)
+                history_dict.append(prev_results)
+                print(f"  ✓ Loaded iteration {prev_iter}: {len(prev_results)} results from {os.path.basename(ca_path)}")
+            else:
+                print(f"  ⚠  Missing {os.path.basename(ca_path)} — skipping iteration {prev_iter}")
+                history_dict.append([])
+        print(f"History restored: {sum(len(h) for h in history_dict)} total results from {len(history_dict)} iterations")
+
     if use_ragas:
         from .ragas_utils import is_ragas_available
         if is_ragas_available():
@@ -62,7 +83,7 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
 
     scope_evaluator = ScopeEvaluator(eval_model, prompt_template=FACTUALITY_QA_SCOPE_JUDGE_PROMPT) if eval_model else None
 
-    for iteration in range(1, max_iterations + 1):
+    for iteration in range(start_iteration, max_iterations + 1):
         print(f"\n=== Iteration {iteration} ===")
 
         outfile_prefix = os.path.join(data_dir, f"{theme.replace(' ', '_')}_iter_{iteration}")

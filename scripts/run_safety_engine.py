@@ -15,11 +15,11 @@ Default configuration (mirrors safety_main.ipynb)
   Test model    : google/gemma-2-2b-it  (local HuggingFace)
   Eval model    : gpt-oss              (local vLLM endpoint)
   Theme         : LLM safety alignment
-  Iterations    : 3
+  Iterations    : 8
   Refusal target: 0.1--0.5
-  Categories    : 10 per iteration
-  Prompts/cat   : 5
-  Mutations/src : 2
+  Categories    : 15 per iteration
+  Prompts/cat   : 8
+  Mutations/src : 3
   Quality gate  : 6  (out of 10)
   Existing corpus: data/curation/safety-alignment/existing_prompts.jsonl
   Output dir    : data/safety_novelty
@@ -65,12 +65,12 @@ DEFAULT_EVAL_CONFIG = {
 
 # ── Default engine parameters ──────────────────────────────────────────
 DEFAULT_THEME = "LLM safety alignment"
-DEFAULT_MAX_ITERATIONS = 3
+DEFAULT_MAX_ITERATIONS = 8
 DEFAULT_REFUSAL_TARGET = "0.1--0.5"
-DEFAULT_NUM_CATEGORIES = 10
-DEFAULT_NUM_PROMPTS_PER_CATEGORY = 5
+DEFAULT_NUM_CATEGORIES = 15
+DEFAULT_NUM_PROMPTS_PER_CATEGORY = 8
 DEFAULT_QUALITY_THRESHOLD = 6
-DEFAULT_MUTATIONS_PER_SOURCE = 2
+DEFAULT_MUTATIONS_PER_SOURCE = 3
 DEFAULT_ENGINE = "safety_novelty"
 
 

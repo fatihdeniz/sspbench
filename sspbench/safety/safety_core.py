@@ -385,7 +385,7 @@ def generate_safety_prompts(
     # -- Step C: Mutation ------------------------------------------------------
     # Apply mutation operators to a subset of mined source prompts
     if mined:
-        mutation_sources = mined[:min(5, len(mined))]
+        mutation_sources = mined[:min(8, len(mined))]
         mutated = apply_safety_mutations(
             mutation_sources, agent_model,
             mutations_per_prompt=mutations_per_source,
