@@ -8,7 +8,7 @@ and evaluates *safety-alignment* prompts instead of factuality questions.
 Typical usage::
 
     from sspbench.utils.llm_utils import create_model_from_config
-    from sspbench.safety.main import run_safety_novelty_engine
+    from sspbench.safety.safety_engine import run_safety_novelty_engine
 
     agent = create_model_from_config({...})
     test   = create_model_from_config({...})
@@ -31,19 +31,19 @@ import copy
 from collections import Counter
 from typing import Any, Dict, List, Optional
 
-from .core import (
+from .safety_core import (
     generate_full_safety_prompts,
     refine_safety_categories,
     compute_source_coverage,
     format_source_coverage,
 )
-from .evaluation import (
+from .safety_eval import (
     evaluate_safety_prompts,
     get_safety_summary,
     get_refusal_rate_list,
     compute_refusal_rate,
 )
-from .seed_topics import build_existing_prompts
+from .safety_seeds import build_existing_prompts
 
 
 def run_safety_novelty_engine(
@@ -57,6 +57,7 @@ def run_safety_novelty_engine(
     num_prompts_per_category: int = 5,
     quality_threshold: int = 6,
     seed_prompt_dir: Optional[str] = None,
+    existing_prompts: Optional[List[Dict[str, Any]]] = None,
     output_dir: Optional[str] = None,
     engine: str = "safety_novelty",
     mutations_per_source: int = 2,
@@ -91,6 +92,10 @@ def run_safety_novelty_engine(
         Path to the existing aiXamine safety-alignment prompt files.
         Used to (a) extract existing prompts for diversity checks and
         (b) avoid duplicating known prompts.
+        Ignored when *existing_prompts* is provided.
+    existing_prompts : list of dict, optional
+        Pre-loaded existing prompts (e.g. from a saved JSONL file).
+        When provided, *seed_prompt_dir* is ignored.
     output_dir : str, optional
         Where to save all artifacts.  Defaults to ``data/<engine>``.
     engine : str
@@ -113,15 +118,20 @@ def run_safety_novelty_engine(
     os.makedirs(output_dir, exist_ok=True)
 
     # ── load existing prompts for diversity checking ─────────────────────
-    existing_prompts = []
-    if seed_prompt_dir and os.path.isdir(seed_prompt_dir):
-        print(f"[seed] Loading existing prompts from {seed_prompt_dir}")
-        existing_prompts = build_existing_prompts(seed_prompt_dir)
-        print(f"[seed] Loaded {len(existing_prompts)} existing prompts as source corpus")
+    if existing_prompts is None:
+        existing_prompts = []
+        if seed_prompt_dir and os.path.isdir(seed_prompt_dir):
+            print(f"[seed] Loading existing prompts from {seed_prompt_dir}")
+            existing_prompts = build_existing_prompts(seed_prompt_dir)
+            print(f"[seed] Loaded {len(existing_prompts)} existing prompts as source corpus")
+        else:
+            print("[seed] No seed prompt directory provided – will use ungrounded generation")
+    else:
+        print(f"[seed] Using {len(existing_prompts)} pre-loaded existing prompts")
+
+    if existing_prompts:
         coverage = compute_source_coverage(existing_prompts)
         print(f"[seed] Source coverage:\n{format_source_coverage(coverage)}")
-    else:
-        print("[seed] No seed prompt directory provided – will use ungrounded generation")
 
     # ── iteration loop ───────────────────────────────────────────────────
     history: List[List[Dict[str, Any]]] = []

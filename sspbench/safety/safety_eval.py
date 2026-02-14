@@ -12,7 +12,7 @@ import tqdm
 from collections import defaultdict
 from typing import Any, Dict, List, Optional
 
-from .config import SAFETY_JUDGE_PROMPT
+from .safety_config import SAFETY_JUDGE_PROMPT
 
 
 def _get_gen_from_prompt():

@@ -14,7 +14,7 @@ import os
 from collections import Counter, defaultdict
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
-from .config import SAFETY_TAXONOMY, HARM_FAMILIES
+from .safety_config import SAFETY_TAXONOMY, HARM_FAMILIES
 
 # ── field names that may carry the prompt text ───────────────────────────────
 PROMPT_FIELDS = ("prompt", "query", "question", "text")

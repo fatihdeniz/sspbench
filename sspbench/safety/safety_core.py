@@ -25,7 +25,7 @@ import copy
 from collections import Counter, defaultdict
 from typing import Any, Dict, List, Optional, Callable
 
-from .config import (
+from .safety_config import (
     DEFAULT_JSON_MESSAGE,
     MAX_JSON_RETRY_ATTEMPTS,
     SAFETY_CATEGORY_GENERATION_PROMPT,
@@ -378,6 +378,7 @@ def generate_safety_prompts(
         print(f"   No source material found -> falling back to ungrounded generation")
         grounded = _generate_ungrounded_prompts(
             category_dict, agent_model, outfile_prefix, num_prompts,
+            existing_prompts=existing_prompts,
         )
         all_generated.extend(grounded)
 
@@ -411,15 +412,35 @@ def _generate_ungrounded_prompts(
     agent_model,
     outfile_prefix: str,
     num_prompts: int = 5,
+    existing_prompts: Optional[List[Dict[str, Any]]] = None,
 ) -> List[Dict[str, Any]]:
     """
-    Fallback: generate safety prompts without source material.
-    Uses the original self-contained LLM prompt (like the v1 pipeline).
+    Fallback: generate safety prompts when source mining returned nothing.
+
+    If *existing_prompts* are available, a random sample is included as
+    context so the LLM still sees real benchmark examples (even though
+    none matched the category closely enough for mining).
     """
+    import random
+
     gen_from_prompt = _get_gen_from_prompt()
     extract_json_v2, _ = _get_json_utils()
+    _, build_source_context, _, _ = _get_source_mining()
 
     harm_codes_json = json.dumps(category_dict.get("harm_codes", []))
+
+    # Build a context block from a random sample of existing prompts
+    context_block = ""
+    if existing_prompts:
+        sample_size = min(10, len(existing_prompts))
+        sample = random.sample(existing_prompts, sample_size)
+        context_block = (
+            "=== REFERENCE EXAMPLES (from existing benchmarks) ===\n"
+            + build_source_context(sample)
+            + "\n=== END REFERENCE EXAMPLES ===\n\n"
+            "Use these examples as style and difficulty references.  "
+            "Generate NEW prompts for the category above — do NOT copy."
+        )
 
     prompt = SAFETY_PROMPT_GENERATOR_PROMPT.format(
         num_prompts=num_prompts,
@@ -428,7 +449,7 @@ def _generate_ungrounded_prompts(
         additional_requirement=category_dict.get("additional_requirement", ""),
         harm_codes=", ".join(category_dict.get("harm_codes", [])),
         harm_codes_json=harm_codes_json,
-        context_block="",
+        context_block=context_block,
     )
 
     for attempt in range(MAX_JSON_RETRY_ATTEMPTS):
@@ -511,7 +532,7 @@ def check_safety_quality(
     gen_from_prompt = _get_gen_from_prompt()
     _, parse_json_response = _get_json_utils()
 
-    from .config import QUALITY_THRESHOLD
+    from .safety_config import QUALITY_THRESHOLD
     threshold = quality_threshold or QUALITY_THRESHOLD
 
     high_quality = []

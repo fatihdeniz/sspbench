@@ -801,7 +801,7 @@ Output the JSON now:"""
             # Save raw output
             if outfile_prefix:
                 with open(f"{outfile_prefix}.grounded_gen_raw.txt", "w", encoding="utf-8") as fh:
-                    fh.write(prompt[:500] + "\n...\n" + "=" * 60 + "\n" + response)
+                    fh.write(prompt + "\n\n" + "=" * 60 + "\n" + response)
 
             generated = extract_json_v2(response, None)
             if not generated:

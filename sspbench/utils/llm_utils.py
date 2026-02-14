@@ -15,7 +15,13 @@ from llm_config import LLMConfig
 from conversation import Conversation
 from vllm import SamplingParams
 
-from ..novelty.config import DEFAULT_SAMPLING_PARAMS
+# Default sampling parameters — defined here (not in novelty.config) to avoid
+# a circular import: llm_utils → novelty.config → novelty/__init__ → llm_utils.
+DEFAULT_SAMPLING_PARAMS = {
+    "temperature": 0,
+    "repetition_penalty": 1.1,
+    "max_tokens": 1024,
+}
 
 # Global cache for loaded models to avoid reloading
 _MODEL_CACHE = {}
