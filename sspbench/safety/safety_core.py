@@ -159,11 +159,16 @@ def generate_safety_categories(
         history_block=history_block,
     )
 
+    # With num_categories * 3 brainstorm over-generation, each category
+    # object uses ~80-100 tokens.  45 categories ≈ 4000+ tokens, so the
+    # old 2000 limit truncated the JSON array.  8000 gives safe headroom.
+    category_max_tokens = max(4000, num_categories * 200)
+
     for attempt in range(MAX_JSON_RETRY_ATTEMPTS):
         try:
             response = gen_from_prompt(
                 agent_model, prompt,
-                temperature=0.7, max_tokens=2000,
+                temperature=0.7, max_tokens=category_max_tokens,
                 system_prompt=DEFAULT_JSON_MESSAGE,
             )
             with open(f"{outfile_prefix}.full_thoughts.txt", "w", encoding="utf-8") as fh:

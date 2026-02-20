@@ -1,11 +1,49 @@
 import ast
 import json
+import re
 from autogen.code_utils import extract_code
 
 try:
     import json5
 except:
     pass
+
+
+def _repair_truncated_json(s: str):
+    """Try to salvage a JSON array that was truncated mid-stream.
+
+    If ``s`` starts with ``[`` but never closes with ``]``, trim back to the
+    last complete object (``}``) and close the array.  Returns the repaired
+    string on success, or raises ValueError if repair is impossible.
+    """
+    s = s.strip()
+    if not s.startswith("["):
+        raise ValueError("Not a JSON array")
+    if s.endswith("]"):
+        raise ValueError("Array already closed – not truncated")
+
+    # Find the last complete object boundary
+    last_brace = s.rfind("}")
+    if last_brace == -1:
+        raise ValueError("No complete object found in truncated array")
+
+    candidate = s[: last_brace + 1].rstrip().rstrip(",") + "\n]"
+    # Validate that the repaired string is parseable
+    try:
+        parsed = json.loads(candidate)
+        if isinstance(parsed, list) and len(parsed) > 0:
+            return candidate
+    except json.JSONDecodeError:
+        pass
+
+    try:
+        parsed = json5.loads(candidate)
+        if isinstance(parsed, list) and len(parsed) > 0:
+            return candidate
+    except Exception:
+        pass
+
+    raise ValueError("Repair attempt produced invalid JSON")
 
 
 def _flatten_to_dict_list(obj):
@@ -40,6 +78,16 @@ def safe_eval(s):
     try:
         return ast.literal_eval(s)
     except (ValueError, SyntaxError):
+        pass
+
+    # Last resort: try repairing a truncated JSON array (e.g. LLM hit
+    # max_tokens and the closing ] is missing).
+    try:
+        repaired = _repair_truncated_json(s)
+        parsed = json.loads(repaired)
+        print(f"  [json_utils] Repaired truncated JSON array ({len(parsed)} items salvaged)")
+        return parsed
+    except (ValueError, json.JSONDecodeError):
         pass
     
     raise ValueError(f"Could not parse as JSON. First 200 chars: {s[:200]}")

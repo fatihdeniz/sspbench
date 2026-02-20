@@ -403,10 +403,10 @@ In later iterations you should receive as input the categories that you have alr
     
     # Add explicit instruction to output JSON immediately
     context += "\n\nBased on the criteria above, output the categories in JSON format now (no explanations, just the JSON block):\n"
-    
+
     for attempt in range(MAX_JSON_RETRY_ATTEMPTS):
         try:
-            response = gen_from_prompt(agent_model, context, temperature=0.0, max_tokens=2000, system_prompt=DEFAULT_JSON_MESSAGE)
+            response = gen_from_prompt(agent_model, context, temperature=0.0, max_tokens=8000, system_prompt=DEFAULT_JSON_MESSAGE)
 
             with open(f"{outfile_prefix}.full_thoughts.txt", 'w', encoding='utf-8') as out_handle:
                 out_handle.write(context)
@@ -437,10 +437,13 @@ def _refine_categories(theme, context, agent_info, history, iters, candidate_lst
         context += "\n".join(history) + "Please start with iteration {}.".format(iters) + "Here are the category candidates to select from (delimited by ||): " + "||".join(candidate_lst) + "\n"
     
     context += "\nBased on the criteria above, output the selected categories in JSON format now (no explanations, just the JSON block):\n"
+
+    # Dynamic token budget matching brainstorm (each category ≈ 80-100 tokens)
+    refine_max_tokens = max(4000, len(candidate_lst) * 200)
     
     for attempt in range(MAX_JSON_RETRY_ATTEMPTS):
         try:
-            response = gen_from_prompt(agent_model, context, temperature=0.0, max_tokens=2000, system_prompt=DEFAULT_JSON_MESSAGE)
+            response = gen_from_prompt(agent_model, context, temperature=0.0, max_tokens=refine_max_tokens, system_prompt=DEFAULT_JSON_MESSAGE)
 
             with open(f"{outfile_prefix}.full_thoughts.txt", 'w', encoding='utf-8') as out_handle:
                 out_handle.write(context)

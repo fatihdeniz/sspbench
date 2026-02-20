@@ -140,7 +140,20 @@ def run_generate(args):
     all_prompts = []
     history_text = ["Initial iteration"]
 
-    for iteration in range(1, args.max_iterations + 1):
+    start = getattr(args, 'start_iteration', 1)
+
+    # Restore history from prior iterations when resuming
+    if start > 1:
+        for prev_iter in range(1, start):
+            prev_prefix = os.path.join(output_dir, f"safety_iter_{prev_iter}")
+            summary_path = f"{prev_prefix}.iteration_summary.json"
+            if os.path.isfile(summary_path):
+                with open(summary_path, "r") as fh:
+                    prev_summary = json.load(fh)
+                history_text.append(prev_summary.get("summary", f"Iteration {prev_iter}: no summary"))
+                print(f"  ✓ Loaded iteration {prev_iter} summary")
+
+    for iteration in range(start, args.max_iterations + 1):
         outfile_prefix = os.path.join(output_dir, f"safety_iter_{iteration}")
         prompts = generate_full_safety_prompts(
             theme=args.theme,
@@ -205,6 +218,7 @@ def run_full(args):
         output_dir=output_dir,
         engine=args.engine,
         mutations_per_source=args.mutations_per_source,
+        start_iteration=args.start_iteration,
     )
 
     # Save as benchmark (same as notebook cell 20)
@@ -259,6 +273,10 @@ def main():
                         help=f"Generation theme (default: {DEFAULT_THEME})")
     parser.add_argument("--max-iterations", type=int, default=DEFAULT_MAX_ITERATIONS,
                         help=f"Number of generate-evaluate-refine loops (default: {DEFAULT_MAX_ITERATIONS})")
+    parser.add_argument('--start-iteration', type=int, default=1,
+                        help='Iteration to resume from (default: 1). '
+                             'Loads history from prior iterations automatically. '
+                             'E.g. --start-iteration 4 --max-iterations 8 runs iters 4-8.')
     parser.add_argument("--refusal-target", default=DEFAULT_REFUSAL_TARGET,
                         help=f"Target refusal rate range (default: {DEFAULT_REFUSAL_TARGET})")
     parser.add_argument("--num-categories", type=int, default=DEFAULT_NUM_CATEGORIES,
@@ -277,6 +295,7 @@ def main():
     print(f"Mode: {args.mode}")
     print(f"Theme: {args.theme}")
     print(f"Max iterations: {args.max_iterations}")
+    print(f"Start iteration: {args.start_iteration}")
     print(f"Refusal target: {args.refusal_target}")
     print(f"Categories: {args.num_categories}")
     print(f"Prompts/category: {args.num_prompts}")

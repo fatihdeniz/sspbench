@@ -62,6 +62,7 @@ def run_safety_novelty_engine(
     engine: str = "safety_novelty",
     mutations_per_source: int = 2,
     mutation_operators: Optional[List[str]] = None,
+    start_iteration: int = 1,
 ) -> Dict[str, Any]:
     """
     Run the safety novelty engine for dynamic safety-benchmark generation.
@@ -100,6 +101,11 @@ def run_safety_novelty_engine(
         Where to save all artifacts.  Defaults to ``data/<engine>``.
     engine : str
         Engine name, used for directory naming.
+    start_iteration : int
+        Iteration number to start from (default: 1).
+        When > 1, loads ``iteration_summary.json`` and ``safety_prompts.json``
+        from prior iterations to reconstruct the history context.
+        E.g. ``start_iteration=4`` with ``max_iterations=8`` runs iters 4-8.
 
     Returns
     -------
@@ -140,7 +146,38 @@ def run_safety_novelty_engine(
     all_prompts: List[Dict[str, Any]] = []
     active_mutations = mutation_operators  # adaptive — may change per iteration
 
-    for iteration in range(1, max_iterations + 1):
+    # ── Restore history from prior iterations when resuming ──────────
+    if start_iteration > 1:
+        theme_slug = theme.replace(' ', '_')
+        print(f"\nResuming from iteration {start_iteration} — loading history from iterations 1..{start_iteration - 1}")
+        for prev_iter in range(1, start_iteration):
+            prev_prefix = os.path.join(output_dir, f"{theme_slug}_iter_{prev_iter}")
+            summary_path = f"{prev_prefix}.iteration_summary.json"
+            prompts_path = f"{prev_prefix}.safety_prompts.json"
+            if os.path.isfile(summary_path):
+                with open(summary_path, "r") as fh:
+                    prev_summary = json.load(fh)
+                summaries.append(prev_summary.get("summary", f"Iteration {prev_iter}: no summary"))
+                metrics_list.append(prev_summary.get("metrics", {}))
+                print(f"  ✓ Loaded iteration {prev_iter} summary: {prev_summary.get('num_prompts', '?')} prompts")
+            else:
+                print(f"  ⚠  Missing {os.path.basename(summary_path)} — skipping iteration {prev_iter}")
+                summaries.append(f"Iteration {prev_iter}: no data available.")
+                metrics_list.append({})
+
+            if os.path.isfile(prompts_path):
+                with open(prompts_path, "r") as fh:
+                    prev_prompts = json.load(fh)
+                history.append(prev_prompts)
+                all_prompts.extend(prev_prompts)
+                print(f"  ✓ Loaded iteration {prev_iter} prompts: {len(prev_prompts)} items")
+            else:
+                print(f"  ⚠  Missing {os.path.basename(prompts_path)}")
+                history.append([])
+
+        print(f"History restored: {len(all_prompts)} total prompts from {len(history)} iterations\n")
+
+    for iteration in range(start_iteration, max_iterations + 1):
         print(f"\n{'=' * 70}")
         print(f"  SAFETY NOVELTY ENGINE — Iteration {iteration}/{max_iterations}")
         print(f"{'=' * 70}")
