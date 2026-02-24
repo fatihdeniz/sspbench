@@ -6,6 +6,7 @@ Main pipeline and category/question generation functions.
 import os
 import json
 import copy
+import random
 from collections import defaultdict
 
 from ..utils.llm_utils import gen_from_prompt
@@ -321,15 +322,30 @@ def generate_full_qa(theme, agent_info, history, iters, outfile_prefix='att1',
 
 
 # Category generation functions
+# Maximum Wikipedia results to keep per brainstorm seed to avoid
+# overwhelming the refine prompt and introducing positional bias.
+MAX_WIKI_RESULTS_PER_SEED = 100
+
 def _refine_categories_targetacc_augmented(theme, agent_info, history, iters, outfile_prefix='att1', acc_target="0.3--0.5", num_categories=5):
     category_json = _generate_categories_targetacc_augmented(theme, agent_info, history, iters, outfile_prefix=outfile_prefix+'.brainstorm', acc_target=acc_target)
     # given the json_lst, refine the categories to achieve the target accuracy.
+    # Shuffle each seed's Wikipedia results before capping so we sample
+    # across the full breadth of related pages, not just the top-ranked
+    # (most narrowly related) ones.  Then deduplicate and shuffle the
+    # combined pool to eliminate positional bias in the refine prompt.
     full_cat_lst = []
+    seen = set()
     for line in category_json:
         cat_lst = search_related_pages(line['category'])
-        full_cat_lst.extend(cat_lst)
+        random.shuffle(cat_lst)
+        for cat in cat_lst[:MAX_WIKI_RESULTS_PER_SEED]:
+            if cat not in seen:
+                seen.add(cat)
+                full_cat_lst.append(cat)
+    random.shuffle(full_cat_lst)
     context = """ Your goal is to select from a list of categories for knowledge intensive questions so that the selected subset are likely to achieve the target accuracy of {ACC_TARGET}.
 The categories should be selected based on three criteria: (1) aligned with THEME, (2) likely to obtain the target accuracy of {ACC_TARGET}, you can judge this based on the accuracy statistics from previous iterations. and (3) salient and cover important topics.
+IMPORTANT: The selected categories MUST be diverse and cover different sub-domains of THEME. Do NOT select multiple categories that are sub-topics of each other or belong to the same narrow area. Spread your selections across as many distinct branches of THEME as possible.
 You can also specify some additional requirements for each category. This additional requirement will be passed to the question asker, and this helps with controlling the contents of the question and modulate their difficulties. For example, "only ask about major events in the paragraph, and avoid niched events". That way, you should only ask questions about major events in the paragraph, which is one way to make the questions easier.
 
 Output Formatting: 
@@ -439,7 +455,8 @@ def _refine_categories(theme, context, agent_info, history, iters, candidate_lst
     context += "\nBased on the criteria above, output the selected categories in JSON format now (no explanations, just the JSON block):\n"
 
     # Dynamic token budget matching brainstorm (each category ≈ 80-100 tokens)
-    refine_max_tokens = max(4000, len(candidate_lst) * 200)
+    # Cap at 32768 to stay within Azure OpenAI completion-token limits
+    refine_max_tokens = min(32768, max(4000, len(candidate_lst) * 200))
     
     for attempt in range(MAX_JSON_RETRY_ATTEMPTS):
         try:

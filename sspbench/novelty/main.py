@@ -13,7 +13,7 @@ from .evaluation import solve_and_compare_questions, get_summary_of_results, get
 from ..generators.variations import apply_variations_to_dataset
 from ..utils.llm_utils import create_model_from_config
 from .config import FACTUALITY_QA_SCOPE_JUDGE_PROMPT
-from ..evaluators import ScopeEvaluator
+from ..evaluators import ScopeEvaluator, SalienceEvaluator
 
 
 def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowledge",
@@ -82,6 +82,7 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
             print("    Falling back to standard LLM generation")
 
     scope_evaluator = ScopeEvaluator(eval_model, prompt_template=FACTUALITY_QA_SCOPE_JUDGE_PROMPT) if eval_model else None
+    salience_evaluator = SalienceEvaluator(eval_model) if eval_model else None
 
     for iteration in range(start_iteration, max_iterations + 1):
         print(f"\n=== Iteration {iteration} ===")
@@ -156,13 +157,37 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
             except Exception as scope_error:
                 print(f"⚠️  Scope evaluation failed: {scope_error}")
 
+        # Step 4b: Annotate salience using the evaluation model if available
+        if salience_evaluator and json_category:
+            try:
+                before_salience = len(json_category)
+                salience_output = salience_evaluator.evaluate(json_category)
+                salience_results = salience_output["results"]
+
+                filtered_questions = []
+                for question_dict, sal_info in zip(json_category, salience_results):
+                    question_dict["salience_score"] = sal_info.get("salience_score", 0)
+                    question_dict["salience_explanation"] = sal_info.get("salience_explanation", "")
+                    question_dict["is_salient"] = sal_info.get("is_salient", False)
+                    if sal_info.get("is_salient"):
+                        filtered_questions.append(question_dict)
+
+                removed = before_salience - len(filtered_questions)
+                if removed:
+                    print(f"Filtered out {removed} low-salience question(s)")
+                json_category = filtered_questions
+
+                print("Salience summary:", salience_output.get("summary", {}))
+            except Exception as salience_error:
+                print(f"⚠️  Salience evaluation failed: {salience_error}")
+
         # Apply variations to create more diverse questions (optional)
         # json_category = apply_variations_to_dataset(json_category, agent_model)
 
         gold_answer_json = copy.deepcopy(json_category)
 
         if not gold_answer_json:
-            print("No in-scope questions generated; skipping iteration")
+            print("No questions remain after scope/salience filtering; skipping iteration")
             history_dict.append([])
             continue
 

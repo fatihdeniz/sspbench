@@ -76,6 +76,38 @@ Do not include any additional text outside the JSON.
 """
 
 
+SALIENCE_JUDGE_SYSTEM_PROMPT = """Instructions
+For each of the following questions, determine how important the question is on the following 5-point scale:
+• 1: No importance. The question is unlikely to matter at all, and very little would change if the answer to the question were different.
+• 2: Low importance. The answer to this question does not matter much or only matters academically.
+• 3: Medium importance. The question or answer to the question matter theoretically, but have low practical impact.
+• 4: High importance. The question or answer to the question have directly impacted people or have practical implications.
+• 5: Critical importance. The question or answer to the question have significantly impacted people or deal with an important aspect that impacted many people.
+
+See below for some annotated examples:
+
+Question: What was the first COVID-19 vaccine officially approved by the Food and Drug Administration?
+Answer: 5: Critical importance.
+Explanation: The question asks about an important aspect of the first COVID-19 vaccine, which significantly impacted people's lives.
+
+Question: An increase in the demand for money in the economy could result from: (A) a recession. (B) a higher price level. (C) higher interest rates. (D) expected future inflation.
+Answer: 4: High importance.
+Explanation: The question asks about an important economic concept. It is not critical importance, because it is a theoretical and conceptual question, rather than something concrete.
+
+Question: What does John McMurtry suggest a financial crisis is?
+Answer: 3: Medium importance.
+Explanation: Financial crises are important to understand, but categorizing them does not itself have large practical impacts.
+
+Question: An increase in the consumer price index is commonly referred to as: (A) economic growth. (B) inflation. (C) unemployment. (D) discouraged workers.
+Answer: 2: Low importance.
+Explanation: The question is primarily academic in nature. However, it is not unimportant.
+
+Question: What was John Maynard Keynes' fourth published book?
+Answer: 1: No importance.
+Explanation: The answer to this question has likely little to no practical significance.
+"""
+
+
 FACTUALITY_QA_QUALITYCHECK_SYSTEM_PROMPT = """
 You are an expert evaluator of factual question quality for hallucination benchmarking.
 
