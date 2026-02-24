@@ -22,6 +22,7 @@ Safety engine (this file):
 import os
 import json
 import copy
+import random
 from collections import Counter, defaultdict
 from typing import Any, Dict, List, Optional, Callable
 
@@ -61,6 +62,150 @@ def _get_source_mining():
         generate_grounded_safety_prompts,
     )
     return mine_source_prompts, build_source_context, apply_safety_mutations, generate_grounded_safety_prompts
+
+
+_VALID_HARM_CODES = set(SAFETY_TAXONOMY.keys())
+
+_VALID_PARENT_CATEGORIES = {
+    "Violence & Harm", "Hate & Harassment", "Sexual Content",
+    "Illegal Activity", "Privacy & Surveillance", "Deception & Manipulation",
+    "Ethics & Sensitive", "System & Cyber Threats", "Toxicity",
+    "Over-Refusal Boundary",
+}
+
+_KEYWORD_TO_PARENT = {
+    "violen": "Violence & Harm", "harm": "Violence & Harm",
+    "self-harm": "Violence & Harm", "suicide": "Violence & Harm",
+    "hate": "Hate & Harassment", "harass": "Hate & Harassment",
+    "discrimin": "Hate & Harassment", "toxic": "Toxicity",
+    "sex": "Sexual Content", "exploit": "Sexual Content",
+    "illegal": "Illegal Activity", "crim": "Illegal Activity",
+    "drug": "Illegal Activity", "weapon": "Illegal Activity",
+    "privac": "Privacy & Surveillance", "surveil": "Privacy & Surveillance",
+    "decep": "Deception & Manipulation", "fraud": "Deception & Manipulation",
+    "misinform": "Deception & Manipulation", "manipul": "Deception & Manipulation",
+    "ethic": "Ethics & Sensitive", "sensitiv": "Ethics & Sensitive",
+    "child": "Ethics & Sensitive",
+    "cyber": "System & Cyber Threats", "hack": "System & Cyber Threats",
+    "malware": "System & Cyber Threats",
+    "refusal": "Over-Refusal Boundary",
+}
+
+# Reverse mapping: full taxonomy name → short code(s)
+_NAME_TO_CODES: Dict[str, List[str]] = defaultdict(list)
+for _code, _name in SAFETY_TAXONOMY.items():
+    _NAME_TO_CODES[_name.lower()].append(_code)
+
+# Family name → all short codes in that family
+_FAMILY_TO_CODES: Dict[str, List[str]] = {}
+for _fam, _codes in HARM_FAMILIES.items():
+    _FAMILY_TO_CODES[_fam.lower()] = list(_codes)
+
+
+def _resolve_harm_codes(raw_codes: List[str], category_name: str = "",
+                        parent_category: str = "") -> List[str]:
+    """
+    Map LLM-generated harm_codes to valid short taxonomy codes.
+
+    The LLM may output:
+      - Valid short codes: "P", "T", "I"  → kept as-is
+      - Full taxonomy names: "Illegal Activity" → mapped via SAFETY_TAXONOMY reverse
+      - Parent/family names: "Violence & Harm" → expanded to all codes in that family
+      - Made-up codes: "IL-01", "DE-02" → try prefix match on short codes, else drop
+
+    Falls back to inferring from parent_category and category_name if no
+    codes could be resolved.
+    """
+    resolved = set()
+
+    for code in raw_codes:
+        # 1. Already a valid short code
+        if code in _VALID_HARM_CODES:
+            resolved.add(code)
+            continue
+
+        code_lower = code.lower().strip()
+
+        # 2. Full taxonomy name match (e.g. "Sexual Content" → SC, S)
+        if code_lower in _NAME_TO_CODES:
+            resolved.update(_NAME_TO_CODES[code_lower])
+            continue
+
+        # 3. Family / parent category name (e.g. "Violence & Harm" → VH, V, V2, ...)
+        if code_lower in _FAMILY_TO_CODES:
+            resolved.update(_FAMILY_TO_CODES[code_lower])
+            continue
+
+        # 4. Partial name match against taxonomy values
+        matched = False
+        for name, codes in _NAME_TO_CODES.items():
+            if code_lower in name or name in code_lower:
+                resolved.update(codes)
+                matched = True
+                break
+        if matched:
+            continue
+
+        # 5. Partial family match
+        for fam, codes in _FAMILY_TO_CODES.items():
+            if code_lower in fam or fam in code_lower:
+                resolved.update(codes)
+                matched = True
+                break
+        if matched:
+            continue
+
+        # 6. Prefix match for made-up codes like "IL-01" → check if "IL" is valid
+        prefix = code.split("-")[0].split("_")[0].strip()
+        if prefix in _VALID_HARM_CODES:
+            resolved.add(prefix)
+
+    # Fallback: infer from parent_category / category_name via keywords
+    if not resolved:
+        for text in [parent_category, category_name]:
+            text_lower = text.lower()
+            for keyword, family in _KEYWORD_TO_PARENT.items():
+                if keyword in text_lower and family.lower() in _FAMILY_TO_CODES:
+                    resolved.update(_FAMILY_TO_CODES[family.lower()])
+                    break
+            if resolved:
+                break
+
+    return list(resolved)
+
+
+def _normalize_category(cat: Dict[str, Any]) -> Dict[str, Any]:
+    """Validate and fix harm_codes and parent_category on a category dict."""
+    raw_codes = cat.get("harm_codes", [])
+    if isinstance(raw_codes, str):
+        raw_codes = [raw_codes]
+
+    cat["harm_codes"] = _resolve_harm_codes(
+        raw_codes,
+        category_name=cat.get("category", ""),
+        parent_category=cat.get("parent_category", ""),
+    )
+
+    parent = cat.get("parent_category", "")
+    if parent not in _VALID_PARENT_CATEGORIES:
+        matched = None
+        parent_lower = parent.lower()
+        for keyword, family in _KEYWORD_TO_PARENT.items():
+            if keyword in parent_lower:
+                matched = family
+                break
+        if matched is None:
+            cat_lower = cat.get("category", "").lower()
+            for keyword, family in _KEYWORD_TO_PARENT.items():
+                if keyword in cat_lower:
+                    matched = family
+                    break
+        cat["parent_category"] = matched or "Ethics & Sensitive"
+
+    if not cat.get("additional_requirement"):
+        cat["additional_requirement"] = ""
+
+    return cat
 
 
 # ===============================================================================
@@ -178,10 +323,7 @@ def generate_safety_categories(
             for cat in categories:
                 if "harm_codes" not in cat:
                     cat["harm_codes"] = []
-                if "additional_requirement" not in cat:
-                    cat["additional_requirement"] = ""
-                if "parent_category" not in cat:
-                    cat["parent_category"] = "General Safety"
+                _normalize_category(cat)
             return categories
 
         except (ValueError, json.JSONDecodeError) as exc:
@@ -233,12 +375,19 @@ def refine_safety_categories(
 
     # Step 2: expand candidates using harm families (from taxonomy)
     candidate_names = []
+    seen = set()
     for cat in broad:
-        candidate_names.append(cat["category"])
+        name = cat["category"]
+        if name not in seen:
+            candidate_names.append(name)
+            seen.add(name)
         for code in cat.get("harm_codes", []):
-            name = SAFETY_TAXONOMY.get(code)
-            if name and name not in candidate_names:
-                candidate_names.append(name)
+            resolved = SAFETY_TAXONOMY.get(code)
+            if resolved and resolved not in seen:
+                candidate_names.append(resolved)
+                seen.add(resolved)
+
+    random.shuffle(candidate_names)
 
     # Step 3: LLM-based refinement / selection
     history_block = ""
@@ -273,9 +422,10 @@ def refine_safety_categories(
 
     for attempt in range(MAX_JSON_RETRY_ATTEMPTS):
         try:
+            refine_max_tokens = min(max(4000, num_categories * 300), 16384)
             response = gen_from_prompt(
                 agent_model, prompt,
-                temperature=0.3, max_tokens=2000,
+                temperature=0.3, max_tokens=refine_max_tokens,
                 system_prompt=DEFAULT_JSON_MESSAGE,
             )
             with open(f"{outfile_prefix}.refine_thoughts.txt", "w", encoding="utf-8") as fh:
@@ -284,8 +434,7 @@ def refine_safety_categories(
             refined = extract_json_v2(response, cache_path)
             for cat in refined:
                 cat.setdefault("harm_codes", [])
-                cat.setdefault("additional_requirement", "")
-                cat.setdefault("parent_category", "General Safety")
+                _normalize_category(cat)
             return refined
 
         except (ValueError, json.JSONDecodeError) as exc:
@@ -426,8 +575,6 @@ def _generate_ungrounded_prompts(
     context so the LLM still sees real benchmark examples (even though
     none matched the category closely enough for mining).
     """
-    import random
-
     gen_from_prompt = _get_gen_from_prompt()
     extract_json_v2, _ = _get_json_utils()
     _, build_source_context, _, _ = _get_source_mining()
@@ -669,6 +816,20 @@ def generate_full_safety_prompts(
 
     print(f"\n[iter {iteration}] Generated {len(all_prompts)} total prompts")
     print(f"  Generation methods: {dict(gen_stats)}")
+
+    # -- Deduplicate prompts (prefix-based) ------------------------------------
+    seen_prefixes: set = set()
+    deduped: List[Dict[str, Any]] = []
+    PREFIX_LEN = 60
+    for p in all_prompts:
+        prefix = p.get("prompt", "").strip().lower()[:PREFIX_LEN]
+        if prefix in seen_prefixes:
+            continue
+        seen_prefixes.add(prefix)
+        deduped.append(p)
+    if len(deduped) < len(all_prompts):
+        print(f"  [dedup] Removed {len(all_prompts) - len(deduped)} near-duplicate prompts")
+    all_prompts = deduped
 
     # Save raw generated prompts before filtering
     with open(f"{outfile_prefix}.raw_prompts.json", "w") as fh:

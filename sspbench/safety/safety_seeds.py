@@ -80,8 +80,18 @@ def _extract_categories(record: Dict[str, Any]) -> Set[str]:
 
 
 def _resolve_category_name(code: str) -> str:
-    """Map a short code to its human-readable name, or return the code as-is."""
-    return SAFETY_TAXONOMY.get(code, code)
+    """Map a short code to its human-readable name.
+
+    Returns ``None`` for codes that are not in :data:`SAFETY_TAXONOMY`
+    and do not look like a real category name (i.e. short uppercase
+    strings that are clearly codes rather than natural-language labels).
+    """
+    resolved = SAFETY_TAXONOMY.get(code)
+    if resolved is not None:
+        return resolved
+    if len(code) <= 4 and code == code.upper():
+        return None
+    return code
 
 
 # ── public API ───────────────────────────────────────────────────────────────
@@ -124,10 +134,17 @@ def build_seed_topics(prompt_dir: str, include_all: bool = True) -> Dict[str, An
             category_counts.update(cats)
 
         resolved = set()
+        unresolved = set()
         for code in ds_categories:
             name = _resolve_category_name(code)
+            if name is None:
+                unresolved.add(code)
+                continue
             resolved.add(name)
             seed_topics.add(name)
+
+        if unresolved:
+            print(f"  [seed_topics] {dataset_name}: skipping unknown codes {sorted(unresolved)}")
 
         dataset_stats[dataset_name] = {
             "num_prompts": n_prompts,
@@ -163,6 +180,7 @@ def build_existing_prompts(prompt_dir: str) -> List[Dict[str, Any]]:
                 continue
             cats = _extract_categories(record)
             resolved_cats = [_resolve_category_name(c) for c in cats]
+            resolved_cats = [c for c in resolved_cats if c is not None]
             prompts.append({
                 "id": record.get("id", idx),
                 "dataset": dataset_name,
