@@ -264,7 +264,9 @@ def generate_qa_with_ragas(
         "Avoid broad definitional questions. "
         "The question must include a specific constraint (date, role, event, relation, location, number, etc.). "
         "The answer must be a short atomic entity. "
-        "Do not generate trivial or obvious questions."
+        "Do not generate trivial or obvious questions. "
+        "CRITICAL: The question must NOT contain the answer or reveal it. "
+        "For example, do NOT ask 'When did X happen in 1893?' if the answer is '1893'."
     )
 
     while remaining > 0 and round_idx < max_regeneration_rounds:

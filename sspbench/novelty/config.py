@@ -32,7 +32,7 @@ def get_default_sampling_params():
     return SamplingParams(**DEFAULT_SAMPLING_PARAMS)
 
 # Quality control parameters for RAGAS question generation
-QUALITY_THRESHOLD = 6  # Minimum quality score (out of 10) to accept a question
+QUALITY_THRESHOLD = 7  # Minimum quality score (out of 12) to accept a question
 MAX_REGENERATION_ROUNDS = 3  # Maximum number of regeneration attempts
 FEEDBACK_SUMMARY_LIMIT = 5  # Number of failure reasons to include in feedback
 MAX_JSON_RETRY_ATTEMPTS = 3  # Maximum number of retry attempts for JSON parsing failures
@@ -142,6 +142,12 @@ A high-quality hallucination benchmark question MUST satisfy:
    Minor typos are acceptable.
    However, the question must remain semantically clear and unambiguous.
 
+6. No answer leakage:
+   The question text must NOT contain the gold answer or reveal it.
+   For example, asking "When did X happen in 1893?" when the answer is "1893"
+   defeats the purpose of the benchmark. Score 0 if the answer is embedded
+   in the question.
+
 Respond in STRICT JSON using the following schema:
 
 {{
@@ -152,10 +158,11 @@ Respond in STRICT JSON using the following schema:
     "non_triviality": 0-2,
     "answer_precision": 0-2,
     "clarity": 0-2,
+    "no_answer_leakage": 0-2,
   }},
-  "total_score": 0-10,
+  "total_score": 0-12,
   "reasoning": "brief explanation",
 }}
 
-Be strict. If the question is broad, definitional, ambiguous, or has a weak gold answer, mark is_suitable as false.
+Be strict. If the question is broad, definitional, ambiguous, has a weak gold answer, or leaks the answer, mark is_suitable as false.
 """

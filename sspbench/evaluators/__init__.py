@@ -6,7 +6,9 @@ This module contains classes and functions for evaluating models on generated be
 Hierarchy
 ---------
 BaseEvaluator           (abstract root)
-  └─ LLMEvaluator       (adds LLM judge helpers)
+  ├─ AnswerLeakageEvaluator   (deterministic string filter)
+  └─ LLMEvaluator             (adds LLM judge helpers)
+       ├─ DuplicateEvaluator
        ├─ ScopeEvaluator
        ├─ SalienceEvaluator
        ├─ DirectFaithfulnessEvaluator
@@ -24,6 +26,8 @@ from .privacy import PrivacyEvaluator
 from .faithfulness import DirectFaithfulnessEvaluator, RagasFaithfulnessEvaluator
 from .scope import ScopeEvaluator
 from .salience import SalienceEvaluator
+from .answer_leakage import AnswerLeakageEvaluator
+from .dedup import DuplicateEvaluator
 
 __all__ = [
 	"BaseEvaluator",
@@ -35,4 +39,6 @@ __all__ = [
 	"RagasFaithfulnessEvaluator",
 	"ScopeEvaluator",
 	"SalienceEvaluator",
+	"AnswerLeakageEvaluator",
+	"DuplicateEvaluator",
 ]

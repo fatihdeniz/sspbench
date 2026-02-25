@@ -13,7 +13,7 @@ from .evaluation import solve_and_compare_questions, get_summary_of_results, get
 from ..generators.variations import apply_variations_to_dataset
 from ..utils.llm_utils import create_model_from_config
 from .config import FACTUALITY_QA_SCOPE_JUDGE_PROMPT
-from ..evaluators import ScopeEvaluator, SalienceEvaluator
+from ..evaluators import ScopeEvaluator, SalienceEvaluator, AnswerLeakageEvaluator
 
 
 def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowledge",
@@ -83,6 +83,7 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
 
     scope_evaluator = ScopeEvaluator(eval_model, prompt_template=FACTUALITY_QA_SCOPE_JUDGE_PROMPT) if eval_model else None
     salience_evaluator = SalienceEvaluator(eval_model) if eval_model else None
+    leak_evaluator = AnswerLeakageEvaluator()
 
     for iteration in range(start_iteration, max_iterations + 1):
         print(f"\n=== Iteration {iteration} ===")
@@ -130,6 +131,11 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
             json_category = json_category[0]
 
         original_question_count = len(json_category)
+
+        json_category = leak_evaluator.filter(json_category)
+
+        if len(json_category) < original_question_count:
+            print(f"  Quality filters: {original_question_count} → {len(json_category)} questions ")
 
         # Step 4: Annotate scope using the evaluation model if available
         if scope_evaluator:
@@ -180,9 +186,6 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
                 print("Salience summary:", salience_output.get("summary", {}))
             except Exception as salience_error:
                 print(f"⚠️  Salience evaluation failed: {salience_error}")
-
-        # Apply variations to create more diverse questions (optional)
-        # json_category = apply_variations_to_dataset(json_category, agent_model)
 
         gold_answer_json = copy.deepcopy(json_category)
 

@@ -14,6 +14,7 @@ from .wiki_utils import search_step, search_related_pages
 from .config import DEFAULT_JSON_MESSAGE, MAX_JSON_RETRY_ATTEMPTS
 from .ragas_utils import generate_qa_with_ragas, is_ragas_available, evaluate_qa_faithfulness
 from .json_utils import extract_json_v2
+from ..evaluators import DuplicateEvaluator
 
 
 def _generate_categories_random(theme, agent_model, history, iteration, outfile_prefix='att1', num_categories=5):
@@ -145,6 +146,11 @@ def gen_qa_pairs_augmented(paragraph, agent_info, additional_req, use_ragas=Fals
                     qa['faithfulness'] = metrics['faithfulness']
                     qa['answer_relevancy'] = metrics['answer_relevancy']
             
+            # Deduplicate: LLM picks the clearest question from each near-duplicate group
+            if eval_model and len(qa_pairs) > 1:
+                dedup = DuplicateEvaluator(eval_model)
+                qa_pairs = dedup.select(qa_pairs)
+
             return qa_pairs
         except Exception as e:
             print(f"✗ RAGAS generation failed, falling back to LLM: {e}")
@@ -156,6 +162,7 @@ def gen_qa_pairs_augmented(paragraph, agent_info, additional_req, use_ragas=Fals
 Make sure not to ask subjective questions, and let the question's correct answer be a concise short phrase.
 Make sure that the question you selected is answerable by the given wikipedia paragraph, and make the answer concise. It's recommended to use the exact text from the paragraph as answers.
 Make sure that the questions are also answerable by an expert **without the wikipedia paragraph**. For example, dont ask questions that are too specific to the paragraph, like "what are the three locations mentioned in the paragraph?". Or "who's the most famous soldier, according to the paragraph?".
+IMPORTANT: The question must NOT contain the answer. For example, do NOT ask "When did X happen in 1893?" when the answer is "1893". The purpose is to TEST whether the model knows the answer — it must be possible to answer incorrectly.
 
 Output format: JSON list of dictionaries with keys: id, question, answer
 ```json
@@ -174,7 +181,11 @@ Output format: JSON list of dictionaries with keys: id, question, answer
     # Add context to each QA pair for fallback generation too
     for qa in qa_pairs:
         qa['context'] = paragraph
-    
+
+    if eval_model and len(qa_pairs) > 1:
+        dedup = DuplicateEvaluator(eval_model)
+        qa_pairs = dedup.select(qa_pairs)
+
     return qa_pairs
 
 
