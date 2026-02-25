@@ -348,7 +348,7 @@ def _refine_categories_targetacc_augmented(theme, agent_info, history, iters, ou
     seen = set()
     for line in category_json:
         cat_lst = search_related_pages(line['category'])
-        random.shuffle(cat_lst)
+        # random.shuffle(cat_lst)
         for cat in cat_lst[:MAX_WIKI_RESULTS_PER_SEED]:
             if cat not in seen:
                 seen.add(cat)
