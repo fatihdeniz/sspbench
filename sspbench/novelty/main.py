@@ -127,12 +127,15 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
         # Step 3: load generated questions
         with open(f"{outfile_prefix}.KI_questions.json", "r") as f:
             json_category = json.load(f)
-        if len(json_category) == 1:  # remove outer list if needed
+        if len(json_category) == 1 and isinstance(json_category[0], list):
             json_category = json_category[0]
 
         original_question_count = len(json_category)
 
-        json_category = leak_evaluator.filter(json_category)
+        if json_category and isinstance(json_category[0], dict):
+            json_category = leak_evaluator.filter(json_category)
+        else:
+            json_category = []
 
         if len(json_category) < original_question_count:
             print(f"  Quality filters: {original_question_count} → {len(json_category)} questions ")
