@@ -5,7 +5,18 @@ Functions for interacting with Wikipedia API and processing content.
 
 import requests
 from bs4 import BeautifulSoup
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 from .config import WIKIPEDIA_ACCESS_TOKEN, WIKIPEDIA_CLIENT_ID
+
+
+@retry(
+    stop=stop_after_attempt(5),
+    wait=wait_exponential(multiplier=1, min=2, max=60),
+    retry=retry_if_exception_type((requests.exceptions.ConnectionError, requests.exceptions.Timeout)),
+    reraise=True
+)
+def wiki_get(url, **kwargs):
+    return requests.get(url, **kwargs)
 
 
 def get_pageviews(page_title, start_date="2020040100", end_date="2026010100"):
@@ -26,7 +37,7 @@ def get_pageviews(page_title, start_date="2020040100", end_date="2026010100"):
     }
 
     url = f"https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/all-agents/{page_title}/daily/{start_date}/{end_date}"
-    response = requests.get(url, headers=headers)
+    response = wiki_get(url, headers=headers)
     if response.status_code == 200:
         data = response.json()
         views = sum(item['views'] for item in data['items'])
@@ -86,8 +97,15 @@ def search_step(entity, output_more=False, _visited=None):
 
     entity_ = entity.replace(" ", "+")
     search_url = f"https://en.wikipedia.org/w/index.php?search={entity_}"
-    response_text = requests.get(search_url, headers=headers).text
-    soup = BeautifulSoup(response_text, features="html.parser")
+
+    try:
+        response = wiki_get(search_url, headers=headers)
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        print(f"Wikipedia request failed after retries: {e}")
+        return [], entity, ""
+
+    soup = BeautifulSoup(response.text, features="html.parser")
     result_divs = soup.find_all("div", {"class": "mw-search-result-heading"})
 
     if result_divs:  # mismatch - found similar entities
@@ -142,7 +160,7 @@ def search_related_pages(search_query):
         "User-Agent": "autobencher-data-curation/1.0 (research)"
     }
 
-    response = requests.get(url, params=params, headers=headers)
+    response = wiki_get(url, params=params, headers=headers)
 
     if response.status_code != 200:
         print("Wikipedia API HTTP error:", response.status_code)
