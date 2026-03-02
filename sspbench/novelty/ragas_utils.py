@@ -260,11 +260,17 @@ def generate_qa_with_ragas(
 
     base_persona_text = (
         "Generate a single-hop factual question suitable for hallucination benchmarking. "
-        "The question must have exactly ONE verifiable answer from the text. "
+        "The question must have exactly ONE verifiable answer. "
         "Avoid broad definitional questions. "
         "The question must include a specific constraint (date, role, event, relation, location, number, etc.). "
         "The answer must be a short atomic entity. "
         "Do not generate trivial or obvious questions. "
+        "IMPORTANT: The question should be about MAIN, well-known facts — not obscure or overly specific details. "
+        "Focus on notable events, key figures, and widely recognized information. "
+        "CRITICAL: The question must be SELF-CONTAINED. It will be shown to people "
+        "WITHOUT any source text. NEVER use phrases like 'based on the context', "
+        "'according to the text', or any similar reference to a source document. "
+        "Write the question as a standalone trivia or knowledge question. "
         "CRITICAL: The question must NOT contain the answer or reveal it. "
         "For example, do NOT ask 'When did X happen in 1893?' if the answer is '1893'."
     )

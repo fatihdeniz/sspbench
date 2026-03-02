@@ -225,7 +225,7 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
 
 
 def run_autobencher_with_variations(theme="general knowledge", max_iterations=3,
-                                   agent_model=None, test_model=None, use_variations=True):
+                                   agent_model=None, test_model=None, use_variations=False):
     """
     Run autobencher with question variations.
 

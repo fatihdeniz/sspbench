@@ -90,8 +90,12 @@ def _ask_question_from_wiki(category, agent_model, history, iteration, outfile_p
         return []
 
     context = f"""
-Based on this Wikipedia content, generate 3 knowledge-intensive questions.
-Content: {' '.join(obs[:5])}
+Generate 3 knowledge-intensive factual questions about the topic below.
+Each question must be SELF-CONTAINED — it will be shown to people without any source text.
+NEVER reference "the context", "the text", "the passage", or any source document.
+Focus on main, well-known facts — not obscure details.
+
+Reference material: {' '.join(obs[:5])}
 
 Category: {category['category']}
 Additional requirement: {category.get('additional_requirement', '')}
@@ -333,9 +337,6 @@ def generate_full_qa(theme, agent_info, history, iters, outfile_prefix='att1',
 
 
 # Category generation functions
-# Maximum Wikipedia results to keep per brainstorm seed to avoid
-# overwhelming the refine prompt and introducing positional bias.
-MAX_WIKI_RESULTS_PER_SEED = 100
 
 def _refine_categories_targetacc_augmented(theme, agent_info, history, iters, outfile_prefix='att1', acc_target="0.3--0.5", num_categories=5):
     category_json = _generate_categories_targetacc_augmented(theme, agent_info, history, iters, outfile_prefix=outfile_prefix+'.brainstorm', acc_target=acc_target)
@@ -349,7 +350,7 @@ def _refine_categories_targetacc_augmented(theme, agent_info, history, iters, ou
     for line in category_json:
         cat_lst = search_related_pages(line['category'])
         # random.shuffle(cat_lst)
-        for cat in cat_lst[:MAX_WIKI_RESULTS_PER_SEED]:
+        for cat in cat_lst:
             if cat not in seen:
                 seen.add(cat)
                 full_cat_lst.append(cat)
@@ -357,7 +358,7 @@ def _refine_categories_targetacc_augmented(theme, agent_info, history, iters, ou
     context = """ Your goal is to select from a list of categories for knowledge intensive questions so that the selected subset are likely to achieve the target accuracy of {ACC_TARGET}.
 The categories should be selected based on three criteria: (1) aligned with THEME, (2) likely to obtain the target accuracy of {ACC_TARGET}, you can judge this based on the accuracy statistics from previous iterations. and (3) salient and cover important topics.
 IMPORTANT: The selected categories MUST be diverse and cover different sub-domains of THEME. Do NOT select multiple categories that are sub-topics of each other or belong to the same narrow area. Spread your selections across as many distinct branches of THEME as possible.
-You can also specify some additional requirements for each category. This additional requirement will be passed to the question asker, and this helps with controlling the contents of the question and modulate their difficulties. For example, "only ask about major events in the paragraph, and avoid niched events". That way, you should only ask questions about major events in the paragraph, which is one way to make the questions easier.
+You can also specify some additional requirements for each category. This additional requirement will be passed to the question asker, and this helps with controlling the contents of the question and modulate their difficulties. For example, "focus on major, well-known facts and events, avoid obscure or niche details". That way, the questions will focus on important, widely-known information.
 
 Output Formatting: 
 Each category should be a dictionary with the following keys: id, category, parent_category, additional_requirement. 
@@ -392,7 +393,7 @@ def _generate_categories_targetacc_augmented(theme, agent_info, history, iters, 
     agent_model = agent_info
     context = """ Your goal is to come up with a list of categories for knowledge intensive questions that achieve the target accuracy of {ACC_TARGET}.
 The categories should be diverse and cover important topics, under the theme of THEME. 
-You can also specify some additional requirements for each category. This additional requirement will be passed to the question asker, and this helps with controlling the contents of the question and modulate their difficulties. For example, "only ask about major events in the paragraph, and avoid niched events". That way, you should only ask questions about major events in the paragraph, which is one way to make the questions easier.
+You can also specify some additional requirements for each category. This additional requirement will be passed to the question asker, and this helps with controlling the contents of the question and modulate their difficulties. For example, "focus on major, well-known facts and events, avoid obscure or niche details". That way, the questions will focus on important, widely-known information.
 Constructing the categories is like building a tree structure of history, and (category, parent_category) is like specifying a node and its parent. We should select the most precise parent category, for example if you are trying to expand the category "second world war" to make it more specific by adding the node "famous battles in second world war", you should specify the parent category as "second world war" instead of "history".
 
 Output Formatting: 
