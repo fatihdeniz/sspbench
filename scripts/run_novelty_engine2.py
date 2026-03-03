@@ -29,6 +29,10 @@ script_dir = Path(__file__).parent
 project_root = script_dir.parent
 sys.path.insert(0, str(project_root))
 
+# Load .env file (API keys, endpoints, etc.)
+from dotenv import load_dotenv
+load_dotenv(project_root / ".env")
+
 # Set dummy OpenAI API key for RAGAS (prevents requiring real credentials)
 os.environ["OPENAI_API_KEY"] = os.environ.get("OPENAI_API_KEY", "dummy-key-for-ragas")
 
@@ -57,25 +61,29 @@ def parse_args():
         epilog=__doc__
     )
     
-    # Model configurations
-    parser.add_argument('--agent-model', default='gpt-oss',
-                        help='Agent model name (default: gpt-4.1-mini-aixamine)')
-    parser.add_argument('--agent-api-url', 
-                        default='http://10.4.8.217:8000/v1',
+    # Model configurations (defaults read from .env via EVAL_*)
+    parser.add_argument('--agent-model',
+                        default=os.environ.get('EVAL_MODEL', 'gpt-oss'),
+                        help='Agent model name')
+    parser.add_argument('--agent-api-url',
+                        default=os.environ.get('EVAL_ENDPOINT', 'http://10.4.8.217:8000/v1'),
                         help='Agent model API URL')
     parser.add_argument('--agent-api-token',
-                        default='abc123',
+                        default=os.environ.get('EVAL_TOKEN', 'abc123'),
                         help='Agent model API token')
     
     parser.add_argument('--test-model',
                         default='/home/local/QCRI/fdeniz/projects/aiXamine/airflow-tasks/models/google_gemma-2-2b-it',
                         help='Test model path')
     
-    parser.add_argument('--eval-model', default='gpt-oss',
+    parser.add_argument('--eval-model',
+                        default=os.environ.get('EVAL_MODEL', 'gpt-oss'),
                         help='Evaluation model name')
-    parser.add_argument('--eval-api-url', default='http://10.4.8.217:8000/v1',
+    parser.add_argument('--eval-api-url',
+                        default=os.environ.get('EVAL_ENDPOINT', 'http://10.4.8.217:8000/v1'),
                         help='Evaluation model API URL')
-    parser.add_argument('--eval-api-token', default='abc123',
+    parser.add_argument('--eval-api-token',
+                        default=os.environ.get('EVAL_TOKEN', 'abc123'),
                         help='Evaluation model API token')
     
     # Engine parameters

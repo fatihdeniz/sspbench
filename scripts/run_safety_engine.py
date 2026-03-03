@@ -35,16 +35,20 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 _PROJECT_ROOT = os.path.dirname(_HERE) if os.path.basename(_HERE) == "scripts" else _HERE
 sys.path.insert(0, _PROJECT_ROOT)
 
+# Load .env file (API keys, endpoints, etc.)
+from dotenv import load_dotenv
+load_dotenv(os.path.join(_PROJECT_ROOT, ".env"))
+
 # Set dummy key to prevent RAGAS from requiring real OpenAI credentials
 os.environ.setdefault("OPENAI_API_KEY", "dummy-key-for-ragas")
 
 # ── Default model configs (same as safety_main.ipynb) ──────────────────
 DEFAULT_AGENT_CONFIG = {
     "type": "openai",
-    "model": "gpt-4.1-mini-aixamine",
-    "api_url": "https://qcri-oai-aixamine-01.openai.azure.com/",
-    "api_token": "549HzN76L1k2WMzrqQoN26dJ2TItgVpsz21f9yjk342PWwj9RzrmJQQJ99BIACYeBjFXJ3w3AAABACOGAkdr",
-    "api_version": "2024-12-01-preview",
+    "model": os.environ.get("JUDGE_EXTERNAL_MODEL", "gpt-4.1-mini-aixamine"),
+    "api_url": os.environ.get("JUDGE_EXTERNAL_ENDPOINT", ""),
+    "api_token": os.environ.get("JUDGE_EXTERNAL_TOKEN", ""),
+    "api_version": os.environ.get("JUDGE_EXTERNAL_VERSION", "2024-12-01-preview"),
 }
 
 DEFAULT_TEST_CONFIG = {
@@ -57,10 +61,10 @@ DEFAULT_TEST_CONFIG = {
 
 DEFAULT_EVAL_CONFIG = {
     "type": "openai",
-    "model": "gpt-oss",
-    "api_url": "http://10.4.8.217:8000/v1",
-    "api_token": "abc123",
-    "api_version": "2024-12-01-preview",
+    "model": os.environ.get("EVAL_MODEL", "gpt-oss"),
+    "api_url": os.environ.get("EVAL_ENDPOINT", "http://10.4.8.217:8000/v1"),
+    "api_token": os.environ.get("EVAL_TOKEN", "abc123"),
+    "api_version": os.environ.get("JUDGE_EXTERNAL_VERSION", "2024-12-01-preview"),
 }
 
 # ── Default engine parameters ──────────────────────────────────────────
