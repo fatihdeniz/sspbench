@@ -11,7 +11,7 @@ from collections import defaultdict
 
 from ..utils.llm_utils import gen_from_prompt
 from .wiki_utils import search_step, search_related_pages
-from .config import DEFAULT_JSON_MESSAGE, MAX_JSON_RETRY_ATTEMPTS
+from .config import DEFAULT_JSON_MESSAGE, MAX_JSON_RETRY_ATTEMPTS, MAX_REFINE_CANDIDATES, MAX_CATEGORY_FOR_TOPICS
 from .ragas_utils import generate_qa_with_ragas, is_ragas_available, evaluate_qa_faithfulness
 from .json_utils import extract_json_v2
 from ..evaluators import DuplicateEvaluator
@@ -180,7 +180,7 @@ Output format: JSON list of dictionaries with keys: id, question, answer
 
     response = gen_from_prompt(agent_info, context, temperature=0.0, max_tokens=2000)
     extracted_json = extract_json_v2(response, None)
-    qa_pairs = extracted_json[0] if extracted_json else []
+    qa_pairs = extracted_json if extracted_json else []
     
     # Add context to each QA pair for fallback generation too
     for qa in qa_pairs:
@@ -350,11 +350,14 @@ def _refine_categories_targetacc_augmented(theme, agent_info, history, iters, ou
     for line in category_json:
         cat_lst = search_related_pages(line['category'])
         # random.shuffle(cat_lst)
-        for cat in cat_lst:
+        for cat in cat_lst[:MAX_CATEGORY_FOR_TOPICS]:
             if cat not in seen:
                 seen.add(cat)
                 full_cat_lst.append(cat)
     random.shuffle(full_cat_lst)
+    if len(full_cat_lst) > MAX_REFINE_CANDIDATES:
+        print(f"  [refine] Capping candidate list from {len(full_cat_lst)} to {MAX_REFINE_CANDIDATES}")
+        full_cat_lst = full_cat_lst[:MAX_REFINE_CANDIDATES]
     context = """ Your goal is to select from a list of categories for knowledge intensive questions so that the selected subset are likely to achieve the target accuracy of {ACC_TARGET}.
 The categories should be selected based on three criteria: (1) aligned with THEME, (2) likely to obtain the target accuracy of {ACC_TARGET}, you can judge this based on the accuracy statistics from previous iterations. and (3) salient and cover important topics.
 IMPORTANT: The selected categories MUST be diverse and cover different sub-domains of THEME. Do NOT select multiple categories that are sub-topics of each other or belong to the same narrow area. Spread your selections across as many distinct branches of THEME as possible.
@@ -466,9 +469,10 @@ def _refine_categories(theme, context, agent_info, history, iters, candidate_lst
     
     context += "\nBased on the criteria above, output the selected categories in JSON format now (no explanations, just the JSON block):\n"
 
-    # Dynamic token budget matching brainstorm (each category ≈ 80-100 tokens)
-    # Cap at 32768 to stay within Azure OpenAI completion-token limits
-    refine_max_tokens = min(32768, max(4000, len(candidate_lst) * 200))
+    # The model only needs to output num_categories (5-10) JSON entries ≈ 80-100 tokens each.
+    # 4000 tokens is generous for this; avoid requesting excessive output that
+    # competes with the prompt for context-window space on local vLLM models.
+    refine_max_tokens = 4000
     
     for attempt in range(MAX_JSON_RETRY_ATTEMPTS):
         try:

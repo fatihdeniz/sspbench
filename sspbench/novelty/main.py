@@ -141,18 +141,20 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
             print(f"  Quality filters: {original_question_count} → {len(json_category)} questions ")
 
         # Step 4: Annotate scope using the evaluation model if available
+        all_annotated_questions = copy.deepcopy(json_category)
+
         if scope_evaluator:
             try:
                 scope_results = scope_evaluator.evaluate(json_category)["results"]
                 filtered_questions = []
                 for question_dict, scope_info in zip(json_category, scope_results):
-                    in_scope = scope_info.get("in_scope")
-                    question_dict["in_scope"] = in_scope
+                    question_dict["in_scope"] = scope_info.get("in_scope")
                     question_dict["in_scope_reason"] = scope_info.get("in_scope_reason", "")
                     question_dict["scope_raw_response"] = scope_info.get("raw_response", "")
-                    if in_scope:
+                    if question_dict["in_scope"]:
                         filtered_questions.append(question_dict)
 
+                all_annotated_questions = copy.deepcopy(json_category)
                 removed = len(json_category) - len(filtered_questions)
                 if removed:
                     print(f"Filtered out {removed} out-of-scope question(s)")
@@ -181,6 +183,13 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
                     if sal_info.get("is_salient"):
                         filtered_questions.append(question_dict)
 
+                sal_by_question = {q["question"]: q for q in json_category}
+                for q in all_annotated_questions:
+                    sal_q = sal_by_question.get(q["question"])
+                    if sal_q:
+                        for k in ("salience_score", "salience_explanation", "is_salient"):
+                            q[k] = sal_q[k]
+
                 removed = before_salience - len(filtered_questions)
                 if removed:
                     print(f"Filtered out {removed} low-salience question(s)")
@@ -189,6 +198,9 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
                 print("Salience summary:", salience_output.get("summary", {}))
             except Exception as salience_error:
                 print(f"⚠️  Salience evaluation failed: {salience_error}")
+
+        with open(f"{outfile_prefix}.KI_questions_annotated.json", "w") as f:
+            json.dump(all_annotated_questions, f, indent=2)
 
         gold_answer_json = copy.deepcopy(json_category)
 

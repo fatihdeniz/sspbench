@@ -32,10 +32,12 @@ def get_default_sampling_params():
     return SamplingParams(**DEFAULT_SAMPLING_PARAMS)
 
 # Quality control parameters for RAGAS question generation
-QUALITY_THRESHOLD = 7  # Minimum quality score (out of 12) to accept a question
+QUALITY_THRESHOLD = 6  # Minimum quality score (out of 10) to accept a question
 MAX_REGENERATION_ROUNDS = 3  # Maximum number of regeneration attempts
 FEEDBACK_SUMMARY_LIMIT = 5  # Number of failure reasons to include in feedback
 MAX_JSON_RETRY_ATTEMPTS = 3  # Maximum number of retry attempts for JSON parsing failures
+MAX_CATEGORY_FOR_TOPICS = 100  # Maximum number of categories to consider for each topic
+MAX_REFINE_CANDIDATES = 300  # Maximum Wikipedia candidate categories to include in the refine prompt
 
 
 FACTUALITY_QUESTION_GENERATOR_PROMPT = """
