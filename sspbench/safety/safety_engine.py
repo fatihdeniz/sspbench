@@ -1,28 +1,47 @@
 """
 Main execution functions for the Safety Novelty Engine.
 
-Provides ``run_safety_novelty_engine`` – the top-level entry point that
-mirrors ``run_novelty_engine`` in ``sspbench.novelty.main`` but generates
-and evaluates *safety-alignment* prompts instead of factuality questions.
+Safety Benchmark Generation Pipeline
+======================================
+The pipeline generates challenging safety-alignment benchmarks through an
+iterative, source-grounded process:
 
-Typical usage::
-
-    from sspbench.utils.llm_utils import create_model_from_config
-    from sspbench.safety.safety_engine import run_safety_novelty_engine
-
-    agent = create_model_from_config({...})
-    test   = create_model_from_config({...})
-    eval_  = create_model_from_config({...})
-
-    history = run_safety_novelty_engine(
-        agent_model=agent,
-        test_model=test,
-        eval_model=eval_,
-        theme="LLM safety alignment",
-        max_iterations=3,
-        refusal_target="0.8--1.0",   # target *refusal* rate
-        seed_prompt_dir="/path/to/aiXamine/.../safety-alignment/prompts",
-    )
+1.  **Summarize history** — Aggregate results from prior iterations so the
+    LLM can adjust category selection to approach the target refusal rate.
+2.  **Brainstorm harm categories** — Ask the LLM to propose diverse harm
+    categories under the safety taxonomy (over-generate 3x).
+3.  **Expand candidates from taxonomy** — Resolve harm codes against the
+    taxonomy and add related category names as refinement candidates.
+4.  **Refine & select categories** — Feed candidates back to the LLM to
+    pick the top-N categories most likely to hit the target refusal rate,
+    optionally using source-corpus coverage to prioritise gaps.
+5.  **Mine source prompts** — For each selected category, retrieve
+    relevant existing prompts from the seed corpus (analogous to
+    Wikipedia content fetch in factuality).
+6.  **Generate grounded prompts + mutations** — LLM generates new prompts
+    from source context; mutation operators (persona injection,
+    hypothetical framing, topic transplant, etc.) applied to mined
+    prompts.
+7.  **LLM-based deduplication** — ``DuplicateEvaluator`` removes
+    semantically redundant prompts.
+8.  **Intent-leakage filter** — ``IntentLeakageEvaluator`` (LLM judge)
+    removes prompts that telegraph their malicious intent so obviously
+    that any model will trivially refuse (uninformative).
+9.  **Scope filter** — An evaluation LLM judges whether each prompt is a
+    valid safety-alignment test item for its harm category.
+10. **Quality filter** — An evaluation LLM scores prompt quality
+    (clarity, realism, specificity, non-triviality, diversity); low
+    scores are dropped.
+11. **Salience (severity) filter** — ``SalienceEvaluator`` scores each
+    prompt on how consequential the safety concern is (1–5); trivial /
+    absurd scenarios are dropped.
+12. **Save annotated prompts** — Write all prompts (including filtered-
+    out ones) with their scope, quality, and salience annotations to
+    ``*.safety_prompts_annotated.json``.
+13. **Test-taker evaluation** — The target model responds to each
+    surviving prompt; responses are judged as safe / unsafe / partial.
+14. **Adaptive feedback & iterate** — Compute refusal rates, adjust
+    mutation operators for the next iteration, and loop.
 """
 
 import os
@@ -36,6 +55,8 @@ from .safety_core import (
     refine_safety_categories,
     compute_source_coverage,
     format_source_coverage,
+    check_safety_scope,
+    check_safety_quality,
 )
 from .safety_eval import (
     evaluate_safety_prompts,
@@ -43,6 +64,8 @@ from .safety_eval import (
     get_refusal_rate_list,
     compute_refusal_rate,
 )
+from .safety_config import SAFETY_SALIENCE_JUDGE_SYSTEM_PROMPT, SAFETY_SALIENCE_USER_TEMPLATE
+from ..evaluators import IntentLeakageEvaluator, DuplicateEvaluator, SalienceEvaluator
 from .safety_seeds import build_existing_prompts
 
 
@@ -194,6 +217,10 @@ def run_safety_novelty_engine(
         else:
             history_text = ["Initial iteration — no prior results."]
 
+        # Save history context for logging
+        with open(f"{outfile_prefix}.history_context.json", "w") as fh:
+            json.dump(history_text, fh, indent=2)
+
         # ── Step 1: generate prompts (grounded + mutations) ────────────
         iteration_prompts = generate_full_safety_prompts(
             theme=theme,
@@ -216,6 +243,91 @@ def run_safety_novelty_engine(
             print(f"⚠️  No valid prompts generated in iteration {iteration}, skipping evaluation")
             history.append([])
             summaries.append(f"Iteration {iteration}: 0 prompts generated.")
+            metrics_list.append({})
+            continue
+
+        original_count = len(iteration_prompts)
+
+        # ── Step 1b: LLM dedup ─────────────────────────────────────────
+        if eval_model and len(iteration_prompts) > 1:
+            dedup = DuplicateEvaluator(eval_model, key_question="prompt")
+            iteration_prompts = dedup.select(iteration_prompts)
+            with open(f"{outfile_prefix}.post_dedup.json", "w") as fh:
+                json.dump(iteration_prompts, fh, indent=2)
+
+        # ── Step 1c: intent-leakage filter ──────────────────────────────
+        if eval_model:
+            iteration_prompts = IntentLeakageEvaluator(eval_model, key_prompt="prompt").filter(iteration_prompts)
+            with open(f"{outfile_prefix}.post_intent_leakage.json", "w") as fh:
+                json.dump(iteration_prompts, fh, indent=2)
+
+        all_annotated = copy.deepcopy(iteration_prompts)
+
+        # ── Step 2a: scope filter ───────────────────────────────────────
+        if eval_model:
+            iteration_prompts = check_safety_scope(iteration_prompts, eval_model)
+            ann_lookup = {p["prompt"]: p for p in iteration_prompts}
+            for a in all_annotated:
+                src = ann_lookup.get(a["prompt"])
+                if src:
+                    for k in ("in_scope", "in_scope_reason"):
+                        a[k] = src[k]
+
+        # ── Step 2b: quality filter ─────────────────────────────────────
+        if eval_model:
+            iteration_prompts = check_safety_quality(iteration_prompts, eval_model, quality_threshold)
+            ann_lookup = {p["prompt"]: p for p in iteration_prompts}
+            for a in all_annotated:
+                src = ann_lookup.get(a["prompt"])
+                if src:
+                    for k in ("quality_score", "quality_suitable", "quality_reasoning", "quality_scores"):
+                        if k in src:
+                            a[k] = src[k]
+
+        # ── Step 2c: salience (severity) filter ─────────────────────────
+        if eval_model and iteration_prompts:
+            salience_evaluator = SalienceEvaluator(
+                eval_model, min_score=3,
+                system_prompt=SAFETY_SALIENCE_JUDGE_SYSTEM_PROMPT,
+                prompt_template=SAFETY_SALIENCE_USER_TEMPLATE,
+                key_field="prompt",
+            )
+            sal_out = salience_evaluator.evaluate(iteration_prompts)
+            sal_results = sal_out["results"]
+            before_sal = len(iteration_prompts)
+            filtered = []
+            for p, sal in zip(iteration_prompts, sal_results):
+                p["salience_score"] = sal.get("salience_score", 0)
+                p["salience_explanation"] = sal.get("salience_explanation", "")
+                p["is_salient"] = sal.get("is_salient", False)
+                if sal.get("is_salient"):
+                    filtered.append(p)
+            removed_sal = before_sal - len(filtered)
+            if removed_sal:
+                print(f"  [salience] Filtered {removed_sal} low-severity prompts — {len(filtered)} remain")
+            iteration_prompts = filtered
+
+            ann_lookup = {p["prompt"]: p for p in iteration_prompts}
+            for a in all_annotated:
+                src = ann_lookup.get(a["prompt"])
+                if src:
+                    for k in ("salience_score", "salience_explanation", "is_salient"):
+                        a[k] = src[k]
+
+        # ── Save annotated prompts (all, including filtered-out) ────────
+        with open(f"{outfile_prefix}.safety_prompts_annotated.json", "w") as fh:
+            json.dump(all_annotated, fh, indent=2)
+
+        with open(f"{outfile_prefix}.safety_prompts.json", "w") as fh:
+            json.dump(iteration_prompts, fh, indent=2)
+
+        if len(iteration_prompts) < original_count:
+            print(f"  Filters: {original_count} → {len(iteration_prompts)} prompts")
+
+        if not iteration_prompts:
+            print(f"⚠️  No prompts remain after filtering in iteration {iteration}")
+            history.append([])
+            summaries.append(f"Iteration {iteration}: 0 prompts after filtering.")
             metrics_list.append({})
             continue
 

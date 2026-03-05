@@ -26,9 +26,19 @@ import random
 from collections import Counter, defaultdict
 from typing import Any, Dict, List, Optional, Callable
 
+from ..utils.llm_utils import gen_from_prompt
+from ..novelty.json_utils import extract_json_v2, parse_json_response
+from ..generators.safety_mutations import (
+    mine_source_prompts,
+    build_source_context,
+    apply_safety_mutations,
+    generate_grounded_safety_prompts,
+)
+
 from .safety_config import (
     DEFAULT_JSON_MESSAGE,
     MAX_JSON_RETRY_ATTEMPTS,
+    QUALITY_THRESHOLD,
     SAFETY_CATEGORY_GENERATION_PROMPT,
     SAFETY_CATEGORY_REFINEMENT_PROMPT,
     SAFETY_CATEGORY_REFINEMENT_WITH_SOURCES_PROMPT,
@@ -39,29 +49,6 @@ from .safety_config import (
     SAFETY_TAXONOMY,
     HARM_FAMILIES,
 )
-
-
-def _get_gen_from_prompt():
-    """Lazy import to avoid circular dependency through novelty.__init__."""
-    from ..utils.llm_utils import gen_from_prompt
-    return gen_from_prompt
-
-
-def _get_json_utils():
-    """Lazy import for JSON utilities."""
-    from ..novelty.json_utils import extract_json_v2, parse_json_response
-    return extract_json_v2, parse_json_response
-
-
-def _get_source_mining():
-    """Lazy import for source-mining & mutation utilities."""
-    from ..generators.safety_mutations import (
-        mine_source_prompts,
-        build_source_context,
-        apply_safety_mutations,
-        generate_grounded_safety_prompts,
-    )
-    return mine_source_prompts, build_source_context, apply_safety_mutations, generate_grounded_safety_prompts
 
 
 _VALID_HARM_CODES = set(SAFETY_TAXONOMY.keys())
@@ -279,9 +266,6 @@ def generate_safety_categories(
     Returns a list of category dicts with keys:
         id, category, parent_category, additional_requirement, harm_codes
     """
-    gen_from_prompt = _get_gen_from_prompt()
-    extract_json_v2, _ = _get_json_utils()
-
     cache_path = f"{outfile_prefix}.categories.json"
     if os.path.exists(cache_path):
         print(f"[categories] Loading cached categories from {cache_path}")
@@ -359,9 +343,6 @@ def refine_safety_categories(
     (the ``SAFETY_CATEGORY_REFINEMENT_WITH_SOURCES_PROMPT``).  Otherwise
     falls back to the basic refinement prompt.
     """
-    gen_from_prompt = _get_gen_from_prompt()
-    extract_json_v2, _ = _get_json_utils()
-
     # Step 1: broad generation (over-generate)
     broad = generate_safety_categories(
         theme, agent_model, history, iteration,
@@ -389,6 +370,11 @@ def refine_safety_categories(
 
     random.shuffle(candidate_names)
 
+    # Save expanded candidates for logging
+    with open(f"{outfile_prefix}.expanded_candidates.json", "w") as fh:
+        json.dump(candidate_names, fh, indent=2)
+    print(f"[categories] Expanded {len(candidate_names)} unique candidate names from taxonomy")
+
     # Step 3: LLM-based refinement / selection
     history_block = ""
     if iteration > 1:
@@ -398,6 +384,11 @@ def refine_safety_categories(
     if existing_prompts:
         coverage = compute_source_coverage(existing_prompts)
         source_coverage_str = format_source_coverage(coverage)
+
+        # Save source coverage for logging
+        with open(f"{outfile_prefix}.source_coverage.json", "w") as fh:
+            json.dump(coverage, fh, indent=2)
+
         prompt = SAFETY_CATEGORY_REFINEMENT_WITH_SOURCES_PROMPT.format(
             num_categories=num_categories,
             theme=theme,
@@ -501,9 +492,6 @@ def generate_safety_prompts(
         id, prompt, category, harm_codes, expected_behavior, subtlety,
         difficulty, generation_method, [mutation, original_prompt, ...]
     """
-    (mine_source_prompts, build_source_context,
-     apply_safety_mutations, generate_grounded_safety_prompts) = _get_source_mining()
-
     all_generated: List[Dict[str, Any]] = []
 
     # -- Step A: Mine source prompts -------------------------------------------
@@ -514,6 +502,10 @@ def generate_safety_prompts(
         strategy="hybrid",
     )
     print(f"   Mined {len(mined)} source prompts for '{category_dict['category']}'")
+
+    # Save mined source prompts for logging
+    with open(f"{outfile_prefix}.mined_sources.json", "w") as fh:
+        json.dump(mined, fh, indent=2, default=str)
 
     # -- Step B: Grounded generation -------------------------------------------
     # Analogous to gen_qa_pairs_augmented() which generates QA from Wikipedia
@@ -558,6 +550,10 @@ def generate_safety_prompts(
     for i, g in enumerate(all_generated):
         g["id"] = f"{category_dict.get('id', '?')}_{i + 1}"
 
+    # Save per-category generated prompts for logging
+    with open(f"{outfile_prefix}.generated_prompts.json", "w") as fh:
+        json.dump(all_generated, fh, indent=2)
+
     return all_generated
 
 
@@ -575,10 +571,6 @@ def _generate_ungrounded_prompts(
     context so the LLM still sees real benchmark examples (even though
     none matched the category closely enough for mining).
     """
-    gen_from_prompt = _get_gen_from_prompt()
-    extract_json_v2, _ = _get_json_utils()
-    _, build_source_context, _, _ = _get_source_mining()
-
     harm_codes_json = json.dumps(category_dict.get("harm_codes", []))
 
     # Build a context block from a random sample of existing prompts
@@ -642,9 +634,6 @@ def check_safety_scope(
     Use an LLM judge to filter out-of-scope prompts.
     Returns only in-scope prompts (mutates in-place by adding metadata).
     """
-    gen_from_prompt = _get_gen_from_prompt()
-    _, parse_json_response = _get_json_utils()
-
     in_scope = []
     for p in prompts:
         judge_prompt = SAFETY_SCOPE_JUDGE_PROMPT.format(
@@ -681,10 +670,6 @@ def check_safety_quality(
     Use an LLM judge to assess prompt quality.
     Returns only prompts meeting the quality threshold.
     """
-    gen_from_prompt = _get_gen_from_prompt()
-    _, parse_json_response = _get_json_utils()
-
-    from .safety_config import QUALITY_THRESHOLD
     threshold = quality_threshold or QUALITY_THRESHOLD
 
     high_quality = []
@@ -749,24 +734,14 @@ def generate_full_safety_prompts(
     mutation_operators: Optional[List[str]] = None,
 ) -> List[Dict[str, Any]]:
     """
-    Main pipeline for a single iteration (safety analogue of ``generate_full_qa``):
+    Main generation pipeline for a single iteration (safety analogue of ``generate_full_qa``).
 
-    Factuality engine (generate_full_qa):
-      1. Generate / refine categories (Wikipedia-expanded)
-      2. search_step(category) -> fetch Wikipedia content
-      3. gen_qa_pairs_augmented(Wikipedia content) -> QA generation
-      4. Scope-filter
-      5. Quality-filter
+    Generates and deduplicates safety prompts. Filtering (intent leakage,
+    scope, quality, salience) is handled by ``safety_engine.py``, mirroring
+    how ``generate_full_qa`` returns raw questions and ``run_novelty_engine``
+    does the filtering.
 
-    Safety engine (this function):
-      1. Generate / refine categories (source-coverage-aware)
-      2. mine_source_prompts(category) -> retrieve relevant existing prompts
-      3. generate_grounded_safety_prompts(source context) -> new prompts
-         + apply_safety_mutations(mined prompts) -> mutated prompts
-      4. Scope-filter
-      5. Quality-filter
-
-    Returns the list of accepted prompts (with all metadata).
+    Returns the list of generated prompts (pre-filter, with all metadata).
     """
     os.makedirs(os.path.dirname(outfile_prefix) or ".", exist_ok=True)
 
@@ -789,6 +764,8 @@ def generate_full_safety_prompts(
     # Log source coverage
     if existing_prompts:
         coverage = compute_source_coverage(existing_prompts)
+        with open(f"{outfile_prefix}.source_coverage.json", "w") as fh:
+            json.dump(coverage, fh, indent=2)
         print(f"[iter {iteration}] Source corpus coverage:")
         for fam, cnt in sorted(coverage.items(), key=lambda x: -x[1])[:5]:
             print(f"   {fam}: {cnt}")
@@ -817,39 +794,13 @@ def generate_full_safety_prompts(
     print(f"\n[iter {iteration}] Generated {len(all_prompts)} total prompts")
     print(f"  Generation methods: {dict(gen_stats)}")
 
-    # -- Deduplicate prompts (prefix-based) ------------------------------------
-    seen_prefixes: set = set()
-    deduped: List[Dict[str, Any]] = []
-    PREFIX_LEN = 60
-    for p in all_prompts:
-        prefix = p.get("prompt", "").strip().lower()[:PREFIX_LEN]
-        if prefix in seen_prefixes:
-            continue
-        seen_prefixes.add(prefix)
-        deduped.append(p)
-    if len(deduped) < len(all_prompts):
-        print(f"  [dedup] Removed {len(all_prompts) - len(deduped)} near-duplicate prompts")
-    all_prompts = deduped
-
-    # Save raw generated prompts before filtering
+    # Save raw generated prompts (filtering now in safety_engine.py)
     with open(f"{outfile_prefix}.raw_prompts.json", "w") as fh:
         json.dump(all_prompts, fh, indent=2)
 
-    # -- Step 3: scope filter --------------------------------------------------
-    if eval_model:
-        all_prompts = check_safety_scope(all_prompts, eval_model)
-
-    # -- Step 4: quality filter ------------------------------------------------
-    if eval_model:
-        all_prompts = check_safety_quality(all_prompts, eval_model, quality_threshold)
-
-    # -- Save final prompts ----------------------------------------------------
-    with open(f"{outfile_prefix}.safety_prompts.json", "w") as fh:
-        json.dump(all_prompts, fh, indent=2)
-
-    # Log generation method breakdown for accepted prompts
+    # Log generation method breakdown for generated prompts
     accepted_stats = Counter(p.get("generation_method", "unknown") for p in all_prompts)
-    print(f"[iter {iteration}] Final accepted: {len(all_prompts)} prompts")
-    print(f"  Accepted by method: {dict(accepted_stats)}")
+    print(f"[iter {iteration}] Generated (pre-filter): {len(all_prompts)} prompts")
+    print(f"  By method: {dict(accepted_stats)}")
 
     return all_prompts

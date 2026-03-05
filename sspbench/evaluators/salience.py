@@ -49,6 +49,7 @@ class SalienceEvaluator(LLMEvaluator):
         min_score: int = 3,
         prompt_template: str | None = None,
         system_prompt: str | None = None,
+        key_field: str = "question",
         **kwargs,
     ):
         if system_prompt is None:
@@ -61,6 +62,7 @@ class SalienceEvaluator(LLMEvaluator):
             **kwargs,
         )
         self.min_score = min_score
+        self.key_field = key_field
 
     # ------------------------------------------------------------------
     # BaseEvaluator contract
@@ -71,7 +73,7 @@ class SalienceEvaluator(LLMEvaluator):
         return "salience"
 
     def evaluate_single(self, sample: Dict[str, Any]) -> Dict[str, Any]:
-        question = sample.get("question", "")
+        question = sample.get(self.key_field, "")
         prompt = self.prompt_template.format(question=question)
 
         try:

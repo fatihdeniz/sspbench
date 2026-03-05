@@ -8,6 +8,7 @@ Hierarchy
 BaseEvaluator           (abstract root)
   ├─ AnswerLeakageEvaluator   (deterministic string filter)
   └─ LLMEvaluator             (adds LLM judge helpers)
+       ├─ IntentLeakageEvaluator   (LLM judge for safety intent leakage)
        ├─ DuplicateEvaluator
        ├─ ScopeEvaluator
        ├─ SalienceEvaluator
@@ -27,6 +28,7 @@ from .faithfulness import DirectFaithfulnessEvaluator, RagasFaithfulnessEvaluato
 from .scope import ScopeEvaluator
 from .salience import SalienceEvaluator
 from .answer_leakage import AnswerLeakageEvaluator
+from .intent_leakage import IntentLeakageEvaluator
 from .dedup import DuplicateEvaluator
 
 __all__ = [
@@ -40,5 +42,6 @@ __all__ = [
 	"ScopeEvaluator",
 	"SalienceEvaluator",
 	"AnswerLeakageEvaluator",
+	"IntentLeakageEvaluator",
 	"DuplicateEvaluator",
 ]
