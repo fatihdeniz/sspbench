@@ -1,6 +1,44 @@
 """
 Main execution functions for the Novelty Engine.
-High-level functions to run the novelty engine pipeline.
+
+Factual QA Benchmark Generation Pipeline
+=========================================
+The pipeline generates challenging factual question-answer benchmarks
+through an iterative, Wikipedia-grounded process:
+
+1. **Summarize history** — Aggregate results from prior iterations so the
+   LLM can adjust category selection to approach the target accuracy.
+2. **Brainstorm categories** — Ask the LLM to propose diverse knowledge
+   categories (e.g. "Ancient Philosophers", "Second World War") under
+   the given theme, targeting a specified accuracy range.
+3. **Search Wikipedia for subcategories** — For each brainstormed
+   category, query the Wikipedia API to discover related page titles
+   (subcategories / candidate topics).  Deduplicate, shuffle, and cap
+   at MAX_REFINE_CANDIDATES.
+4. **Refine & select categories** — Feed the candidate list back to the
+   LLM and ask it to pick the top-N categories most likely to hit the
+   target accuracy, while maximizing diversity.
+5. **Fetch Wikipedia content** — For each selected category, search
+   Wikipedia for the article, extract and clean paragraphs.
+6. **Generate QA pairs** — Prompt the LLM (or RAGAS) to produce
+   question-answer pairs grounded in the Wikipedia paragraphs.  Apply
+   deduplication across generated questions.
+7. **Answer-leak filter** — Remove questions whose text contains the
+   gold answer (trivially answerable).
+8. **Scope filter** — An evaluation LLM judges whether each question
+   falls within the intended theme/scope; out-of-scope questions are
+   dropped.
+9. **Salience filter** — An evaluation LLM scores each remaining
+   question on salience (importance / notability); low-salience
+   questions are dropped.
+10. **Save annotated questions** — Write all questions (including
+    filtered ones) with their scope and salience annotations to
+    ``*.KI_questions_annotated.json``.
+11. **Test-taker evaluation** — The test model answers the surviving
+    questions; answers are compared against gold answers by the
+    evaluation LLM.
+12. **Record & iterate** — Store results, compute accuracy, and feed
+    the summary back into step 1 for the next iteration.
 """
 
 import os
@@ -10,7 +48,6 @@ from types import SimpleNamespace
 
 from .core import generate_full_qa, _refine_categories_targetacc_augmented, generate_long_questions
 from .evaluation import solve_and_compare_questions, get_summary_of_results, get_acc_lst
-from ..generators.variations import apply_variations_to_dataset
 from ..utils.llm_utils import create_model_from_config
 from .config import FACTUALITY_QA_SCOPE_JUDGE_PROMPT
 from ..evaluators import ScopeEvaluator, SalienceEvaluator, AnswerLeakageEvaluator
@@ -234,154 +271,3 @@ def run_novelty_engine(agent_model, test_model, eval_model, theme="general knowl
             print("Benchmark too easy, will adjust in next iteration")
 
     return history_dict
-
-
-def run_autobencher_with_variations(theme="general knowledge", max_iterations=3,
-                                   agent_model=None, test_model=None, use_variations=False):
-    """
-    Run autobencher with question variations.
-
-    Args:
-        theme: Theme for question generation
-        max_iterations: Maximum number of iterations
-        agent_model: Model for generation
-        test_model: Model to test
-        use_variations: Whether to apply variations
-
-    Returns:
-        History of results
-    """
-    # Get the project root directory (parent of sspbench package)
-    package_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    project_root = os.path.dirname(package_dir)
-    data_dir = os.path.join(project_root, "data", "novelty")
-
-    history = []
-
-    for iteration in range(1, max_iterations + 1):
-        print(f"\n=== Iteration {iteration} ===")
-
-        # Generate categories
-        outfile_prefix = os.path.join(data_dir, f'iter_{iteration}')
-        os.makedirs(data_dir, exist_ok=True)
-
-        categories = _generate_categories_random(theme, agent_model, history, iteration,
-                                                outfile_prefix=outfile_prefix)
-        print(f"Generated {len(categories)} categories")
-
-        # Generate base prompts
-        all_questions = []
-        for cat in categories[:3]:  # Limit for demo
-            cat_outfile = os.path.join(data_dir, f'iter_{iteration}_cat_{cat["id"]}')
-            questions = _ask_question_from_wiki(cat, agent_model, history, iteration,
-                                               outfile_prefix=cat_outfile)
-            all_questions.extend(questions)
-
-        print(f"Generated {len(all_questions)} base questions")
-
-        # Apply variations
-        if use_variations:
-            all_questions = apply_variations_to_dataset(all_questions, agent_model)
-            print(f"Applied variations: {len(all_questions)} total questions")
-
-        # Verify and evaluate
-        verified_questions = [q for q in all_questions if len(q.get('question', '')) > 10]
-
-        eval_outfile = os.path.join(data_dir, f'iter_{iteration}_eval')
-        results = solve_and_compare_questions(
-            test_model, agent_model, verified_questions,
-            [{'question': q['question'], 'gold_answer': q['answer']} for q in verified_questions],
-            outfile_prefix=eval_outfile
-        )
-
-        summary = get_summary_of_results(results, gold_key='gold_answer', verbose=False)
-        print(summary)
-
-        history.append(results)
-
-        acc_lst = get_acc_lst(results)
-        avg_acc = sum(acc_lst) / len(acc_lst) if acc_lst else 0
-        print(f"Average accuracy: {avg_acc}")
-
-    return history
-
-
-def save_benchmarks(questions, filename):
-    """
-    Save generated questions to benchmarks folder.
-
-    Args:
-        questions: List of question dictionaries
-        filename: Output filename
-    """
-    # Get the project root directory (parent of sspbench package)
-    package_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    project_root = os.path.dirname(package_dir)
-    benchmarks_dir = os.path.join(project_root, 'benchmarks', 'autobencher')
-
-    os.makedirs(benchmarks_dir, exist_ok=True)
-    filepath = os.path.join(benchmarks_dir, f'{filename}.jsonl')
-    with open(filepath, 'w') as f:
-        for q in questions:
-            json.dump(q, f)
-            f.write('\n')
-    print(f"Saved {len(questions)} questions to {filepath}")
-
-
-# def run_autobencher_with_saving(theme="general knowledge", max_iterations=3,
-#                                agent_model=None, test_model=None, use_variations=True):
-#     """
-#     Run autobencher with saving functionality.
-
-#     Args:
-#         theme: Theme for question generation
-#         max_iterations: Maximum number of iterations
-#         agent_model: Model for generation
-#         test_model: Model to test
-#         use_variations: Whether to apply variations
-
-#     Returns:
-#         History of results
-#     """
-#     history = []
-
-#     for iteration in range(1, max_iterations + 1):
-#         print(f"\n=== Iteration {iteration} ===")
-
-#         categories = _generate_categories_random(theme, agent_model, history, iteration,
-#                                                 outfile_prefix=f'iter_{iteration}')
-#         print(f"Generated {len(categories)} categories")
-
-#         all_questions = []
-#         for cat in categories[:3]:
-#             questions = _ask_question_from_wiki(cat, agent_model, history, iteration,
-#                                                outfile_prefix=f'iter_{iteration}_cat_{cat["id"]}')
-#             all_questions.extend(questions)
-
-#         print(f"Generated {len(all_questions)} base questions")
-
-#         if use_variations:
-#             all_questions = apply_variations_to_dataset(all_questions, agent_model)
-#             print(f"Applied variations: {len(all_questions)} total questions")
-
-#         # Save the generated questions
-#         save_benchmarks(all_questions, f'{theme}_iter_{iteration}')
-
-#         verified_questions = [q for q in all_questions if len(q.get('question', '')) > 10]
-
-#         results = solve_and_compare_questions(
-#             test_model, agent_model, verified_questions,
-#             [{'question': q['question'], 'gold_answer': q['answer']} for q in verified_questions],
-#             outfile_prefix=f'iter_{iteration}_eval'
-#         )
-
-#         summary = get_summary_of_results(results, gold_key='gold_answer', verbose=False)
-#         print(summary)
-
-#         history.append(results)
-
-#         acc_lst = get_acc_lst(results)
-#         avg_acc = sum(acc_lst) / len(acc_lst) if acc_lst else 0
-#         print(f"Average accuracy: {avg_acc}")
-
-#     return history
