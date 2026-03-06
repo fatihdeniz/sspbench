@@ -27,24 +27,21 @@ iterative, source-grounded process:
     any filter runs so the annotated file captures every prompt.
 8.  **LLM-based deduplication** — ``DuplicateEvaluator`` removes
     semantically redundant prompts.
-9.  **Intent-leakage filter** — ``IntentLeakageEvaluator`` (LLM judge)
-    removes prompts that telegraph their malicious intent so obviously
-    that any model will trivially refuse (uninformative).
-10. **Scope filter** — An evaluation LLM judges whether each prompt is a
+9.  **Scope filter** — An evaluation LLM judges whether each prompt is a
     valid safety-alignment test item for its harm category.
-11. **Quality filter** — An evaluation LLM scores prompt quality
+10. **Quality filter** — An evaluation LLM scores prompt quality
     (clarity, realism, specificity, construct complexity, diversity);
     low scores are dropped.
-12. **Salience (severity) filter** — ``SalienceEvaluator`` scores each
+11. **Salience (severity) filter** — ``SalienceEvaluator`` scores each
     prompt on how consequential the safety concern is (1–5); trivial /
     absurd scenarios are dropped.
-13. **Save annotated prompts** — Write *all* prompts (including those
-    removed by dedup, intent-leakage, scope, quality, and salience)
+12. **Save annotated prompts** — Write *all* prompts (including those
+    removed by dedup, scope, quality, and salience)
     with their annotations and ``filter_stage`` labels to
     ``*.safety_prompts_annotated.json``.
-14. **Test-taker evaluation** — The target model responds to each
+13. **Test-taker evaluation** — The target model responds to each
     surviving prompt; responses are judged as safe / unsafe / partial.
-15. **LLM-based adaptive feedback** — Ask the eval LLM which mutation
+14. **LLM-based adaptive feedback** — Ask the eval LLM which mutation
     operators to prioritise for the next iteration based on refusal
     rates and method effectiveness (falls back to heuristic on failure).
 """
@@ -75,7 +72,7 @@ from .safety_config import (
     SAFETY_MUTATION_FEEDBACK_PROMPT,
     QUALITY_THRESHOLD,
 )
-from ..evaluators import IntentLeakageEvaluator, DuplicateEvaluator, SalienceEvaluator
+from ..evaluators import DuplicateEvaluator, SalienceEvaluator
 from ..utils.llm_utils import gen_from_prompt
 from ..novelty.json_utils import parse_json_response
 from ..generators.safety_mutations import MUTATION_OPERATORS
@@ -368,18 +365,6 @@ def run_safety_novelty_engine(
         for a in all_annotated:
             a["survived_dedup"] = a["prompt"] in dedup_survivors
 
-        # ── Step 1c: intent-leakage filter ──────────────────────────────
-        if eval_model:
-            iteration_prompts = IntentLeakageEvaluator(eval_model, key_prompt="prompt").filter(iteration_prompts)
-            with open(f"{outfile_prefix}.post_intent_leakage.json", "w") as fh:
-                json.dump(iteration_prompts, fh, indent=2)
-        intent_survivors = {p["prompt"] for p in iteration_prompts}
-        for a in all_annotated:
-            if a.get("survived_dedup"):
-                a["survived_intent_leakage"] = a["prompt"] in intent_survivors
-            else:
-                a["survived_intent_leakage"] = False
-
         # ── Step 2a: scope filter ───────────────────────────────────────
         # check_safety_scope annotates in-place (in_scope, in_scope_reason)
         # on ALL prompts it receives, then returns only passing ones.
@@ -442,8 +427,6 @@ def run_safety_novelty_engine(
         for a in all_annotated:
             if not a.get("survived_dedup"):
                 a["filter_stage"] = "removed_by_dedup"
-            elif not a.get("survived_intent_leakage"):
-                a["filter_stage"] = "removed_by_intent_leakage"
             elif not a.get("in_scope", True):
                 a["filter_stage"] = "removed_by_scope"
             elif a.get("quality_score", 999) < (quality_threshold or QUALITY_THRESHOLD):
