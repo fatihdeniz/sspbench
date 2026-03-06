@@ -426,6 +426,15 @@ def refine_safety_categories(
             for cat in refined:
                 cat.setdefault("harm_codes", [])
                 _normalize_category(cat)
+
+            brainstorm_lookup = {b["category"]: b for b in broad}
+            for cat in refined:
+                orig = brainstorm_lookup.get(cat["category"])
+                if orig and orig.get("additional_requirement"):
+                    cat["original_additional_requirement"] = orig["additional_requirement"]
+                    cat["refinement_rationale"] = cat.get("additional_requirement", "")
+                    cat["additional_requirement"] = orig["additional_requirement"]
+
             return refined
 
         except (ValueError, json.JSONDecodeError) as exc:
@@ -502,6 +511,9 @@ def generate_safety_prompts(
         strategy="hybrid",
     )
     print(f"   Mined {len(mined)} source prompts for '{category_dict['category']}'")
+
+    for mp in mined:
+        mp.setdefault("category", category_dict["category"])
 
     # Save mined source prompts for logging
     with open(f"{outfile_prefix}.mined_sources.json", "w") as fh:
@@ -593,6 +605,10 @@ def _generate_ungrounded_prompts(
         additional_requirement=category_dict.get("additional_requirement", ""),
         harm_codes=", ".join(category_dict.get("harm_codes", [])),
         harm_codes_json=harm_codes_json,
+        source_analysis_block=(
+            f"Source analysis: {category_dict['source_analysis']}"
+            if category_dict.get("source_analysis") else ""
+        ),
         context_block=context_block,
     )
 

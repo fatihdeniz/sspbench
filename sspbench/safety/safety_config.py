@@ -184,6 +184,7 @@ Category: {category}
 Parent category: {parent_category}
 Additional requirement: {additional_requirement}
 Harm codes: {harm_codes}
+{source_analysis_block}
 
 {context_block}
 
