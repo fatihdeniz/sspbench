@@ -24,6 +24,7 @@ import json
 import copy
 import random
 from collections import Counter, defaultdict
+from difflib import SequenceMatcher
 from typing import Any, Dict, List, Optional, Callable
 
 from ..utils.llm_utils import gen_from_prompt
@@ -33,6 +34,7 @@ from ..generators.safety_mutations import (
     build_source_context,
     apply_safety_mutations,
     generate_grounded_safety_prompts,
+    _build_requirement_block,
 )
 
 from .safety_config import (
@@ -247,6 +249,35 @@ def format_source_coverage(coverage: Dict[str, int]) -> str:
 #  Category Generation / Refinement
 # ===============================================================================
 
+def _fuzzy_match_brainstorm(
+    refined_name: str,
+    broad: List[Dict[str, Any]],
+    threshold: float = 0.6,
+) -> Optional[Dict[str, Any]]:
+    """
+    Find the closest brainstorm category for a refined category name.
+
+    When the refinement LLM rephrases a category (e.g. "Synthesising
+    controlled substances" → "Controlled substance synthesis"), the exact
+    lookup in ``brainstorm_lookup`` misses.  This function uses
+    ``SequenceMatcher`` to find the best match above *threshold*.
+
+    Returns the best-matching brainstorm dict, or ``None``.
+    """
+    best_score = 0.0
+    best_match = None
+    refined_lower = refined_name.lower()
+    for b in broad:
+        b_lower = b["category"].lower()
+        score = SequenceMatcher(None, refined_lower, b_lower).ratio()
+        if score > best_score:
+            best_score = score
+            best_match = b
+    if best_score >= threshold:
+        return best_match
+    return None
+
+
 def generate_safety_categories(
     theme: str,
     agent_model,
@@ -362,11 +393,11 @@ def refine_safety_categories(
         if name not in seen:
             candidate_names.append(name)
             seen.add(name)
-        for code in cat.get("harm_codes", []):
-            resolved = SAFETY_TAXONOMY.get(code)
-            if resolved and resolved not in seen:
-                candidate_names.append(resolved)
-                seen.add(resolved)
+        # for code in cat.get("harm_codes", []):
+        #     resolved = SAFETY_TAXONOMY.get(code)
+        #     if resolved and resolved not in seen:
+        #         candidate_names.append(resolved)
+        #         seen.add(resolved)
 
     random.shuffle(candidate_names)
 
@@ -430,10 +461,14 @@ def refine_safety_categories(
             brainstorm_lookup = {b["category"]: b for b in broad}
             for cat in refined:
                 orig = brainstorm_lookup.get(cat["category"])
+                # Fuzzy match when exact lookup fails (LLM rephrased name)
+                if orig is None:
+                    orig = _fuzzy_match_brainstorm(cat["category"], broad)
                 if orig and orig.get("additional_requirement"):
                     cat["original_additional_requirement"] = orig["additional_requirement"]
                     cat["refinement_rationale"] = cat.get("additional_requirement", "")
                     cat["additional_requirement"] = orig["additional_requirement"]
+                    cat["brainstorm_match"] = orig["category"]  # record which brainstorm entry matched
 
             return refined
 
@@ -541,9 +576,9 @@ def generate_safety_prompts(
         all_generated.extend(grounded)
 
     # -- Step C: Mutation ------------------------------------------------------
-    # Apply mutation operators to a subset of mined source prompts
-    if mined:
-        mutation_sources = mined[:min(8, len(mined))]
+    # Apply mutation operators to the grounded/ungrounded generations.
+    if grounded:
+        mutation_sources = grounded[:min(8, len(grounded))]
         mutated = apply_safety_mutations(
             mutation_sources, agent_model,
             mutations_per_prompt=mutations_per_source,
@@ -602,13 +637,9 @@ def _generate_ungrounded_prompts(
         num_prompts=num_prompts,
         category=category_dict["category"],
         parent_category=category_dict.get("parent_category", "General Safety"),
-        additional_requirement=category_dict.get("additional_requirement", ""),
+        requirement_block=_build_requirement_block(category_dict),
         harm_codes=", ".join(category_dict.get("harm_codes", [])),
         harm_codes_json=harm_codes_json,
-        source_analysis_block=(
-            f"Source analysis: {category_dict['source_analysis']}"
-            if category_dict.get("source_analysis") else ""
-        ),
         context_block=context_block,
     )
 
