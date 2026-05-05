@@ -1,7 +1,0 @@
-[
-    {
-        "file_name": "llm_prompt_injection.json",
-        "question_format": "open_ended",
-        "judge_template": "llm_prompt_injection"
-    }
-]
